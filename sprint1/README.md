@@ -53,4 +53,5 @@
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   ใช้กล้องวิดีโอ
     *   ใช้ **YouTube หรือ Google Drive** ในการแชร์วิดีโอ
+
 **เขียนสรุปการประชุม Retrospective และ Link to Retrospectice YouTube Video**
