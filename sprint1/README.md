@@ -83,6 +83,7 @@
     *   ใช้ **YouTube หรือ Google Drive** ในการแชร์วิดีโอ
 
 **เขียนสรุปการประชุม Retrospective และ Link to Retrospectice YouTube Video**
+
 Link YouTube: 
 
 1.  ในช่วงแรกของการทำงานเกิดปัญหาคือไม่เข้าใจโจทย์ที่อาจารย์สั่งทำให้เกิดความล่าช้าในการทำงาน
