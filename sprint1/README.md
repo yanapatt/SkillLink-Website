@@ -102,7 +102,7 @@ hunza
 
 **เขียนสรุปการประชุม Retrospective และ Link to Retrospectice YouTube Video**
 
-Link YouTube: 
+Link YouTube: https://www.youtube.com/watch?v=VpaW7UNreDE
 
 1.  ในช่วงแรกของการทำงานเกิดปัญหาคือไม่เข้าใจโจทย์ที่อาจารย์สั่งทำให้เกิดความล่าช้าในการทำงาน
 2.  อยากให้สมาชิกกลุ่มแต่ละคนมีการคุยงานแบบออน์ไซต์อย่างน้อย 1 ถึง 2 ครั้งต่อสัปดาห์
@@ -113,3 +113,16 @@ Link YouTube:
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
 
+![Product Backlogs.png](/.attachments/Product%20Backlogs-ead2e072-28dd-42b0-99a9-d327563532aa.png)
+
+Sprint backlog: มีการกำหนดเวลาและวางแผน work item สำหรับ Sprint1 (Sprint 1 อาจเป็นแค่งานการเขียน report และการกำหนด requirement)
+
+![SprintBacklog.png](/.attachments/SprintBacklog-5821d898-1762-46a2-ae5c-6dfbcb5ad88d.png)
+
+ต้วอย่าง detail ของ work item ชนิด user story
+
+![WorkItem.png](/.attachments/WorkItem-c1723c84-cec3-40a6-99cf-0063ac7c5c7c.png)
+
+ต้วอย่าง detail ของ work item ชนิด Epic (optional)
+
+![Epic.png](/.attachments/Epic-6b0ec150-90e8-4c4c-9795-5f26c0502649.png)
