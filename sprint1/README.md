@@ -92,7 +92,7 @@ hunza
 1.  **Requirements**
     *   ใช้ **Microsoft Azure** ในการทำงานร่วมกัน
 2.  **พัฒนาต้นแบบ**
-    *   ใช้ *Figma**  ในการออกแบบ UI/UX
+    *   ใช้ **Figma**  ในการออกแบบ UI/UX
 3.  **เขียน Code และทดสอบแอปพลิเคชัน**
     *   ใช้ **Visual studio code** สำหรับการทำงานร่วมกัน
     *   ใช้ **Microsoft Azure** ในการพัฒนา Backend
