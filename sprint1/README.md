@@ -79,7 +79,7 @@ hunza
     *   บันทึกสรุปปัญหาและแนวทางแก้ไขของทีมในแต่ละสัปดาห์
 - Method
 1.  **Requirements**
-    *   ใช้ requirements ที่คิดมาได้มาพิจารณากันในกลุ่ม
+    *   ใช้ Requirements ที่คิดมาได้มาพิจารณากันในกลุ่ม
 2.  **พัฒนาต้นแบบ**
     *   ใช้เครื่องมือออกแบบ UI/UX เพื่อสร้างต้นแบบเว็บแอปแบบ Interactive
 3.  **เขียน Code และทดสอบแอปพลิเคชัน**
@@ -92,7 +92,7 @@ hunza
 1.  **Requirements**
     *   ใช้ **Microsoft Azure** ในการทำงานร่วมกัน
 2.  **พัฒนาต้นแบบ**
-    *   ใช้ **Visual studio code**  ในการออกแบบ UI/UX
+    *   ใช้ *Figma**  ในการออกแบบ UI/UX
 3.  **เขียน Code และทดสอบแอปพลิเคชัน**
     *   ใช้ **Visual studio code** สำหรับการทำงานร่วมกัน
     *   ใช้ **Microsoft Azure** ในการพัฒนา Backend
@@ -100,6 +100,7 @@ hunza
     *   ใช้ **Microsoft Azure** ในการจัดทำเล่มโครงงาน
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   ใช้กล้องวิดีโอ
+    *   ใช้ Google Meet ในการจัดประชุม
     *   ใช้ **YouTube หรือ Google Drive** ในการแชร์วิดีโอ
 
 **เขียนสรุปการประชุม Retrospective และ Link to Retrospectice YouTube Video**
