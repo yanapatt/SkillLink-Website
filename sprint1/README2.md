@@ -28,6 +28,7 @@ Class Diagram ที่แสดงโครงสร้างของระบ
 
 **Use Case Diagram**
 ![Use_Case_Diagram.png](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/cbc1a26b-f5eb-49e4-ac3c-de349ffcb95e?fileName=Use_Case_Diagram.png)
+
 **คำอธิบาย Use Case Diagram** 
 
 **ผู้ใช้ทั่วไป จะสามารถ**
