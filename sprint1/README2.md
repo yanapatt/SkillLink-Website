@@ -79,7 +79,8 @@ Class Diagram ที่แสดงโครงสร้างของระบ
 
 ![image.png](/.attachments/image-4e5ae271-922b-478d-81d5-aa6e25580d68.png)
 
-สรุปการประชุม Retrospective Phase 2
+สรุปการประชุม 
+Retrospective Phase 2
 -ปัญหาที่เจอระหว่างการทำงานใน Phase 2
 ความเข้าใจเกี่ยวกับ Model Design:
     ทีมยังไม่เข้าใจ Model Design อย่างชัดเจน ทำให้เกิดความล่าช้าในการทำงาน
