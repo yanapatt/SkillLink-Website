@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Study chapter1",
+    "username": "John",
+    "description": "I need to study about Software engineering and Ethics",
+    "priority": "1"
+  },
+  {
+    "name": "Learn Azure DevOp",
+    "username": "Joe",
+    "description": "Learn from youtube how to use Azure DevOp",
+    "priority": "2"
+  },
+  {
+    "name": "Commit at least 2 times",
+    "username": "Jane",
+    "description": "I need to do commit at least 2 times a week",
+    "priority": "1"
+  }
+]
