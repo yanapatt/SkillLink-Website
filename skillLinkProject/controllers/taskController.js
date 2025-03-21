@@ -9,8 +9,20 @@ const tasksFilePath = path.join(__dirname, '../tasks.json');
 taskModel.loadTasksFromFile(tasksFilePath);
 
 exports.deleteMultipleTasks = (req, res) => {
-  const { taskNames } = req.body; // Array of task names to delete
-  taskModel.tasks = taskModel.tasks.filter((task) => !taskNames.includes(task.name));
+  let { taskNames } = req.body; // Array of task names to delete
+
+  if (!Array.isArray(taskNames)) {
+    taskNames = [taskNames];
+  } 
+
+  const taskArray = taskModel.tasks.toArray();
+  taskNames.forEach((name) => {
+    const taskToRemove = taskArray.find((task) => task.name === name);
+    if (taskToRemove) {
+      taskModel.tasks.removeByName(name);
+    }
+  });
+  
   taskModel.saveTasksToFile(tasksFilePath);
   res.redirect('/');
 };
@@ -31,7 +43,7 @@ exports.addTask = (req, res) => {
     priority: req.body.priority
   };
   taskModel.addTask(task);
-  console.log("new task has been added");
+  console.log("New task has been added");
   taskModel.saveTasksToFile(tasksFilePath);
   res.redirect('/');
 };
@@ -44,7 +56,7 @@ exports.viewTask = (req, res) => {
 
 exports.deleteTask = (req, res) => {
   const taskName = req.params.name;
-  taskModel.tasks = taskModel.tasks.filter((task) => task.name !== taskName);
+  taskModel.tasks.removeByName(taskName);
   taskModel.saveTasksToFile(tasksFilePath);
   res.redirect('/');
 };
@@ -58,7 +70,7 @@ exports.sortTasksByPriority = (req, res) => {
 exports.searchTasksByName = (req, res) => {
   const { searchName } = req.body;
   const foundTasks = taskModel.searchByName(searchName);
-  const summary = taskModel.summarizeByPriority(foundTasks);
+  const summary = taskModel.summarizeByPriority();
   res.render('index', { tasks: foundTasks, summary });
 };
 

@@ -1,20 +1,32 @@
 [
   {
-    "name": "Study chapter1",
-    "username": "John",
-    "description": "I need to study about Software engineering and Ethics",
+    "name": "New Task 2",
+    "username": "sc661010236",
+    "description": "456",
     "priority": "1"
   },
   {
-    "name": "Learn Azure DevOp",
-    "username": "Joe",
-    "description": "Learn from youtube how to use Azure DevOp",
-    "priority": "2"
+    "name": "123",
+    "username": "sc661010236",
+    "description": "45543",
+    "priority": "1"
   },
   {
-    "name": "Commit at least 2 times",
-    "username": "Jane",
-    "description": "I need to do commit at least 2 times a week",
+    "name": "New Task 3",
+    "username": "sc661010236",
+    "description": "245254",
+    "priority": "5"
+  },
+  {
+    "name": "New Task 2",
+    "username": "0972988499",
+    "description": "42452452",
+    "priority": "4"
+  },
+  {
+    "name": "New Project",
+    "username": "admin",
+    "description": "123",
     "priority": "1"
   }
 ]
