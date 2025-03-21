@@ -103,8 +103,17 @@ exports.deleteOldestTask = (req, res) => {
   res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหลัก
 };
 
+// ฟังก์ชันในการลบงานล่าสุด (Last Task) ใน LinkedList
 exports.deleteNewestTask = (req, res) => {
-//TODO
+  if (taskModel.tasks.getSize() > 0) {  // ตรวจสอบว่ามี task ใน LinkedList หรือไม่
+    taskModel.tasks.removeLast();  // ลบงานล่าสุด
+    taskModel.saveTasksToFile(tasksFilePath);  // บันทึกการเปลี่ยนแปลง
+    console.log("Last task has been removed");  // ตรวจสอบว่าได้ลบหรือไม่
+  } else {
+    console.log("No tasks to remove");  // ถ้าไม่มีงานใน LinkedList
+  }
+  console.log(taskModel.tasks.getSize());
+  res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหลัก
 };
 
 
