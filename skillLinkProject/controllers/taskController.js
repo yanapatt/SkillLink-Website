@@ -1,10 +1,18 @@
 const path = require('path');
 const Task = require('../models/taskModel');
 const LinkedList = require('../models/linkedList');
+const multer = require('multer');
 
 // Initialize the Task model
 const taskModel = new Task();
 const tasksFilePath = path.join(__dirname, '../tasks.json');
+
+const upload = multer({ dest: 'uploads/' });
+
+function convertImageToBase64(imgPath) {
+  const image = fs.readFileSync(imgath);
+  return image.toSrting('base64');
+}
 
 // Load tasks from file on app start
 taskModel.loadTasksFromFile(tasksFilePath);
@@ -48,6 +56,11 @@ exports.addTask = (req, res) => {
     description: req.body.description,
     priority: req.body.priority
   };
+
+  if (req.file) {
+    const imgPath = req.file.path;
+
+  }
   taskModel.addTask(task);
   console.log("New task has been added");
   taskModel.saveTasksToFile(tasksFilePath);

@@ -30,7 +30,7 @@
   <h1>Task List</h1>
   Welcome user
   <a href="/logout">Logout</a>
-  <form action="/add" method="POST">
+  <form action="/add" method="POST" enctype="multipart/form-data">
     <input type="text" name="username" placeholder="User Name" required />
     <input type="text" name="name" placeholder="Task Name" required />
     <textarea name="description" placeholder="Task Description" required></textarea>
