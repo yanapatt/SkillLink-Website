@@ -9,20 +9,23 @@ const tasksFilePath = path.join(__dirname, '../tasks.json');
 taskModel.loadTasksFromFile(tasksFilePath);
 
 exports.deleteMultipleTasks = (req, res) => {
-  let { taskNames } = req.body; // Array of task names to delete
+  let { taskNames, priority, action } = req.body; // Array of task names to delete
 
-  if (!Array.isArray(taskNames)) {
-    taskNames = [taskNames];
-  } 
-
-  const taskArray = taskModel.tasks.toArray();
-  taskNames.forEach((name) => {
-    const taskToRemove = taskArray.find((task) => task.name === name);
-    if (taskToRemove) {
+  if (action === 'removeByPriority') {
+    // ลบ task ตาม Priority ที่เลือก
+    taskModel.tasks.forEachNode((task) => {
+      if (task.priority == priority) {
+        taskModel.tasks.removeByName(task.name);
+      }
+    });
+  } else if (taskNames) {
+    // ลบ task ตามที่เลือกใน checkbox
+    taskNames = Array.isArray(taskNames) ? taskNames : [taskNames]; // ทำให้ taskNames เป็น array หากมันเป็น string เดียว
+    taskNames.forEach((name) => {
       taskModel.tasks.removeByName(name);
-    }
-  });
-  
+    });
+  }
+
   taskModel.saveTasksToFile(tasksFilePath);
   res.redirect('/');
 };
