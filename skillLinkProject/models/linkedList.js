@@ -44,7 +44,6 @@ class LinkedList {
         }
     }
 
-
     //Insert value into head linked list
     insertFirst(value) {
         const newNode = new Node(value);
@@ -54,6 +53,17 @@ class LinkedList {
             this.tail = newNode;
         }
         this.size++;
+    }
+
+    //Remove first value from linked list
+    removeFirst() {
+        if (this.head) {
+            this.head = this.head.next;
+            if (!this.head) {
+                this.tail = null;
+            }
+        }
+        this.size--;
     }
 
     //Insert value into tail linked list
@@ -68,6 +78,26 @@ class LinkedList {
         }
         this.size++;
     }
+
+    //Remove last value from linked list
+    /*removeLast() {
+        if (!this.head) return;  // ถ้า LinkedList ว่าง
+        if (this.head === this.tail) {  // ถ้ามีเพียง node เดียว
+            this.head = null;
+            this.tail = null;
+            this.size--;  // ลดขนาด
+            return;
+        }
+
+        let current = this.head;
+        while (current.next !== this.tail) {
+            current = current.next;
+        }
+
+        current.next = null;  // ตัดการเชื่อมต่อกับ node สุดท้าย
+        this.tail = current;  // เปลี่ยน tail เป็น node ใหม่
+        this.size--;  // ลดขนาด
+    }*/
 
     forEachNode(callback) {
         let current = this.head;

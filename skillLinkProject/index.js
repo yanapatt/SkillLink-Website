@@ -35,6 +35,8 @@ app.post('/login', authController.login);
 app.post('/add', authController.authenticate, taskController.addTask);
 app.post('/delete', authController.authenticate, taskController.deleteMultipleTasks);
 app.post('/search', authController.authenticate, taskController.searchTasksByName);
+app.post('/delete-oldest', authController.authenticate, taskController.deleteOldestTask);
+//app.post('/delete-newset', authController.authenticate, taskController.deleteNewestTask);
 
 
 // Start server

@@ -1,5 +1,6 @@
 const path = require('path');
 const Task = require('../models/taskModel');
+const LinkedList = require('../models/linkedList');
 
 // Initialize the Task model
 const taskModel = new Task();
@@ -13,20 +14,22 @@ exports.deleteMultipleTasks = (req, res) => {
 
   if (action === 'removeByPriority') {
     // ลบ task ตาม Priority ที่เลือก
-    taskModel.tasks.forEachNode((task) => {
-      if (task.priority == priority) {
-        taskModel.tasks.removeByName(task.name);
-      }
-    });
-  } else if (taskNames) {
-    // ลบ task ตามที่เลือกใน checkbox
-    taskNames = Array.isArray(taskNames) ? taskNames : [taskNames]; // ทำให้ taskNames เป็น array หากมันเป็น string เดียว
+    const taskArray = taskModel.tasks.toArray(); // แปลงเป็น Array ก่อน
+    const filteredTasks = taskArray.filter((task) => task.priority != priority);
+
+    taskModel.tasks = new LinkedList();
+    filteredTasks.forEach((task) => taskModel.tasks.insertLast(task)); // เพิ่มงานที่เหลือกลับเข้าไป
+  }
+
+  if (taskNames) {
+    taskNames = Array.isArray(taskNames) ? taskNames : [taskNames];
     taskNames.forEach((name) => {
       taskModel.tasks.removeByName(name);
     });
   }
 
   taskModel.saveTasksToFile(tasksFilePath);
+  console.log(taskModel.tasks.getSize());
   res.redirect('/');
 };
 
@@ -48,6 +51,7 @@ exports.addTask = (req, res) => {
   taskModel.addTask(task);
   console.log("New task has been added");
   taskModel.saveTasksToFile(tasksFilePath);
+  console.log(taskModel.tasks.getSize());
   res.redirect('/');
 };
 
@@ -61,6 +65,7 @@ exports.deleteTask = (req, res) => {
   const taskName = req.params.name;
   taskModel.tasks.removeByName(taskName);
   taskModel.saveTasksToFile(tasksFilePath);
+  console.log(taskModel.tasks.getSize());
   res.redirect('/');
 };
 
@@ -72,9 +77,36 @@ exports.sortTasksByPriority = (req, res) => {
 
 exports.searchTasksByName = (req, res) => {
   const { searchName } = req.body;
-  const foundTasks = taskModel.searchByName(searchName);
+  const foundTasksLinkedList = taskModel.searchByName(searchName);
+
+  // ตรวจสอบก่อนว่าเป็น LinkedList หรือ Array
+  let foundTasks;
+  if (foundTasksLinkedList instanceof LinkedList) {
+    foundTasks = foundTasksLinkedList.toArray(); // ถ้าเป็น LinkedList ให้แปลงเป็น Array
+  } else {
+    foundTasks = foundTasksLinkedList; // ถ้าเป็น Array อยู่แล้ว ใช้เลย
+  }
+
   const summary = taskModel.summarizeByPriority();
   res.render('index', { tasks: foundTasks, summary });
 };
+
+exports.deleteOldestTask = (req, res) => {
+  if (taskModel.tasks.getSize() > 0) {  // ตรวจสอบว่ามี task ใน LinkedList หรือไม่
+    taskModel.tasks.removeFirst();  // ลบงานแรก
+    taskModel.saveTasksToFile(tasksFilePath);  // บันทึกการเปลี่ยนแปลง
+    console.log("First task has been removed");  // ตรวจสอบว่าได้ลบหรือไม่
+  } else {
+    console.log("No tasks to remove");  // ถ้าไม่มีงานใน LinkedList
+  }
+  console.log(taskModel.tasks.getSize());
+  res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหลัก
+};
+
+exports.deleteNewestTask = (req, res) => {
+//TODO
+};
+
+
 
 
