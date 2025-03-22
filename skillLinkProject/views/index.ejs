@@ -5,20 +5,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Reviews</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
+      background-color: #1a1a1a;
+      color: white;
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
     }
 
-    header {
-      background-color: #4CAF50;
+    .navbar-container {
+      background: black;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .navbar-left a {
       color: white;
-      text-align: center;
-      padding: 15px 0;
+      text-decoration: none;
     }
 
     h1 {
@@ -32,16 +43,15 @@
     }
 
     .form-container {
-      background-color: #fff;
+      background-color: #222;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
       margin-bottom: 30px;
     }
 
-    .form-container input, 
-    .form-container textarea, 
-    .form-container select, 
+    .form-container input,
+    .form-container textarea,
+    .form-container select,
     .form-container button {
       width: 100%;
       padding: 10px;
@@ -52,10 +62,10 @@
     }
 
     .task-list {
-      background-color: #fff;
+      background-color: #222;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-bottom: 20px;
     }
 
     .task-list ul {
@@ -90,7 +100,13 @@
     .actions button:hover {
       background-color: #45a049;
     }
-
+   
+    .element{
+      margin-top: 20px;
+      color:white;
+      text-align: center;
+     
+    }
     .priority-select {
       width: auto;
       display: inline-block;
@@ -99,16 +115,20 @@
     .search-container {
       margin-top: 20px;
       text-align: center;
+      border-radius: 20px;
+      
     }
-
+   
     .search-container input {
-      width: auto;
-      display: inline-block;
+      width: 60%;
+            padding: 10px;
+            border-radius: 25px;
+            
     }
 
     .search-container button {
       padding: 10px 20px;
-      background-color: #4CAF50;
+      background-color: #000000;
       color: white;
       border: none;
       border-radius: 4px;
@@ -116,20 +136,76 @@
     }
 
     .search-container button:hover {
-      background-color: #45a049;
+      background-color: #ffffff;
+    }
+
+    
+    .post-box {
+      background: #222;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .task-list .task-item {
+      background: #333;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .task-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .btn{
+      background-color: black;
+      color: white;
+      border: white;
+      border-radius: 20px;
+    }
+    .btn2{
+      background-color: white;
+      color: black;
+      border: white;
+      border-radius: 20px;
+      padding: 10px 20px;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Task List</h1>
-    <p>Welcome user</p>
-    <a href="/logout" style="color: white; text-decoration: none;">Logout</a>
-  </header>
 
+<!--navbar-->
+  <div class="navbar-container">
+    <div class="navbar-left">
+      <a href="#">Skillink</a>
+      <a href="#">หน้าหลัก</a>
+      <a href="#">โพสต์</a>
+    </div>
+    <button class="btn ">เข้าสู่ระบบ</button>
+  </div>
+
+
+ <!-- Search Task Form -->
+  <h1 class="element">ค้นหาอาสาสมัครที่คุณต้องการได้เลย!</h1>
+
+ <div class="search-container">
+  <form  action="/search" method="POST">
+    <input class="search-container " type="text" name="searchName" placeholder="Search Task by Name" />
+    <button type="submit">Search</button>
+  </form>
+</div>
   <div class="container">
+
+
     <!-- Add Task Form -->
     <div class="form-container">
       <form action="/add" method="POST" enctype="multipart/form-data">
@@ -149,21 +225,14 @@
       </form>
     </div>
 
-    <!-- Task Summary by Priority -->
-    <h2>Task Summary by Priority</h2>
+    <h2 class="element">Task Summary by Priority</h2>
     <ul>
       <% Object.keys(summary).forEach(priority => { %>
         <li>Priority <%= priority %>: <%= summary[priority] %> tasks</li>
       <% }) %>
     </ul>
 
-    <!-- Search Task Form -->
-    <div class="search-container">
-      <form action="/search" method="POST">
-        <input type="text" name="searchName" placeholder="Search Task by Name" />
-        <button type="submit">Search</button>
-      </form>
-    </div>
+    
 
     <!-- Sort Button -->
     <div class="actions">
@@ -177,7 +246,7 @@
       <form action="/delete" method="POST">
         <ul>
           <% tasks.forEach(task => { %>
-            <li>
+            <li class="task-item">
               <input type="checkbox" name="taskNames" value="<%= task.name %>" />
               <strong><%= task.name %></strong>: <%= task.description %> by <%= task.username %> (Priority: <%= task.priority %>)
               <a href="/view/<%= task.name %>">View</a>
@@ -208,6 +277,12 @@
     </div>
   </div>
 
+  <div class="post-box">
+    <h2># สร้างโพสต์ของคุณเลยที่นี่</h2>
+    <button class="btn2 ">สร้างโพสต์</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
