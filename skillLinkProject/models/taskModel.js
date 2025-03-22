@@ -1,61 +1,70 @@
 const fs = require('fs');
 const Encryption = require('../util');
+const LinkedList = require('./linkedList');
 
 util = new Encryption();
 
 class Task {
   constructor() {
-    this.tasks = [];
+    this.tasks = new LinkedList();
   }
 
   // Add a new task
   addTask(task) {
-    this.tasks.push(task);
+    this.tasks.insertLast(task);
   }
 
   // Get all tasks
   getAllTasks() {
     //return this.tasks;
-    return this.tasks.map((task) => this.encryptTask(task));
+    const encryptedTasks = [];
+    this.tasks.forEachNode((task) => {
+      encryptedTasks.push(this.encryptTask(task))
+    });
+    return encryptedTasks;
   }
 
   // Summarize tasks by priority
   summarizeByPriority() {
     const summary = {};
-    this.tasks.forEach((task) => {
+    this.tasks.forEachNode((task) => {
       summary[task.priority] = (summary[task.priority] || 0) + 1;
     });
     return summary;
   }
 
   sortByPriority() {
-    return this.tasks.sort((a, b) => a.priority - b.priority);
+    const sortedTasks = this.tasks.toArray().sort((a, b) => a.priority - b.priority);
+    return sortedTasks.map(task => this.encryptTask(task));
   }
 
   searchByName(name) {
-    const foundtasks = this.tasks
-      .filter((task) => task.name.toLowerCase().includes(name.toLowerCase()))
-      .map((task) => this.encryptTask(task));
-    return foundtasks;
+    const foundTasks = [];
+    this.tasks.forEachNode((task) => {
+      if (task.name.toLowerCase().includes(name.toLowerCase())) {
+        foundTasks.push(this.encryptTask(task));
+      }
+    });
+    return foundTasks;
   }
 
   encryptTask(task) {
-    return {
-      ...task,
-      username: util.encrypt(task.username),
-    };
+    return task.username
+      ? { ...task, username: util.encrypt(task.username) } : task;
   }
 
   // Save tasks to a file
   saveTasksToFile(filePath) {
-    fs.writeFileSync(filePath, JSON.stringify(this.tasks, null, 2));
+    console.log("Save to file successful!");
+    console.log("Tasks Data:", this.tasks.toArray());
+    fs.writeFileSync(filePath, JSON.stringify(this.tasks.toArray(), null, 2));
   }
 
   // Load tasks from a file
   loadTasksFromFile(filePath) {
     if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath);
-      this.tasks = JSON.parse(data);
+      const data = JSON.parse(fs.readFileSync(filePath));
+      data.forEach((task) => this.addTask(task));
     }
   }
 }

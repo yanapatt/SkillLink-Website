@@ -1,11 +1,18 @@
 <% if (task) { %>
-    <h1>Task Details</h1>
-    <p><strong>Name:</strong> <%= task.name %></p>
-    <p><strong>Description:</strong> <%= task.description %></p>
-    <p><strong>Priority:</strong> <%= task.priority %></p>
-    <a href="/">Back to Task List</a>
+  <h1>Task Details</h1>
+  <p><strong>Name:</strong> <%= task.name %></p>
+  <p><strong>Description:</strong> <%= task.description %></p>
+  <p><strong>Priority:</strong> <%= task.priority %></p>
+
+  <% if (task.imageUrl) { %>
+      <p><strong>Task Image:</strong></p>
+      <img src="<%= task.imageUrl %>" alt="Task Image" width="200">
   <% } else { %>
-    <h1>Task Not Found</h1>
-    <a href="/">Back to Task List</a>
+      <p>No image available</p>
   <% } %>
-  
+
+  <a href="/">Back to Task List</a>
+<% } else { %>
+  <h1>Task Not Found</h1>
+  <a href="/">Back to Task List</a>
+<% } %>

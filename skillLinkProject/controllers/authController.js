@@ -1,4 +1,3 @@
-
 const Encryption = require('../util');
 
 util = new Encryption();
