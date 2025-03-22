@@ -80,12 +80,12 @@ class LinkedList {
     }
 
     //Remove last value from linked list
-    removeLast() {
+    /*removeLast() {
         if (!this.head) return;  // ถ้า LinkedList ว่าง
         if (this.head === this.tail) {  // ถ้ามีเพียง node เดียว
             this.head = null;
             this.tail = null;
-            this.size--;
+            this.size--;  // ลดขนาด
             return;
         }
 
@@ -96,8 +96,8 @@ class LinkedList {
 
         current.next = null;  // ตัดการเชื่อมต่อกับ node สุดท้าย
         this.tail = current;  // เปลี่ยน tail เป็น node ใหม่
-        this.size--; 
-    }
+        this.size--;  // ลดขนาด
+    }*/
 
     forEachNode(callback) {
         let current = this.head;
