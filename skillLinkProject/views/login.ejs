@@ -4,7 +4,11 @@
 <p style="color: red;"><%- error %></p>
 <% } %>
 <form action="/login" method="POST">
-  <input type="text" name="username" placeholder="User" required />
-  <input type="password" name="password" placeholder="Pass" required />
+
+  <input type="text" name="username" placeholder="Please enter your username"
+    required />
+  <input type="password" name="password"
+    placeholder="Please enter your password" required />
+
   <button type="submit">Login</button>
 </form>
