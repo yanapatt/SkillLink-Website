@@ -162,21 +162,32 @@ exports.sortTasksByPriority = (req, res) => {
   res.render('index', { tasks: sortedTasks, summary });
 };
 
-exports.searchTasksByName = (req, res) => {
-  const { searchName } = req.body;
-  const foundTasksLinkedList = taskModel.searchByName(searchName);
+exports.searchTasks = (req, res) => {
+  const { searchTerm, searchType } = req.body; 
 
-  // ตรวจสอบก่อนว่าเป็น LinkedList หรือ Array
+  if (!searchTerm) {
+    return res.send("กรุณากรอกคำค้นหา");
+  }
+
   let foundTasks;
-  if (foundTasksLinkedList instanceof LinkedList) {
-    foundTasks = foundTasksLinkedList.toArray(); // ถ้าเป็น LinkedList ให้แปลงเป็น Array
+
+  if (searchType === 'name') {
+    foundTasks = taskModel.searchByName(searchTerm);
+  } else if (searchType === 'description') {
+    foundTasks = taskModel.searchByDescription(searchTerm);
   } else {
-    foundTasks = foundTasksLinkedList; // ถ้าเป็น Array อยู่แล้ว ใช้เลย
+    return res.send("ประเภทการค้นหาไม่ถูกต้อง");
   }
 
   const summary = taskModel.summarizeByPriority();
-  res.render('index', { tasks: foundTasks, summary });
+
+  if (foundTasks.length > 0) {
+    return res.render('index', { tasks: foundTasks, summary });
+  }
+
+  res.send("ไม่พบ Task ที่ต้องการ");
 };
+
 
 // ฟังก์ชันในการลบงานแรก (Oldest Task)
 exports.deleteOldestTask = (req, res) => {

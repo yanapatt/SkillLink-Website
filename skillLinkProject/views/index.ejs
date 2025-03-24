@@ -55,7 +55,15 @@
 
   <!-- Search Task Form -->
   <form action="/search" method="POST">
-    <input type="text" name="searchName" placeholder="Search Task by Name" />
+    <input type="text" name="searchTerm" placeholder="Search Task" required />
+    
+    <!-- Dropdown สำหรับเลือกประเภทการค้นหา -->
+    <label for="searchType">Select Search Type:</label>
+    <select name="searchType" id="searchType">
+      <option value="name">Search by Name</option>
+      <option value="description">Search by Description</option>
+    </select>
+    
     <button type="submit">Search</button>
   </form>
 
@@ -93,7 +101,6 @@
     <button type="submit" name="action" value="removeByPriority">Remove by Priority</button>
   </form>
 
-  
   <form action="/delete-newest" method="POST">
     <button type="submit">Remove Newset Task</button>
   </form>
@@ -102,4 +109,5 @@
   </form>
 
 </body>
+
 </html>

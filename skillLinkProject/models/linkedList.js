@@ -102,7 +102,13 @@ class LinkedList {
     forEachNode(callback) {
         let current = this.head;
         while (current) {
-            callback(current.value);
+            if (current.value !== undefined) { 
+                try {
+                    callback(current.value);
+                } catch (error) {
+                    console.error("Error in callback function:", error);
+                }
+            }
             current = current.next;
         }
     }

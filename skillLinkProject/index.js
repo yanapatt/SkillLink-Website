@@ -36,7 +36,7 @@ app.get('/login', authController.showLoginPage);
 app.post('/login', authController.login);
 app.post('/add', authController.authenticate, taskController.addTask);
 app.post('/delete', authController.authenticate, taskController.deleteMultipleTasks);
-app.post('/search', authController.authenticate, taskController.searchTasksByName);
+app.post('/search', authController.authenticate, taskController.searchTasks);
 app.post('/delete-oldest', authController.authenticate, taskController.deleteOldestTask);
 app.post('/delete-newest', authController.authenticate, taskController.deleteNewestTask);
 

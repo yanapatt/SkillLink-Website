@@ -39,13 +39,23 @@ class Task {
   }
 
   searchByName(name) {
-    const foundTasks = [];
+    const foundTasks = new LinkedList();
     this.tasks.forEachNode((task) => {
       if (task.name.toLowerCase().includes(name.toLowerCase())) {
-        foundTasks.push(this.encryptTask(task));
+        foundTasks.insertLast(task);
       }
     });
-    return foundTasks;
+    return foundTasks.toArray().map(task => this.encryptTask(task));
+  }
+
+  searchByDescription(description) {
+    const foundTasks = new LinkedList();
+    this.tasks.forEachNode((task) => {
+      if (task.description.toLowerCase().includes(description.toLowerCase())) {
+        foundTasks.insertLast(task); 
+      }
+    });
+    return foundTasks.toArray().map(task => this.encryptTask(task)); 
   }
 
   encryptTask(task) {
