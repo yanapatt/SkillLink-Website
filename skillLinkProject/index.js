@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const taskController = require('./controllers/taskController');
-const authController = require('./controllers/authController');
-
-
+const postController = require('./controllers/postController');
+const accountController = require('./controllers/accountController');
 
 // Initialize Express app
 const app = express();
@@ -26,20 +24,21 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 // Routes
-
-app.get('/', authController.authenticate, taskController.getTasks);
-app.get('/view/:name', taskController.viewTask);
-app.get('/logout', authController.logout);
-app.get('/sort', authController.authenticate, taskController.sortTasksByPriority);
-app.get('/login', authController.showLoginPage);
-app.post('/login', authController.login);
-app.post('/add', authController.authenticate, taskController.addTask);
-app.post('/delete', authController.authenticate, taskController.deleteMultipleTasks);
-app.post('/search', authController.authenticate, taskController.searchTasks);
-app.post('/delete-oldest', authController.authenticate, taskController.deleteOldestTask);
-app.post('/delete-newest', authController.authenticate, taskController.deleteNewestTask);
-
+app.get('/', accountController.authenticate, postController.getPosts);
+app.get('/view/:name', postController.viewPost);
+app.get('/logout', accountController.logout);
+app.get('/sort', accountController.authenticate, postController.sortPostsByPriority);
+app.get('/login', accountController.showLoginPage);
+app.post('/login', accountController.login);
+app.get('/register', accountController.showRegisterPage);
+app.post('/register', accountController.register);
+app.post('/add', accountController.authenticate, postController.addPost);
+app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts);
+app.post('/search', accountController.authenticate, postController.searchPosts);
+app.post('/delete-oldest', accountController.authenticate, postController.deleteOldestPost);
+app.post('/delete-newest', accountController.authenticate, postController.deleteNewestPost);
 
 // Start server
 const PORT = process.env.PORT || 3000;

@@ -1,0 +1,11 @@
+<h1>Register</h1>
+<form action="/register" method="POST"> <!-- ใช้ POST และ action เป็น /register -->
+
+  <input type="text" name="username" placeholder="Please enter your username" required />
+  <input type="email" name="email" placeholder="Please enter your email" required /> <!-- อีเมล -->
+  <input type="password" name="password" placeholder="Please enter your password" required />
+  <input type="tel" name="phone" placeholder="Please enter your phone number" required /> <!-- เบอร์โทรศัพท์ -->
+
+  <p>You already have an account? <a href="/login">Login now</a></p>
+  <button type="submit">Register</button>
+</form>

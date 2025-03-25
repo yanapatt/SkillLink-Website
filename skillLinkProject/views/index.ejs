@@ -27,13 +27,13 @@
 </head>
 
 <body>
-  <h1>Task List</h1>
+  <h1>Post List</h1>
   Welcome user
   <a href="/logout">Logout</a>
   <form action="/add" method="POST" enctype="multipart/form-data">
     <input type="text" name="username" placeholder="User Name" required />
-    <input type="text" name="name" placeholder="Task Name" required />
-    <textarea name="description" placeholder="Task Description" required></textarea>
+    <input type="text" name="name" placeholder="Post Name" required />
+    <textarea name="description" placeholder="Post Description" required></textarea>
     <label for="priority">Priority:</label>
     <select name="priority" id="priority">
       <option value="1">1</option>
@@ -43,27 +43,27 @@
       <option value="5">5</option>
     </select>
     <input type="file" name="image" accept="image/*" />
-    <button type="submit">Add Task</button>
+    <button type="submit">Add Post</button>
   </form>
 
-  <h2>Task Summary by Priority</h2>
+  <h2>Post Summary by Priority</h2>
   <ul>
     <% Object.keys(summary).forEach(priority=> { %>
-      <li>Priority <%= priority %>: <%= summary[priority] %> tasks</li>
+      <li>Priority <%= priority %>: <%= summary[priority] %> posts</li>
       <% }) %>
   </ul>
 
   <!-- Search Task Form -->
   <form action="/search" method="POST">
     <input type="text" name="searchTerm" placeholder="Search Task" required />
-    
+
     <!-- Dropdown สำหรับเลือกประเภทการค้นหา -->
     <label for="searchType">Select Search Type:</label>
     <select name="searchType" id="searchType">
       <option value="name">Search by Name</option>
       <option value="description">Search by Description</option>
     </select>
-    
+
     <button type="submit">Search</button>
   </form>
 
@@ -73,14 +73,14 @@
 
   <form action="/delete" method="POST">
     <ul>
-      <% tasks.forEach(task=> { %>
+      <% posts.forEach(post=> { %>
         <li>
-          <input type="checkbox" name="taskNames" value="<%= task.name %>" />
+          <input type="checkbox" name="postNames" value="<%= post.name %>" />
           <strong>
-            <%= task.name %>
-          </strong>: <%= task.description %> by <%= task.username %> (Priority: <%= task.priority %>)
+            <%= post.name %>
+          </strong>: <%= post.description %> by <%= post.username %> (Priority: <%= post.priority %>)
         </li>
-        <a href="/view/<%= task.name %>">View</a>
+        <a href="/view/<%= post.name %>">View</a>
         <% }) %>
     </ul>
 
