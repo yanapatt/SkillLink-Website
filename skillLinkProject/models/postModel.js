@@ -2,24 +2,46 @@ const fs = require('fs');
 const Encryption = require('../util');
 const LinkedList = require('./linkedList');
 const path = require('path');
+const AccountModel = require('./accountModel');
 
 const util = new Encryption();
 
 class Post {
-  constructor() {
+  constructor(accountModel) {
     this.posts = new LinkedList();
+    this.accountModel = new AccountModel(); // รับ accountModel เพื่อใช้ในการค้นหา accountId
   }
 
-  // Add a new post
-  addPost(post) {
-    this.posts.insertLast(post);
+  // Add a new post with accountId
+  addPost(post, accountId) {
+    let account = null;
+    this.accountModel.accounts.forEachNode((acc) => {
+      if (acc.accountId === accountId) {
+        account = acc;  // เจอแล้วให้เก็บบัญชีที่ตรงกัน
+      }
+    });
+
+    if (account) {
+      post.accountId = account.accountId;
+      const newPost = {
+        name: post.name,
+        accountId: account.accountId,
+        description: post.description,
+        priority: post.priority,
+        imageUrl: post.imageUrl
+      };
+      this.posts.insertLast(newPost);
+
+    } else {
+      console.log("Account not found!");
+    }
   }
 
   // Get all posts with encrypted username
   getAllPosts() {
     const encryptedPosts = [];
     this.posts.forEachNode((post) => {
-      encryptedPosts.push(this.encryptPost(post));  // เปลี่ยนชื่อเป็น encryptPost เพื่อความชัดเจน
+      encryptedPosts.push(this.encryptPost(post));
     });
     return encryptedPosts;
   }
@@ -58,7 +80,7 @@ class Post {
         foundPosts.insertLast(post);
       }
     });
-    return foundPosts.toArray().map(post => this.encryptPost(post)); 
+    return foundPosts.toArray().map(post => this.encryptPost(post));
   }
 
   // Encrypt the username in the post

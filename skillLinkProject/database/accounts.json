@@ -1,8 +1,16 @@
 [
   {
+    "accountId": "9c510f5c-e5a4-4a17-bfe0-7907e2f2ec34",
     "username": "admin",
-    "email": "yanapatt@gmail.com",
+    "email": "yanapatt2207@gmail.com",
     "password": "6002968392b901e9305d87e3",
+    "phone": "082-568-9999"
+  },
+  {
+    "accountId": "334540a8-7948-4b9d-bbb3-8f1a46cba9af",
+    "username": "Patty",
+    "email": "prarichatt70@gmail.com",
+    "password": "cc2f127c9de1e7d76a2c084a",
     "phone": "082-568-9999"
   }
 ]

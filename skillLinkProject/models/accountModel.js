@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { uuid } = require('uuidv4');
 const Encryption = require('../util');
 const LinkedList = require('./linkedList');
 
@@ -22,8 +23,18 @@ class AccountModel {
   }
 
   createAccount(account) {
+    account.accountId = uuid();
     account.password = util.encrypt(account.password); // เข้ารหัสรหัสผ่าน
-    this.accounts.insertLast(account);
+
+    const formattedAccountDoc = {
+      accountId: account.accountId,
+      username: account.username,
+      email: account.email,
+      password: account.password,
+      phone: account.phone
+    }
+
+    this.accounts.insertLast(formattedAccountDoc);
     this.saveAccountsToFile(); // บันทึกข้อมูลบัญชีลงในไฟล์
   }
 
@@ -37,7 +48,10 @@ class AccountModel {
   loadAccountsFromFile() {
     if (fs.existsSync(this.filePath)) {
       const data = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
-      data.forEach((account) => this.accounts.insertLast(account)); // โหลดข้อมูลจากไฟล์และเพิ่มใน LinkedList
+      data.forEach((account) => {
+        if (!account.accountId) account.accountId = uuid();
+        this.accounts.insertLast(account);
+      });
     }
   }
 

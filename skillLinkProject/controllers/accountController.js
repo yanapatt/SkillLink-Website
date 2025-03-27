@@ -1,9 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const Encryption = require('../util');
 const AccountModel = require('../models/accountModel');
-
-util = new Encryption();
 
 // Middleware to check authentication
 exports.authenticate = (req, res, next) => {
@@ -39,7 +34,7 @@ exports.login = (req, res) => {
   const accountSession = account.authenticateAccount(username, password);
 
   if (accountSession) {
-    req.session.accountSession = username;
+    req.session.accountSession = accountSession.accountId;
     console.log(username + " has logged in");
     res.redirect('/');
   } else {

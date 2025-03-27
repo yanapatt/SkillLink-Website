@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "name": "New Project",
+    "accountId": "9c510f5c-e5a4-4a17-bfe0-7907e2f2ec34",
+    "description": "123",
+    "priority": "1"
+  }
+]

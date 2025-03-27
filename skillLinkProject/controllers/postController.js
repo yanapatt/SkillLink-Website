@@ -32,10 +32,18 @@ const upload = multer({ storage: storage });
 
 // ฟังก์ชัน addPost ที่ใช้ multer เพื่อจัดการไฟล์และข้อมูลที่ส่งมาในฟอร์ม
 exports.addPost = [upload.single('image'), (req, res) => {
+  console.log("Session Data:", req.session);
+  console.log("Session Account ID:", req.session.accountSession);
+
+  const accountId = req.session.accountSession;
+
+  if (!accountId) {
+    return res.status(400).send("Account not found in session!");
+  } 
+
   // เช็คว่ามีข้อมูลในฟอร์มหรือไม่
   const post = {
     name: req.body.name,
-    username: req.body.username,
     description: req.body.description,
     priority: req.body.priority
   };
@@ -46,12 +54,11 @@ exports.addPost = [upload.single('image'), (req, res) => {
   }
 
   // เพิ่ม post ลงในฐานข้อมูล
-  postModel.addPost(post);
+  postModel.addPost(post, accountId);
   console.log("New post has been added");
 
   // บันทึก post ลงในไฟล์ JSON
   postModel.savePostsToFile(postsFilePath); // Updated to use the new path for posts.json
-
   res.redirect('/');
 }];
 
