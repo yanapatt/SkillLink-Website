@@ -5,6 +5,12 @@
   <input type="password" name="password" placeholder="Please enter your password" required />
   <input type="tel" name="phone" placeholder="Please enter your phone number" required /> <!-- เบอร์โทรศัพท์ -->
 
+  <label for="accountType">Account Type:</label>
+  <select name="accountType" required>
+    <option value="User" selected>User</option>
+    <option value="Admin">Admin</option>
+  </select>
+
   <p>You already have an account? <a href="/login">Login now</a></p>
   <button type="submit">Register</button>
 </form>

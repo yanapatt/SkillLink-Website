@@ -23,9 +23,11 @@ class AccountModel {
   createAccount(account) {
     account.accountId = uuid();
     account.password = util.encrypt(account.password);
+    account.accountType = account.accountType || 'User';
 
     const formattedAccountDoc = {
       accountId: account.accountId,
+      accountType: account.accountType,
       username: account.username,
       email: account.email,
       password: account.password,

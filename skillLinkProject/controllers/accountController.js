@@ -40,18 +40,21 @@ exports.login = (req, res) => {
 
 exports.register = (req, res) => {
   try {
-    const { username, email, password, phone } = req.body;
+    const { username, email, password, phone, accountType } = req.body;
     if (!username || !email || !password || !phone) {
       throw new Error('All fields are required!');
     }
+    const accountTypeToSave = accountType || 'User';
 
     const account = new AccountModel();
-    account.createAccount({ username, email, password, phone });
+    account.createAccount({ username, email, password, phone, accountType: accountTypeToSave });
+
     console.log(`${username} registered successfully.`);
     res.redirect('/login');
 
   } catch (error) {
     res.render('register', { error: error.message });
   }
-}
+};
+
 

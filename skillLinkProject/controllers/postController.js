@@ -28,6 +28,9 @@ const accountModel = new AccountModel();
 function getUsernameFromSession(req) {
   const accountId = req.session.accountSession;
   let username = 'Guest';
+
+  accountModel.loadAccountsFromFile();
+
   if (accountId) {
     accountModel.accounts.forEachNode((account) => {
       if (account.accountId === accountId) {
