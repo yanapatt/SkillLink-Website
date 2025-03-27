@@ -112,8 +112,6 @@ exports.deleteMultiplePosts = (req, res) => {
 exports.getPosts = (req, res) => {
   const allPosts = postModel.getAllPosts();
   const summary = postModel.summarizeByRating();
-
-  // ดึง username จาก session
   const username = getUsernameFromSession(req);
 
   const posts = allPosts.map(post => {
@@ -136,11 +134,51 @@ exports.viewPost = (req, res) => {
   res.render('post', { post });
 };
 
+exports.editPost = (req, res) => {
+  const postName = req.params.name;
+  const post = postModel.getAllPosts().find((post) => post.name === postName);
+
+  if (!post) {
+    return res.status(404).send("Post not found");
+  }
+
+  res.render('edit', { post });
+};
+
+exports.updatePost = [upload.single('image'), (req, res) => {
+  const postName = req.params.name;
+  const post = postModel.getAllPosts().find((post) => post.name === postName);
+
+  if (!post) {
+    return res.status(404).send("Post not found");
+  }
+
+  post.description = req.body.description;
+  post.rating = req.body.rating;
+
+  if (req.file) {
+    if (post.imageUrl) {
+      const oldImagePath = path.join(__dirname, '..', post.imageUrl);
+      fs.unlink(oldImagePath, (err) => {
+        if (err) console.log('Error deleting old image:', err);
+      });
+    }
+    post.imageUrl = `/uploads/${req.file.filename}`;
+  }
+
+  postModel.savePostsToFile(postsFilePath);
+  res.redirect('/');
+}];
+
 exports.deletePost = (req, res) => {
   const postName = req.params.name;
   const post = postModel.posts.toArray().find(post => post.name === postName);
 
-  if (post && post.imageUrl) {
+  if (!post) {
+    return res.status(404).send("Post not found");
+  }
+
+  if (post.imageUrl) {
     const imagePath = path.join(__dirname, '..', post.imageUrl);
     fs.unlink(imagePath, (err) => {
       if (err) {
@@ -153,7 +191,37 @@ exports.deletePost = (req, res) => {
 
   postModel.posts.removeByName(postName);
   postModel.savePostsToFile(postsFilePath);
+  console.log(`Post "${postName}" deleted successfully!`);
   res.redirect('/');
+};
+
+exports.deleteImage = (req, res) => {
+  const postName = req.params.name;
+  const post = postModel.getAllPosts().find(post => post.name === postName);
+
+  if (!post) {
+    console.error("Post not found:", postName);
+    return res.status(404).json({ error: "Post not found" });
+  }
+
+  if (post.imageUrl) {
+    const imagePath = path.join(__dirname, '..', post.imageUrl);
+    console.log(imagePath);
+    console.log("Deleting image:", imagePath);
+
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        console.error('Error deleting image:', err);
+        return res.status(500).json({ error: "Error deleting image", details: err.message });
+      }
+
+      post.imageUrl = null;
+      res.json({ success: true });
+    });
+  } else {
+    console.error("No image found for post:", postName);
+    res.status(400).json({ error: "No image to delete" });
+  }
 };
 
 exports.sortPostsByRating = (req, res) => {
