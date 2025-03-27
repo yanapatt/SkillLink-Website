@@ -1,8 +1,10 @@
 <% if (post) { %>
   <h1>Post Details</h1>
   <p><strong>Name:</strong> <%= post.name %></p>
+  <p><strong>Author:</strong> <%= post.username %></p>
+  <p><strong>Author ID:</strong> <%= post.accountId %></p>
   <p><strong>Description:</strong> <%= post.description %></p>
-  <p><strong>Priority:</strong> <%= post.priority %></p>
+  <p><strong>Rating:</strong> <%= post.rating %></p>
 
   <% if (post.imageUrl) { %>
       <p><strong>Post Image:</strong></p>
@@ -10,7 +12,7 @@
   <% } else { %>
       <p>No image available</p>
   <% } %>
-
+  <br />
   <a href="/">Back to Post List</a>
 <% } else { %>
   <h1>Post Not Found</h1>

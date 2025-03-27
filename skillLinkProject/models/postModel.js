@@ -1,23 +1,26 @@
 const fs = require('fs');
-const Encryption = require('../util');
 const LinkedList = require('./linkedList');
 const path = require('path');
 const AccountModel = require('./accountModel');
 
-const util = new Encryption();
-
 class Post {
-  constructor(accountModel) {
+  constructor() {
     this.posts = new LinkedList();
-    this.accountModel = new AccountModel(); // รับ accountModel เพื่อใช้ในการค้นหา accountId
+    this.accountModel = new AccountModel();
   }
 
-  // Add a new post with accountId
+  ensureDirectoryExistence(filePath) {
+    const dirname = path.dirname(filePath);
+    if (!fs.existsSync(dirname)) {
+      fs.mkdirSync(dirname, { recursive: true });
+    }
+  }
+
   addPost(post, accountId) {
     let account = null;
     this.accountModel.accounts.forEachNode((acc) => {
       if (acc.accountId === accountId) {
-        account = acc;  // เจอแล้วให้เก็บบัญชีที่ตรงกัน
+        account = acc;
       }
     });
 
@@ -27,88 +30,63 @@ class Post {
         name: post.name,
         accountId: account.accountId,
         description: post.description,
-        priority: post.priority,
+        rating: post.rating,
         imageUrl: post.imageUrl
       };
       this.posts.insertLast(newPost);
-
-    } else {
-      console.log("Account not found!");
     }
   }
 
-  // Get all posts with encrypted username
   getAllPosts() {
-    const encryptedPosts = [];
+    const allPosts = [];
     this.posts.forEachNode((post) => {
-      encryptedPosts.push(this.encryptPost(post));
+      allPosts.push(post);
     });
-    return encryptedPosts;
+    return allPosts;
   }
 
-  // Summarize posts by priority
-  summarizeByPriority() {
+  summarizeByRating() {
     const summary = {};
     this.posts.forEachNode((post) => {
-      summary[post.priority] = (summary[post.priority] || 0) + 1;
+      summary[post.rating] = (summary[post.rating] || 0) + 1;
     });
     return summary;
   }
 
-  // Sort posts by priority
-  sortByPriority() {
-    const sortedPosts = this.posts.toArray().sort((a, b) => a.priority - b.priority);
-    return sortedPosts.map(post => this.encryptPost(post));
+  sortByRating() {
+    const sortedPosts = this.posts.toArray().sort((a, b) => a.rating - b.rating);
+    return sortedPosts;
   }
 
-  // Search for posts by name
-  searchByName(name) {
+  searchByTitle(name) {
     const foundPosts = new LinkedList();
     this.posts.forEachNode((post) => {
       if (post.name.toLowerCase().includes(name.toLowerCase())) {
         foundPosts.insertLast(post);
       }
     });
-    return foundPosts.toArray().map(post => this.encryptPost(post));
+    return foundPosts;
   }
 
-  // Search for posts by description
-  searchByDescription(description) {
+  searchByAuthor(username) {
     const foundPosts = new LinkedList();
     this.posts.forEachNode((post) => {
-      if (post.description.toLowerCase().includes(description.toLowerCase())) {
+      if (post.username.toLowerCase().includes(username.toLowerCase())) {
         foundPosts.insertLast(post);
       }
     });
-    return foundPosts.toArray().map(post => this.encryptPost(post));
+    return foundPosts;
   }
 
-  // Encrypt the username in the post
-  encryptPost(post) {
-    return post.username
-      ? { ...post, username: util.encrypt(post.username) } : post;
-  }
-
-  // Save posts to a file
   savePostsToFile(filePath) {
-    this.ensureFileExistence(filePath);
-    console.log("Save to file successful!");
+    this.ensureDirectoryExistence(filePath);
     fs.writeFileSync(filePath, JSON.stringify(this.posts.toArray(), null, 2));
   }
 
-  // Load posts from a file
   loadPostsFromFile(filePath) {
     if (fs.existsSync(filePath)) {
       const data = JSON.parse(fs.readFileSync(filePath));
-      data.forEach((post) => this.addPost(post));
-    }
-  }
-
-  // Ensure the directory for the file exists
-  ensureFileExistence(filePath) {
-    const dirname = path.dirname(filePath);
-    if (!fs.existsSync(dirname)) {
-      fs.mkdirSync(dirname, { recursive: true });
+      data.forEach((post) => this.addPost(post, post.accountId));
     }
   }
 }

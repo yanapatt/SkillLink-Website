@@ -3,77 +3,74 @@ const path = require('path');
 const Post = require('../models/postModel');
 const LinkedList = require('../models/linkedList');
 const multer = require('multer');
-
-// Initialize the Post model
+const AccountModel = require('../models/accountModel');
 const postModel = new Post();
-const postsFilePath = path.join(__dirname, '..', 'database', 'posts.json'); // Changed to point to the 'database' folder
-
-// Load posts from file on app start
-postModel.loadPostsFromFile(postsFilePath);
-
+const postsFilePath = path.join(__dirname, '..', 'database', 'posts.json');
 const uploadsDir = path.resolve(__dirname, '../uploads');
 
-// ตรวจสอบว่าโฟลเดอร์ 'uploads' มีอยู่แล้วหรือไม่
+postModel.loadPostsFromFile(postsFilePath);
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);  // สร้างโฟลเดอร์ถ้ายังไม่มี
+  fs.mkdirSync(uploadsDir);
 }
 
-// ตั้งค่าการเก็บไฟล์
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');  // เก็บไฟล์ในโฟลเดอร์ uploads/
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));  // ตั้งชื่อไฟล์ใหม่
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 const upload = multer({ storage: storage });
+const accountModel = new AccountModel();
 
-// ฟังก์ชัน addPost ที่ใช้ multer เพื่อจัดการไฟล์และข้อมูลที่ส่งมาในฟอร์ม
-exports.addPost = [upload.single('image'), (req, res) => {
-  console.log("Session Data:", req.session);
-  console.log("Session Account ID:", req.session.accountSession);
+function getUsernameFromSession(req) {
+  const accountId = req.session.accountSession;
+  let username = 'Guest';
+  if (accountId) {
+    accountModel.accounts.forEachNode((account) => {
+      if (account.accountId === accountId) {
+        username = account.username;
+      }
+    });
+  }
+  return username;
+}
 
+exports.createPosts = [upload.single('image'), (req, res) => {
   const accountId = req.session.accountSession;
 
   if (!accountId) {
     return res.status(400).send("Account not found in session!");
-  } 
+  }
 
-  // เช็คว่ามีข้อมูลในฟอร์มหรือไม่
   const post = {
     name: req.body.name,
     description: req.body.description,
-    priority: req.body.priority
+    rating: req.body.rating
   };
 
-  // เช็คว่าไฟล์มีหรือไม่
   if (req.file) {
-    post.imageUrl = `/uploads/${req.file.filename}`;  // บันทึกรูปภาพที่อัพโหลด
+    post.imageUrl = `/uploads/${req.file.filename}`;
   }
 
-  // เพิ่ม post ลงในฐานข้อมูล
   postModel.addPost(post, accountId);
-  console.log("New post has been added");
-
-  // บันทึก post ลงในไฟล์ JSON
-  postModel.savePostsToFile(postsFilePath); // Updated to use the new path for posts.json
+  console.log("Create post successful!")
+  postModel.savePostsToFile(postsFilePath);
   res.redirect('/');
 }];
 
 exports.deleteMultiplePosts = (req, res) => {
-  let { postNames, priority, action } = req.body; // Array of post names to delete
+  let { postNames, rating, action } = req.body;
 
-  if (action === 'removeByPriority') {
-    // ลบ post ตาม Priority ที่เลือก
-    const postArray = postModel.posts.toArray(); // แปลงเป็น Array ก่อน
-    const postsToRemove = postArray.filter((post) => post.priority === priority);  // หา post ที่ตรงกับ priority ที่เลือก
+  if (action === 'removeByRating') {
+    const postArray = postModel.posts.toArray();
+    const postsToRemove = postArray.filter((post) => post.rating === rating);
 
-    // ลบไฟล์ภาพที่เกี่ยวข้องกับ post ที่จะถูกลบ
     postsToRemove.forEach((post) => {
       if (post.imageUrl) {
-        const imagePath = path.join(__dirname, '..', post.imageUrl); // Updated to use the new path for images
+        const imagePath = path.join(__dirname, '..', post.imageUrl);
         fs.unlink(imagePath, (err) => {
           if (err) {
             console.log('Error deleting image:', err);
@@ -83,23 +80,18 @@ exports.deleteMultiplePosts = (req, res) => {
         });
       }
     });
-
-    // กรอง post ที่ไม่ตรงกับ priority ที่เลือกออกมา และเพิ่มกลับเข้าไปใน LinkedList
-    const filteredPosts = postArray.filter((post) => post.priority !== priority);
-
-    postModel.posts = new LinkedList();  // สร้าง LinkedList ใหม่
-    filteredPosts.forEach((post) => postModel.posts.insertLast(post));  // เพิ่ม post ที่เหลือกลับเข้าไป
+    const filteredPosts = postArray.filter((post) => post.rating !== rating);
+    postModel.posts = new LinkedList();
+    filteredPosts.forEach((post) => postModel.posts.insertLast(post));
   }
 
   if (postNames) {
     postNames = Array.isArray(postNames) ? postNames : [postNames];
     postNames.forEach((name) => {
-      // ก่อนลบ post, ต้องค้นหาว่ามี imageUrl หรือไม่ใน post ที่ชื่อ `name`
       const post = postModel.posts.toArray().find(post => post.name === name);
 
       if (post && post.imageUrl) {
-        // ถ้ามี imageUrl, ลบไฟล์จากโฟลเดอร์ uploads
-        const imagePath = path.join(__dirname, '..', post.imageUrl); // Updated to use the new path for images
+        const imagePath = path.join(__dirname, '..', post.imageUrl);
         fs.unlink(imagePath, (err) => {
           if (err) {
             console.log('Error deleting image:', err);
@@ -108,23 +100,34 @@ exports.deleteMultiplePosts = (req, res) => {
           }
         });
       }
-
-      // ลบ post จาก LinkedList
       postModel.posts.removeByName(name);
     });
   }
 
-  // บันทึกการเปลี่ยนแปลงลงในไฟล์ posts.json
-  postModel.savePostsToFile(postsFilePath); // Updated to use the new path for posts.json
+  postModel.savePostsToFile(postsFilePath);
   console.log(postModel.posts.getSize());
-  res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหลัก
+  res.redirect('/');
 };
 
-// Controller functions
 exports.getPosts = (req, res) => {
-  const posts = postModel.getAllPosts();
-  const summary = postModel.summarizeByPriority();
-  res.render('index', { posts, summary });
+  const allPosts = postModel.getAllPosts();
+  const summary = postModel.summarizeByRating();
+
+  // ดึง username จาก session
+  const username = getUsernameFromSession(req);
+
+  const posts = allPosts.map(post => {
+    let postUsername = 'Unknown';
+    accountModel.accounts.forEachNode((account) => {
+      if (account.accountId === post.accountId) {
+        postUsername = account.username;
+      }
+    });
+    post.username = postUsername;
+    return post;
+  });
+
+  res.render('index', { posts, summary, username });
 };
 
 exports.viewPost = (req, res) => {
@@ -135,13 +138,10 @@ exports.viewPost = (req, res) => {
 
 exports.deletePost = (req, res) => {
   const postName = req.params.name;
-
-  // ค้นหา post ที่ตรงกับชื่อที่รับมา
   const post = postModel.posts.toArray().find(post => post.name === postName);
 
   if (post && post.imageUrl) {
-    // ถ้ามี imageUrl, ลบไฟล์จากโฟลเดอร์ uploads
-    const imagePath = path.join(__dirname, '..', post.imageUrl); // Updated to use the new path for images
+    const imagePath = path.join(__dirname, '..', post.imageUrl);
     fs.unlink(imagePath, (err) => {
       if (err) {
         console.log('Error deleting image:', err);
@@ -151,21 +151,16 @@ exports.deletePost = (req, res) => {
     });
   }
 
-  // ลบ post จาก LinkedList
   postModel.posts.removeByName(postName);
-
-  // บันทึกการเปลี่ยนแปลงลงในไฟล์ posts.json
-  postModel.savePostsToFile(postsFilePath); // Updated to use the new path for posts.json
-  console.log(postModel.posts.getSize());
-
-  // เปลี่ยนเส้นทางไปยังหน้าหลัก
+  postModel.savePostsToFile(postsFilePath);
   res.redirect('/');
 };
 
-exports.sortPostsByPriority = (req, res) => {
-  const sortedPosts = postModel.sortByPriority();
-  const summary = postModel.summarizeByPriority();
-  res.render('index', { posts: sortedPosts, summary });
+exports.sortPostsByRating = (req, res) => {
+  const sortedPosts = postModel.sortByRating();
+  const summary = postModel.summarizeByRating();
+  const username = getUsernameFromSession(req);
+  res.render('index', { posts: sortedPosts, summary, username });
 };
 
 exports.searchPosts = (req, res) => {
@@ -177,30 +172,34 @@ exports.searchPosts = (req, res) => {
 
   let foundPosts;
 
-  if (searchType === 'name') {
-    foundPosts = postModel.searchByName(searchTerm);
-  } else if (searchType === 'description') {
-    foundPosts = postModel.searchByDescription(searchTerm);
+  if (searchType === 'title') {
+    foundPosts = postModel.searchByTitle(searchTerm);
+  } else if (searchType === 'author') {
+    foundPosts = postModel.searchByAuthor(searchTerm);
   } else {
     return res.send("ประเภทการค้นหาไม่ถูกต้อง");
   }
 
-  const summary = postModel.summarizeByPriority();
+  const summary = postModel.summarizeByRating();
+  const foundPostsArray = foundPosts.toArray();
+  const username = getUsernameFromSession(req);
 
-  if (foundPosts.length > 0) {
-    return res.render('index', { posts: foundPosts, summary });
+  if (foundPostsArray.length > 0) {
+    return res.render('index', { posts: foundPostsArray, summary, username });
   }
 
   res.send("ไม่พบ Post ที่ต้องการ");
 };
 
-// ฟังก์ชันในการลบ post แรก (Oldest Post)
+exports.clearSearch = (req, res) => {
+  res.redirect('/');
+}
+
 exports.deleteOldestPost = (req, res) => {
-  if (postModel.posts.getSize() > 0) {  // ตรวจสอบว่ามี post ใน LinkedList หรือไม่
-    const post = postModel.posts.toArray()[0];  // หางานแรก
+  if (postModel.posts.getSize() > 0) {
+    const post = postModel.posts.toArray()[0];
     if (post && post.imageUrl) {
-      // ถ้ามี imageUrl, ลบไฟล์จากโฟลเดอร์ uploads
-      const imagePath = path.join(__dirname, '..', post.imageUrl); // Updated to use the new path for images
+      const imagePath = path.join(__dirname, '..', post.imageUrl);
       fs.unlink(imagePath, (err) => {
         if (err) {
           console.log('Error deleting image:', err);
@@ -210,25 +209,21 @@ exports.deleteOldestPost = (req, res) => {
       });
     }
 
-    // ลบ post แรกจาก LinkedList
     postModel.posts.removeFirst();
-    postModel.savePostsToFile(postsFilePath);  // บันทึกการเปลี่ยนแปลง
+    postModel.savePostsToFile(postsFilePath);
     console.log("First post has been removed");
   } else {
-    console.log("No posts to remove");  // ถ้าไม่มี post ใน LinkedList
+    console.log("No posts to remove");
   }
-
   console.log(postModel.posts.getSize());
-  res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหลัก
+  res.redirect('/');
 };
 
-// ฟังก์ชันในการลบ post ล่าสุด (Last Post)
 exports.deleteNewestPost = (req, res) => {
-  if (postModel.posts.getSize() > 0) {  // ตรวจสอบว่ามี post ใน LinkedList หรือไม่
-    const post = postModel.posts.toArray().slice(-1)[0];  // หางานล่าสุด (Last post)
+  if (postModel.posts.getSize() > 0) {
+    const post = postModel.posts.toArray().slice(-1)[0];
     if (post && post.imageUrl) {
-      // ถ้ามี imageUrl, ลบไฟล์จากโฟลเดอร์ uploads
-      const imagePath = path.join(__dirname, '..', post.imageUrl); // Updated to use the new path for images
+      const imagePath = path.join(__dirname, '..', post.imageUrl);
       fs.unlink(imagePath, (err) => {
         if (err) {
           console.log('Error deleting image:', err);
@@ -237,15 +232,12 @@ exports.deleteNewestPost = (req, res) => {
         }
       });
     }
-
-    // ลบ post ล่าสุดจาก LinkedList
     postModel.posts.removeLast();
-    postModel.savePostsToFile(postsFilePath);  // บันทึกการเปลี่ยนแปลง
+    postModel.savePostsToFile(postsFilePath);
     console.log("Last post has been removed");
   } else {
-    console.log("No posts to remove");  // ถ้าไม่มี post ใน LinkedList
+    console.log("No posts to remove");
   }
-
   console.log(postModel.posts.getSize());
-  res.redirect('/');  // เปลี่ยนเส้นทางไปยังหน้าหล
+  res.redirect('/');
 };

@@ -29,14 +29,15 @@ app.use(
 app.get('/', accountController.authenticate, postController.getPosts);
 app.get('/view/:name', postController.viewPost);
 app.get('/logout', accountController.logout);
-app.get('/sort', accountController.authenticate, postController.sortPostsByPriority);
+app.get('/sort', accountController.authenticate, postController.sortPostsByRating);
 app.get('/login', accountController.showLoginPage);
 app.post('/login', accountController.login);
 app.get('/register', accountController.showRegisterPage);
 app.post('/register', accountController.register);
-app.post('/add', accountController.authenticate, postController.addPost);
+app.post('/add', accountController.authenticate, postController.createPosts);
 app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts);
 app.post('/search', accountController.authenticate, postController.searchPosts);
+app.get('/clear-search', postController.clearSearch);
 app.post('/delete-oldest', accountController.authenticate, postController.deleteOldestPost);
 app.post('/delete-newest', accountController.authenticate, postController.deleteNewestPost);
 

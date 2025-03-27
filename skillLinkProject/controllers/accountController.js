@@ -1,6 +1,5 @@
 const AccountModel = require('../models/accountModel');
 
-// Middleware to check authentication
 exports.authenticate = (req, res, next) => {
   if (req.session.accountSession) {
     next();
@@ -9,25 +8,20 @@ exports.authenticate = (req, res, next) => {
   }
 };
 
-// Handle logout
 exports.logout = (req, res) => {
   req.session.destroy(() => {
     res.redirect('/login');
   });
 };
 
-// Show login page
 exports.showLoginPage = (req, res) => {
-  // Pass unsanitized error message from query parameters
   res.render('login', { error: req.query.error || null });
 };
 
-// Show register page
 exports.showRegisterPage = (req, res) => {
   res.render('register', { error: null });
 }
 
-// Handle login
 exports.login = (req, res) => {
   const { username, password } = req.body;
   const account = new AccountModel();
@@ -36,6 +30,7 @@ exports.login = (req, res) => {
   if (accountSession) {
     req.session.accountSession = accountSession.accountId;
     console.log(username + " has logged in");
+    console.log("Account ID stored in session:", req.session.accountSession);
     res.redirect('/');
   } else {
     console.log("Username or password is incorrect");

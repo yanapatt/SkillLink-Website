@@ -9,12 +9,10 @@ util = new Encryption();
 class AccountModel {
   constructor() {
     this.accounts = new LinkedList();
-    this.filePath = path.join(__dirname, '..', 'database', 'accounts.json'); // ที่อยู่ไฟล์ accounts.json
-    this.ensureDirectoryExistence(this.filePath); // ตรวจสอบและสร้างโฟลเดอร์
-    this.loadAccountsFromFile(); // โหลดข้อมูลบัญชีจากไฟล์ (ถ้ามี)
+    this.filePath = path.join(__dirname, '..', 'database', 'accounts.json');
+    this.loadAccountsFromFile();
   }
 
-  // ฟังก์ชันนี้ตรวจสอบว่าโฟลเดอร์มีอยู่หรือไม่ หากไม่มีจะสร้างโฟลเดอร์
   ensureDirectoryExistence(filePath) {
     const dirname = path.dirname(filePath);
     if (!fs.existsSync(dirname)) {
@@ -24,7 +22,7 @@ class AccountModel {
 
   createAccount(account) {
     account.accountId = uuid();
-    account.password = util.encrypt(account.password); // เข้ารหัสรหัสผ่าน
+    account.password = util.encrypt(account.password);
 
     const formattedAccountDoc = {
       accountId: account.accountId,
@@ -35,27 +33,9 @@ class AccountModel {
     }
 
     this.accounts.insertLast(formattedAccountDoc);
-    this.saveAccountsToFile(); // บันทึกข้อมูลบัญชีลงในไฟล์
+    this.saveAccountsToFile();
   }
 
-  // ฟังก์ชันนี้ใช้บันทึกข้อมูลบัญชีในไฟล์
-  saveAccountsToFile() {
-    const accountsData = this.accounts.toArray();
-    console.log("Saving accounts to file:", this.filePath);
-    fs.writeFileSync(this.filePath, JSON.stringify(accountsData, null, 2)); // บันทึกข้อมูลเป็น JSON
-  }
-
-  loadAccountsFromFile() {
-    if (fs.existsSync(this.filePath)) {
-      const data = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
-      data.forEach((account) => {
-        if (!account.accountId) account.accountId = uuid();
-        this.accounts.insertLast(account);
-      });
-    }
-  }
-
-  // ฟังก์ชันสำหรับการตรวจสอบข้อมูลบัญชีที่ล็อกอิน
   authenticateAccount(username, password) {
     let foundAccount = null;
     this.accounts.forEachNode((account) => {
@@ -66,7 +46,6 @@ class AccountModel {
     return foundAccount;
   }
 
-  // ฟังก์ชันที่ใช้ดึงข้อมูลบัญชีทั้งหมด (ไม่เข้ารหัส)
   getAllAccounts() {
     const encryptedAccounts = [];
     this.accounts.forEachNode((account) => {
@@ -76,7 +55,22 @@ class AccountModel {
   }
 
   encryptAccounts(account) {
-    return { ...account, password: "**********" }; // ซ่อนรหัสผ่าน
+    return { ...account, password: "**********" }; 
+  }
+
+  saveAccountsToFile() {
+    const accountsData = this.accounts.toArray();
+    fs.writeFileSync(this.filePath, JSON.stringify(accountsData, null, 2));
+  }
+
+  loadAccountsFromFile() {
+    if (fs.existsSync(this.filePath)) {
+      const data = JSON.parse(fs.readFileSync(this.filePath));
+      data.forEach((account) => {
+        if (!account.accountId) account.accountId = uuid();
+        this.accounts.insertLast(account);
+      });
+    }
   }
 }
 
