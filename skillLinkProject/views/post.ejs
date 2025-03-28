@@ -12,8 +12,13 @@
   <% } else { %>
       <p>No image available</p>
   <% } %>
-  <br />
-  <a href="/view/<%= post.name %>?action=edit"><button>Edit Post</button></a>
+
+  <!-- Check if the current user is the author of the post -->
+  <% if (post.accountId === accountId) { %>
+    <br />
+    <a href="/view/<%= post.name %>?action=edit"><button>Edit Post</button></a>
+  <% } %>
+  
   <br />
   <a href="/">Back to Post List</a>
 <% } else { %>

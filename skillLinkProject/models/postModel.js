@@ -30,7 +30,7 @@ class Post {
         imageUrl: post.imageUrl || null
       };
 
-      if (!this.findPostByName(newPost.name)) { 
+      if (!this.findPostByName(newPost.name)) {
         this.posts.insertLast(newPost);
       } else {
         console.error(`Post with name "${newPost.name}" already exists.`);
@@ -79,20 +79,33 @@ class Post {
   searchByTitle(name) {
     const foundPosts = new LinkedList();
     this.posts.forEachNode((post) => {
-      if (post.name.toLowerCase().includes(name.toLowerCase())) {
+      if (post.name && post.name.toLowerCase().includes(name.toLowerCase())) {
         foundPosts.insertLast(post);
       }
     });
     return foundPosts.toArray();
   }
 
-  searchByAuthor(accountId) {
+  searchByAuthor(username) {
     const foundPosts = new LinkedList();
-    this.posts.forEachNode((post) => {
-      if (post.accountId === accountId) {
-        foundPosts.insertLast(post);
+    let accountArray = this.accountModel.accounts.toArray();
+
+    if (Array.isArray(accountArray)) {
+      const account = accountArray.find(account => account.username.toLowerCase() === username.toLowerCase());
+
+      if (account) {
+        this.posts.forEachNode((post) => {
+          if (post.accountId === account.accountId) {
+            foundPosts.insertLast(post);
+          }
+        });
+      } else {
+        console.error('Username not found');
       }
-    });
+    } else {
+      console.error('accounts is undefined or not an array');
+    }
+
     return foundPosts.toArray();
   }
 

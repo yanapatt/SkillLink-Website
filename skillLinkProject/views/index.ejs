@@ -74,59 +74,61 @@
       <!-- Sort by Rating Button -->
       <a href="/sort"><button>Sort by Rating</button></a>
 
-      <!-- Display Posts -->
-      <div class="posts-list">
-        <h2>Posts</h2>
-        <ul>
-          <% posts.forEach(post=> { %>
-            <li>
-              <strong>
-                <%= post.name %>
-              </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
-                    <a href="/view/<%= post.name %>">View</a>
-            </li>
-            <% }) %>
-        </ul>
-      </div>
-
-      <!-- Display Delete Form only if accountType is 'Admin' -->
-      <% if (accountType==='Admin' ) { %>
-        <h2>Admin Actions</h2>
-        <form action="/delete" method="POST">
+      <!-- Display Posts Only if Not Admin -->
+      <% if (accountType !=='Admin' ) { %>
+        <div class="posts-list">
+          <h2>Posts</h2>
           <ul>
             <% posts.forEach(post=> { %>
               <li>
-                <input type="checkbox" name="postNames" value="<%= post.name %>" />
                 <strong>
                   <%= post.name %>
                 </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
+                      <a href="/view/<%= post.name %>">View</a>
               </li>
-              <a href="/view/<%= post.name %>">View</a>
               <% }) %>
           </ul>
-          <button type="submit">Delete Selected Posts</button>
-
-          <label for="ratingSelect">Remove by Rating:</label>
-          <select name="rating" id="ratingSelect">
-            <option value="1">1 (Low Rating)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Highest Rating)</option>
-          </select>
-
-          <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
-        </form>
-
-        <!-- Admin Form to Remove Oldest/Newest Post -->
-        <form action="/delete-post" method="POST">
-          <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
-        </form>
-
-        <form action="/delete-post" method="POST">
-          <button type="submit" name="action" value="newest">Remove Newest Post</button>
-        </form>
+        </div>
         <% } %>
+
+          <!-- Display Admin Actions Only if accountType is 'Admin' -->
+          <% if (accountType==='Admin' ) { %>
+            <h2>Admin Actions</h2>
+            <form action="/delete" method="POST">
+              <ul>
+                <% posts.forEach(post=> { %>
+                  <li>
+                    <input type="checkbox" name="postNames" value="<%= post.name %>" />
+                    <strong>
+                      <%= post.name %>
+                    </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
+                  </li>
+                  <a href="/view/<%= post.name %>">View</a>
+                  <% }) %>
+              </ul>
+              <button type="submit">Delete Selected Posts</button>
+
+              <label for="ratingSelect">Remove by Rating:</label>
+              <select name="rating" id="ratingSelect">
+                <option value="1">1 (Low Rating)</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5 (Highest Rating)</option>
+              </select>
+
+              <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
+            </form>
+
+            <!-- Admin Form to Remove Oldest/Newest Post -->
+            <form action="/delete-post" method="POST">
+              <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
+            </form>
+
+            <form action="/delete-post" method="POST">
+              <button type="submit" name="action" value="newest">Remove Newest Post</button>
+            </form>
+            <% } %>
 
 </body>
 

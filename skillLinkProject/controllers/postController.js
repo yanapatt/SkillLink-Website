@@ -222,16 +222,26 @@ exports.aboutPost = (req, res) => {
   const postName = req.params.name;
   const post = postModel.getAllPosts().find((post) => post.name === postName);
 
+  // หากไม่พบโพสต์
   if (!post) {
     return res.status(404).send("Post not found");
   }
 
+  // ดึง accountId ของผู้ใช้จาก session
+  const accountId = req.session.accountSession; // สมมติว่า accountSession เก็บ accountId ของผู้ใช้ที่ล็อกอิน
+
+  // ตรวจสอบว่าโพสต์นี้เป็นของผู้ใช้ที่กำลังล็อกอินอยู่หรือไม่
   if (req.query.action === 'edit') {
-    res.render('edit', { post });
+    // เฉพาะเจ้าของโพสต์ที่สามารถแก้ไขได้
+    if (post.accountId !== accountId) {
+      return res.status(403).send("You are not authorized to edit this post");
+    }
+    res.render('edit', { post, accountId });
   } else {
-    res.render('post', { post });
+    res.render('post', { post, accountId });
   }
 };
+
 
 exports.updatePost = [upload.single('image'), async (req, res) => {
   const postName = req.params.name;
@@ -323,11 +333,10 @@ exports.searchPosts = (req, res) => {
   }
 
   const summary = postModel.summarizeByRating();
-  const foundPostsArray = foundPosts.toArray();
   const {username, accountType} = getUsernameFromSession(req);
 
-  if (foundPostsArray.length > 0) {
-    return res.render('index', { posts: foundPostsArray, summary, username, accountType });
+  if (foundPosts.length > 0) {
+    return res.render('index', { posts: foundPosts, summary, username, accountType });
   }
 
   res.send("ไม่พบ Post ที่ต้องการ");
