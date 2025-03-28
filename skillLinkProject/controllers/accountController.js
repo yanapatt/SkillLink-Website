@@ -1,60 +1,60 @@
 const AccountModel = require('../models/accountModel');
+const accountModel = new AccountModel();
+
+const handleError = (res, view, errorMessage) => {
+  console.error(errorMessage);
+  res.render(view, { error: errorMessage });
+};
 
 exports.authenticate = (req, res, next) => {
-  if (req.session.accountSession) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
+  req.session.accountSession ? next() : res.redirect('/login');
 };
 
 exports.logout = (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/login');
-  });
+  req.session.destroy(() => res.redirect('/login'));
 };
 
-exports.showLoginPage = (req, res) => {
-  res.render('login', { error: req.query.error || null });
-};
+exports.showLoginPage = (req, res) => res.render('login', { error: req.query.error || null });
 
-exports.showRegisterPage = (req, res) => {
-  res.render('register', { error: null });
-}
+exports.showRegisterPage = (req, res) => res.render('register', { error: null });
 
-exports.login = (req, res) => {
-  const { username, password } = req.body;
-  const account = new AccountModel();
-  const accountSession = account.authenticateAccount(username, password);
+exports.login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const accountSession = accountModel.authenticateAccount(username, password);
 
-  if (accountSession) {
+    if (!accountSession) {
+      return handleError(res, 'login', `Invalid credentials for username: ${username}`);
+    }
+
     req.session.accountSession = accountSession.accountId;
-    console.log(username + " has logged in");
-    console.log("Account ID stored in session:", req.session.accountSession);
-    res.redirect('/');
-  } else {
-    console.log("Username or password is incorrect");
-    res.render('login', { error: `Invalid credentials for username: ${username}` });
+    console.log(`${username} has logged in (AccountID: ${req.session.accountSession})`);
+
+    return res.redirect('/');
+  } catch (error) {
+    return handleError(res, 'login', 'An error occurred during login.');
   }
 };
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { username, email, password, phone, accountType } = req.body;
-    if (!username || !email || !password || !phone) {
+
+    if (![username, email, password, phone].every(Boolean)) {
       throw new Error('All fields are required!');
     }
-    const accountTypeToSave = accountType || 'User';
 
-    const account = new AccountModel();
-    account.createAccount({ username, email, password, phone, accountType: accountTypeToSave });
+    accountModel.createAccount({
+      username,
+      email,
+      password,
+      phone,
+      accountType: accountType || 'User'
+    });
 
     console.log(`${username} registered successfully.`);
-    res.redirect('/login');
-
+    return res.redirect('/login');
   } catch (error) {
-    res.render('register', { error: error.message });
+    return handleError(res, 'register', error.message);
   }
 };
-
-

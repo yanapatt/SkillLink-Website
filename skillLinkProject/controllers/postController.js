@@ -1,45 +1,110 @@
 const fs = require('fs');
 const path = require('path');
-const Post = require('../models/postModel');
-const LinkedList = require('../models/linkedList');
 const multer = require('multer');
+const Post = require('../models/postModel');
 const AccountModel = require('../models/accountModel');
+
 const postModel = new Post();
+const accountModel = new AccountModel();
 const postsFilePath = path.join(__dirname, '..', 'database', 'posts.json');
 const uploadsDir = path.resolve(__dirname, '../uploads');
 
-postModel.loadPostsFromFile(postsFilePath);
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
+function initializeData() {
+  postModel.loadPostsFromFile(postsFilePath);
+
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+  }
+}
+initializeData();
+
+function deleteImageFile(imgUrl) {
+  if (imgUrl) {
+    const imgPath = path.join(__dirname, '..', imgUrl);
+    fs.unlink(imgPath, (err) => {
+      if (err) {
+        console.log('Error to deleting this image:', err);
+      } else {
+        console.log(`This Image at ${imgPath} has been deleted`);
+      }
+    })
+  }
+}
+
+const deleteOldImage = (imageUrl) => {
+  return new Promise((resolve, reject) => {
+    if (imageUrl) {
+      const oldImagePath = path.join(__dirname, '..', imageUrl);
+      fs.unlink(oldImagePath, (err) => {
+        if (err) {
+          reject(`Error deleting old image: ${err}`);
+        } else {
+          resolve(`Old image at ${oldImagePath} has been deleted`);
+        }
+      });
+    } else {
+      resolve('No old image to delete');
+    }
+  });
+};
+
+const updatePostDetails = async (post, req) => {
+  try {
+    post.description = req.body.description;
+    post.rating = req.body.rating;
+
+    if (req.file) {
+      await deleteOldImage(post.imageUrl);
+      post.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    return post;
+  } catch (error) {
+    throw new Error(`Error updating post details: ${error}`);
+  }
+};
+
+function savePosts() {
+  postModel.savePostsToFile(postsFilePath);
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
+  destination: 'uploads/',
+  filename: (req, file, cb) => cb(null, `${Date.now()}${path.extname(file.originalname)}`)
 });
-
 const upload = multer({ storage: storage });
-const accountModel = new AccountModel();
 
 function getUsernameFromSession(req) {
+  if (!req.session || !req.session.accountSession) {
+    return 'Guest';
+  }
+
   const accountId = req.session.accountSession;
   let username = 'Guest';
 
-  accountModel.loadAccountsFromFile();
-
-  if (accountId) {
-    accountModel.accounts.forEachNode((account) => {
-      if (account.accountId === accountId) {
-        username = account.username;
-      }
-    });
+  if (!accountModel.accounts || accountModel.accounts.isEmpty()) {
+    accountModel.loadAccountsFromFile();
   }
+
+  accountModel.accounts.forEachNode((account) => {
+    if (account.accountId === accountId) {
+      username = account.username;
+      return;
+    }
+  });
+
   return username;
 }
+
+const getUsernameFromAccountId = (accountId) => {
+  let postUsername = 'Unknown';
+  accountModel.accounts.forEachNode((account) => {
+    if (account.accountId === accountId) {
+      postUsername = account.username;
+    }
+  });
+  return postUsername;
+};
 
 exports.createPosts = [upload.single('image'), (req, res) => {
   const accountId = req.session.accountSession;
@@ -60,7 +125,7 @@ exports.createPosts = [upload.single('image'), (req, res) => {
 
   postModel.addPost(post, accountId);
   console.log("Create post successful!")
-  postModel.savePostsToFile(postsFilePath);
+  savePosts();
   res.redirect('/');
 }];
 
@@ -68,76 +133,90 @@ exports.deleteMultiplePosts = (req, res) => {
   let { postNames, rating, action } = req.body;
 
   if (action === 'removeByRating') {
-    const postArray = postModel.posts.toArray();
-    const postsToRemove = postArray.filter((post) => post.rating === rating);
-
-    postsToRemove.forEach((post) => {
-      if (post.imageUrl) {
-        const imagePath = path.join(__dirname, '..', post.imageUrl);
-        fs.unlink(imagePath, (err) => {
-          if (err) {
-            console.log('Error deleting image:', err);
-          } else {
-            console.log(`Image for post "${post.name}" deleted`);
-          }
-        });
+    postModel.posts.forEachNode((post) => {
+      if (post.rating === rating) {
+        if (post.imageUrl) {
+          deleteImageFile(post.imageUrl);
+        }
+        postModel.posts.removeByName(post.name);
       }
     });
-    const filteredPosts = postArray.filter((post) => post.rating !== rating);
-    postModel.posts = new LinkedList();
-    filteredPosts.forEach((post) => postModel.posts.insertLast(post));
   }
 
   if (postNames) {
     postNames = Array.isArray(postNames) ? postNames : [postNames];
     postNames.forEach((name) => {
-      const post = postModel.posts.toArray().find(post => post.name === name);
-
-      if (post && post.imageUrl) {
-        const imagePath = path.join(__dirname, '..', post.imageUrl);
-        fs.unlink(imagePath, (err) => {
-          if (err) {
-            console.log('Error deleting image:', err);
-          } else {
-            console.log(`Image for post "${name}" deleted`);
+      postModel.posts.forEachNode((post) => {
+        if (post.name === name) {
+          if (post.imageUrl) {
+            deleteImageFile(post.imageUrl);
           }
-        });
-      }
-      postModel.posts.removeByName(name);
+          postModel.posts.removeByName(post.name);
+        }
+      });
     });
   }
 
-  postModel.savePostsToFile(postsFilePath);
+  savePosts();
   console.log(postModel.posts.getSize());
   res.redirect('/');
 };
 
-exports.getPosts = (req, res) => {
-  const allPosts = postModel.getAllPosts();
-  const summary = postModel.summarizeByRating();
-  const username = getUsernameFromSession(req);
+exports.deletePostByAction = (req, res) => {
+  const { action } = req.body;
+  if (!action || (action !== 'oldest' && action !== 'newest')) {
+    return res.status(400).send("Invalid action. Please specify 'oldest' or 'newest'.");
+  }
 
-  const posts = allPosts.map(post => {
-    let postUsername = 'Unknown';
-    accountModel.accounts.forEachNode((account) => {
-      if (account.accountId === post.accountId) {
-        postUsername = account.username;
+  if (postModel.posts.getSize() > 0) {
+    let post;
+    // ลบโพสต์แรก (Oldest)
+    if (action === 'oldest') {
+      post = postModel.posts.head ? postModel.posts.head.value : null; // เข้าถึงโพสต์แรก
+      if (post) {
+        if (post.imageUrl) {
+          deleteImageFile(post.imagePath);
+        }
+
+        postModel.posts.removeFirst();
+        console.log("First post has been removed");
       }
-    });
+    }
+    // ลบโพสต์ล่าสุด (Newest)
+    else if (action === 'newest') {
+      post = postModel.posts.tail ? postModel.posts.tail.value : null;
+      if (post) {
+        if (post.imageUrl) {
+          deleteImageFile(post.imagePath);
+        }
+
+        postModel.posts.removeLast();
+        console.log("Last post has been removed");
+      }
+    }
+    savePosts();
+    console.log(postModel.posts.getSize());
+    res.redirect('/');
+  } else {
+    console.log("No posts to remove");
+    res.redirect('/');
+  }
+};
+
+exports.getPosts = (req, res) => {
+  const allPosts = postModel.posts.map((post) => {
+    let postUsername = getUsernameFromAccountId(post.accountId);
     post.username = postUsername;
     return post;
   });
 
-  res.render('index', { posts, summary, username });
+  const summary = postModel.summarizeByRating();
+  const username = getUsernameFromSession(req);
+
+  res.render('index', { posts: allPosts, summary, username });
 };
 
-exports.viewPost = (req, res) => {
-  const postName = req.params.name;
-  const post = postModel.getAllPosts().find((post) => post.name === postName);
-  res.render('post', { post });
-};
-
-exports.editPost = (req, res) => {
+exports.aboutPost = (req, res) => {
   const postName = req.params.name;
   const post = postModel.getAllPosts().find((post) => post.name === postName);
 
@@ -145,10 +224,14 @@ exports.editPost = (req, res) => {
     return res.status(404).send("Post not found");
   }
 
-  res.render('edit', { post });
+  if (req.query.action === 'edit') {
+    res.render('edit', { post });
+  } else {
+    res.render('post', { post });
+  }
 };
 
-exports.updatePost = [upload.single('image'), (req, res) => {
+exports.updatePost = [upload.single('image'), async (req, res) => {
   const postName = req.params.name;
   const post = postModel.getAllPosts().find((post) => post.name === postName);
 
@@ -156,21 +239,14 @@ exports.updatePost = [upload.single('image'), (req, res) => {
     return res.status(404).send("Post not found");
   }
 
-  post.description = req.body.description;
-  post.rating = req.body.rating;
-
-  if (req.file) {
-    if (post.imageUrl) {
-      const oldImagePath = path.join(__dirname, '..', post.imageUrl);
-      fs.unlink(oldImagePath, (err) => {
-        if (err) console.log('Error deleting old image:', err);
-      });
-    }
-    post.imageUrl = `/uploads/${req.file.filename}`;
+  try {
+    await updatePostDetails(post, req);
+    savePosts();
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating post');
   }
-
-  postModel.savePostsToFile(postsFilePath);
-  res.redirect('/');
 }];
 
 exports.deletePost = (req, res) => {
@@ -182,18 +258,11 @@ exports.deletePost = (req, res) => {
   }
 
   if (post.imageUrl) {
-    const imagePath = path.join(__dirname, '..', post.imageUrl);
-    fs.unlink(imagePath, (err) => {
-      if (err) {
-        console.log('Error deleting image:', err);
-      } else {
-        console.log(`Image for post "${postName}" deleted`);
-      }
-    });
+    deleteImageFile(post.imagePath);
   }
 
   postModel.posts.removeByName(postName);
-  postModel.savePostsToFile(postsFilePath);
+  savePosts();
   console.log(`Post "${postName}" deleted successfully!`);
   res.redirect('/');
 };
@@ -265,50 +334,3 @@ exports.searchPosts = (req, res) => {
 exports.clearSearch = (req, res) => {
   res.redirect('/');
 }
-
-exports.deleteOldestPost = (req, res) => {
-  if (postModel.posts.getSize() > 0) {
-    const post = postModel.posts.toArray()[0];
-    if (post && post.imageUrl) {
-      const imagePath = path.join(__dirname, '..', post.imageUrl);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.log('Error deleting image:', err);
-        } else {
-          console.log(`Image for post "${post.name}" deleted`);
-        }
-      });
-    }
-
-    postModel.posts.removeFirst();
-    postModel.savePostsToFile(postsFilePath);
-    console.log("First post has been removed");
-  } else {
-    console.log("No posts to remove");
-  }
-  console.log(postModel.posts.getSize());
-  res.redirect('/');
-};
-
-exports.deleteNewestPost = (req, res) => {
-  if (postModel.posts.getSize() > 0) {
-    const post = postModel.posts.toArray().slice(-1)[0];
-    if (post && post.imageUrl) {
-      const imagePath = path.join(__dirname, '..', post.imageUrl);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.log('Error deleting image:', err);
-        } else {
-          console.log(`Image for post "${post.name}" deleted`);
-        }
-      });
-    }
-    postModel.posts.removeLast();
-    postModel.savePostsToFile(postsFilePath);
-    console.log("Last post has been removed");
-  } else {
-    console.log("No posts to remove");
-  }
-  console.log(postModel.posts.getSize());
-  res.redirect('/');
-};

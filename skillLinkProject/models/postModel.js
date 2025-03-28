@@ -1,12 +1,14 @@
 const fs = require('fs');
-const LinkedList = require('./linkedList');
 const path = require('path');
+const LinkedList = require('./linkedList');
 const AccountModel = require('./accountModel');
 
 class Post {
   constructor() {
     this.posts = new LinkedList();
     this.accountModel = new AccountModel();
+    this.filePath = path.join(__dirname, '..', 'database', 'posts.json');
+    this.loadPostsFromFile();
   }
 
   ensureDirectoryExistence(filePath) {
@@ -17,32 +19,49 @@ class Post {
   }
 
   addPost(post, accountId) {
-    let account = null;
-    this.accountModel.accounts.forEachNode((acc) => {
-      if (acc.accountId === accountId) {
-        account = acc;
-      }
-    });
+    const account = this.findAccountById(accountId);
 
     if (account) {
-      post.accountId = account.accountId;
       const newPost = {
         name: post.name,
         accountId: account.accountId,
         description: post.description,
         rating: post.rating,
-        imageUrl: post.imageUrl
+        imageUrl: post.imageUrl || null
       };
-      this.posts.insertLast(newPost);
+
+      if (!this.findPostByName(newPost.name)) { 
+        this.posts.insertLast(newPost);
+      } else {
+        console.error(`Post with name "${newPost.name}" already exists.`);
+      }
+    } else {
+      console.error(`Invalid accountId: "${accountId}".`);
     }
   }
 
-  getAllPosts() {
-    const allPosts = [];
-    this.posts.forEachNode((post) => {
-      allPosts.push(post);
+  findAccountById(accountId) {
+    let found = null;
+    this.accountModel.accounts.forEachNode((acc) => {
+      if (acc.accountId === accountId) {
+        found = acc;
+      }
     });
-    return allPosts;
+    return found;
+  }
+
+  findPostByName(name) {
+    let found = null;
+    this.posts.forEachNode((post) => {
+      if (post.name.toLowerCase() === name.toLowerCase()) {
+        found = post;
+      }
+    });
+    return found;
+  }
+
+  getAllPosts() {
+    return this.posts.toArray();
   }
 
   summarizeByRating() {
@@ -54,8 +73,7 @@ class Post {
   }
 
   sortByRating() {
-    const sortedPosts = this.posts.toArray().sort((a, b) => a.rating - b.rating);
-    return sortedPosts;
+    return this.posts.toArray().sort((a, b) => a.rating - b.rating);
   }
 
   searchByTitle(name) {
@@ -65,28 +83,55 @@ class Post {
         foundPosts.insertLast(post);
       }
     });
-    return foundPosts;
+    return foundPosts.toArray();
   }
 
-  searchByAuthor(username) {
+  searchByAuthor(accountId) {
     const foundPosts = new LinkedList();
     this.posts.forEachNode((post) => {
-      if (post.username.toLowerCase().includes(username.toLowerCase())) {
+      if (post.accountId === accountId) {
         foundPosts.insertLast(post);
       }
     });
-    return foundPosts;
+    return foundPosts.toArray();
   }
 
-  savePostsToFile(filePath) {
-    this.ensureDirectoryExistence(filePath);
-    fs.writeFileSync(filePath, JSON.stringify(this.posts.toArray(), null, 2));
+  savePostsToFile() {
+    try {
+      this.ensureDirectoryExistence(this.filePath);
+      const postsData = JSON.stringify(this.posts.toArray(), null, 2);
+
+      fs.writeFileSync(`${this.filePath}.tmp`, postsData);
+      fs.renameSync(`${this.filePath}.tmp`, this.filePath);
+    } catch (error) {
+      console.error("Error saving posts to file:", error.message);
+    }
   }
 
-  loadPostsFromFile(filePath) {
-    if (fs.existsSync(filePath)) {
-      const data = JSON.parse(fs.readFileSync(filePath));
-      data.forEach((post) => this.addPost(post, post.accountId));
+  loadPostsFromFile() {
+    if (!fs.existsSync(this.filePath)) return;
+
+    try {
+      const data = fs.readFileSync(this.filePath, 'utf8');
+      if (!data.trim()) return;
+
+      const parsedData = JSON.parse(data);
+
+      if (Array.isArray(parsedData)) {
+        parsedData.forEach((post) => {
+          if (!this.findPostByName(post.name)) {
+            this.posts.insertLast({
+              name: post.name,
+              accountId: post.accountId,
+              description: post.description,
+              rating: post.rating,
+              imageUrl: post.imageUrl || null
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error loading posts from file:", error.message);
     }
   }
 }

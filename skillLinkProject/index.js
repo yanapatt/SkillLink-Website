@@ -27,8 +27,8 @@ app.use(
 
 // Routes
 app.get('/', accountController.authenticate, postController.getPosts);
-app.get('/view/:name', postController.viewPost);
-app.get('/edit/:name', postController.editPost);
+app.get('/view/:name', postController.aboutPost);
+app.get('/edit/:name', postController.aboutPost);
 app.post('/update/:name', postController.updatePost);
 app.get('/logout', accountController.logout);
 app.get('/sort', accountController.authenticate, postController.sortPostsByRating);
@@ -42,8 +42,7 @@ app.post('/search', accountController.authenticate, postController.searchPosts);
 app.get('/clear-search', postController.clearSearch);
 app.post('/delete/:name', postController.deletePost);
 app.post('/delete-image/:name', postController.deleteImage);
-app.post('/delete-oldest', accountController.authenticate, postController.deleteOldestPost);
-app.post('/delete-newest', accountController.authenticate, postController.deleteNewestPost);
+app.post('/delete-post', accountController.authenticate, postController.deletePostByAction);
 
 // Start server
 const PORT = process.env.PORT || 3000;

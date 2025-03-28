@@ -13,9 +13,7 @@
       <p>No image available</p>
   <% } %>
   <br />
-  <a href="/edit/<%= post.name %>">
-    <button>Edit Post</button>
-  </a>
+  <a href="/view/<%= post.name %>?action=edit"><button>Edit Post</button></a>
   <br />
   <a href="/">Back to Post List</a>
 <% } else { %>

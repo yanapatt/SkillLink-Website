@@ -49,30 +49,61 @@ class AccountModel {
   }
 
   getAllAccounts() {
-    const encryptedAccounts = [];
-    this.accounts.forEachNode((account) => {
-      encryptedAccounts.push(this.encryptAccounts(account));
-    });
-    return encryptedAccounts;
+    return this.accounts.toArray().map(this.encryptAccounts);
   }
 
   encryptAccounts(account) {
-    return { ...account, password: "**********" }; 
+    return { ...account, password: "**********" };
   }
 
   saveAccountsToFile() {
-    const accountsData = this.accounts.toArray();
-    fs.writeFileSync(this.filePath, JSON.stringify(accountsData, null, 2));
+    try {
+      this.ensureDirectoryExistence(this.filePath);
+      const accountsData = JSON.stringify(this.accounts.toArray(), null, 2);
+
+      fs.writeFileSync(`${this.filePath}.tmp`, accountsData);
+      fs.renameSync(`${this.filePath}.tmp`, this.filePath);
+    } catch (error) {
+      console.error("Error saving accounts to file:", error.message);
+    }
   }
 
   loadAccountsFromFile() {
-    if (fs.existsSync(this.filePath)) {
-      const data = JSON.parse(fs.readFileSync(this.filePath));
-      data.forEach((account) => {
-        if (!account.accountId) account.accountId = uuid();
-        this.accounts.insertLast(account);
-      });
+    if (!fs.existsSync(this.filePath)) return;
+
+    try {
+      const data = fs.readFileSync(this.filePath, 'utf8');
+      if (!data.trim()) return;
+
+      const parsedData = JSON.parse(data);
+
+      if (Array.isArray(parsedData)) {
+        parsedData.forEach((account) => {
+          if (!this.findAccountById(account.accountId)) {
+            this.accounts.insertLast({
+              accountId: account.accountId || uuid(),
+              accountType: account.accountType || "User",
+              username: account.username,
+              email: account.email,
+              password: account.password,
+              phone: account.phone
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error loading accounts from file:", error.message);
     }
+  }
+
+  findAccountById(accountId) {
+    let found = null;
+    this.accounts.forEachNode((account) => {
+      if (account.accountId === accountId) {
+        found = account;
+      }
+    });
+    return found;
   }
 }
 

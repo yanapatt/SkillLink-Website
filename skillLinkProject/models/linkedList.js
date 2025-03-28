@@ -12,15 +12,27 @@ class LinkedList {
         this.size = 0;
     }
 
-    //Get current size on linked list
     getSize() {
         return this.size;
     }
 
-    //Convert to array list
+    isEmpty() {
+        return this.size === 0;
+    }
+
     toArray() {
         const result = [];
         this.forEachNode((value) => result.push(value));
+        return result;
+    }
+
+    map(callback) {
+        const result = [];
+        let current = this.head;
+        while (current) {
+            result.push(callback(current.value));
+            current = current.next;
+        }
         return result;
     }
 
@@ -102,16 +114,19 @@ class LinkedList {
     forEachNode(callback) {
         let current = this.head;
         while (current) {
-            if (current.value !== undefined) { 
+            if (current.value !== null && current.value !== undefined) {
                 try {
                     callback(current.value);
                 } catch (error) {
                     console.error("Error in callback function:", error);
                 }
+            } else {
+                console.log("Skipping node with null or undefined value");
             }
             current = current.next;
         }
     }
+
 }
 
 module.exports = LinkedList;

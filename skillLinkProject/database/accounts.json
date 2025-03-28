@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "accountId": "177bc490-40b1-4201-86fd-01d5e7b797de",
+    "accountType": "Admin",
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "6002968392b901e9305d87e3",
+    "phone": "082-568-9999"
+  }
+]
