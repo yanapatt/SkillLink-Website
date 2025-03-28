@@ -23,83 +23,111 @@
     .actions {
       margin-top: 20px;
     }
+
+    .posts-list {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
 <body>
   <h1>Post List</h1>
-  Welcome <%= username %>
-  <a href="/logout">Logout</a>
-  <form action="/add" method="POST" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="Post Name" required />
-    <textarea name="description" placeholder="Post Description" required></textarea>
-    <label for="rating">Rating:</label>
-    <select name="rating" id="rating">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-    <input type="file" name="image" accept="image/*" />
-    <button type="submit">Add Post</button>
-  </form>
+  Welcome <%= username %>, Your Role is: <%= accountType %>
+      <a href="/logout">Logout</a>
 
-  <h2>Post Summary by Rating</h2>
-  <ul>
-    <% Object.keys(summary).forEach(rating=> { %>
-      <li>Rating <%= rating %>: <%= summary[rating] %> posts</li>
-      <% }) %>
-  </ul>
+      <!-- Form for adding posts -->
+      <form action="/add" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Post Name" required />
+        <textarea name="description" placeholder="Post Description" required></textarea>
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <input type="file" name="image" accept="image/*" />
+        <button type="submit">Add Post</button>
+      </form>
 
-  <form action="/search" method="POST">
-    <input type="text" name="searchTerm" placeholder="Search Task" required />
-    <label for="searchType">Select Search Type:</label>
-    <select name="searchType" id="searchType">
-      <option value="title">Search by Title</option>
-      <option value="author">Search by Author</option>
-    </select>
+      <!-- Post Summary by Rating -->
+      <h2>Post Summary by Rating</h2>
+      <ul>
+        <% Object.keys(summary).forEach(rating=> { %>
+          <li>Rating <%= rating %>: <%= summary[rating] %> posts</li>
+          <% }) %>
+      </ul>
 
-    <button type="submit">Search</button>
-    <a href="/clear-search"><button type="button">Clear</button></a>
-  </form>
+      <!-- Search Form -->
+      <form action="/search" method="POST">
+        <input type="text" name="searchTerm" placeholder="Search Task" required />
+        <label for="searchType">Select Search Type:</label>
+        <select name="searchType" id="searchType">
+          <option value="title">Search by Title</option>
+          <option value="author">Search by Author</option>
+        </select>
+        <button type="submit">Search</button>
+        <a href="/clear-search"><button type="button">Clear</button></a>
+      </form>
 
-  <a href="/sort"><button>Sort by Priority</button></a>
+      <!-- Sort by Rating Button -->
+      <a href="/sort"><button>Sort by Rating</button></a>
 
-  <form action="/delete" method="POST">
-    <ul>
-      <% posts.forEach(post=> { %>
-        <li>
-          <input type="checkbox" name="postNames" value="<%= post.name %>" />
-          <strong>
-            <%= post.name %>
-          </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
-        </li>
-        <a href="/view/<%= post.name %>">View</a>
-        <% }) %>
-    </ul>
+      <!-- Display Posts -->
+      <div class="posts-list">
+        <h2>Posts</h2>
+        <ul>
+          <% posts.forEach(post=> { %>
+            <li>
+              <strong>
+                <%= post.name %>
+              </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
+                    <a href="/view/<%= post.name %>">View</a>
+            </li>
+            <% }) %>
+        </ul>
+      </div>
 
-    <button type="submit">Delete Selected Post</button>
+      <!-- Display Delete Form only if accountType is 'Admin' -->
+      <% if (accountType==='Admin' ) { %>
+        <h2>Admin Actions</h2>
+        <form action="/delete" method="POST">
+          <ul>
+            <% posts.forEach(post=> { %>
+              <li>
+                <input type="checkbox" name="postNames" value="<%= post.name %>" />
+                <strong>
+                  <%= post.name %>
+                </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
+              </li>
+              <a href="/view/<%= post.name %>">View</a>
+              <% }) %>
+          </ul>
+          <button type="submit">Delete Selected Posts</button>
 
-    <label for="ratingSelect">Remove by Rating:</label>
-    <select name="rating" id="ratingSelect">
-      <option value="1">1 (Low Rating)</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5 (Highest Rating)</option>
-    </select>
+          <label for="ratingSelect">Remove by Rating:</label>
+          <select name="rating" id="ratingSelect">
+            <option value="1">1 (Low Rating)</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 (Highest Rating)</option>
+          </select>
 
-    <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
-  </form>
+          <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
+        </form>
 
-<form action="/delete-post" method="POST">
-  <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
-</form>
+        <!-- Admin Form to Remove Oldest/Newest Post -->
+        <form action="/delete-post" method="POST">
+          <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
+        </form>
 
-<form action="/delete-post" method="POST">
-  <button type="submit" name="action" value="newest">Remove Newest Post</button>
-</form>
+        <form action="/delete-post" method="POST">
+          <button type="submit" name="action" value="newest">Remove Newest Post</button>
+        </form>
+        <% } %>
 
 </body>
+
 </html>

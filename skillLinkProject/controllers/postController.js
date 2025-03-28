@@ -74,13 +74,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-function getUsernameFromSession(req) {
+const getUsernameFromSession = (req) => {
   if (!req.session || !req.session.accountSession) {
     return 'Guest';
   }
 
   const accountId = req.session.accountSession;
   let username = 'Guest';
+  let accountType = 'User'; 
 
   if (!accountModel.accounts || accountModel.accounts.isEmpty()) {
     accountModel.loadAccountsFromFile();
@@ -89,12 +90,13 @@ function getUsernameFromSession(req) {
   accountModel.accounts.forEachNode((account) => {
     if (account.accountId === accountId) {
       username = account.username;
+      accountType = account.accountType || 'User';  
       return;
     }
   });
 
-  return username;
-}
+  return { username, accountType };
+};
 
 const getUsernameFromAccountId = (accountId) => {
   let postUsername = 'Unknown';
@@ -211,9 +213,9 @@ exports.getPosts = (req, res) => {
   });
 
   const summary = postModel.summarizeByRating();
-  const username = getUsernameFromSession(req);
+  const { username, accountType } = getUsernameFromSession(req);
 
-  res.render('index', { posts: allPosts, summary, username });
+  res.render('index', { posts: allPosts, summary, username, accountType });
 };
 
 exports.aboutPost = (req, res) => {
@@ -299,8 +301,8 @@ exports.deleteImage = (req, res) => {
 exports.sortPostsByRating = (req, res) => {
   const sortedPosts = postModel.sortByRating();
   const summary = postModel.summarizeByRating();
-  const username = getUsernameFromSession(req);
-  res.render('index', { posts: sortedPosts, summary, username });
+  const { username, accountType } = getUsernameFromSession(req);
+  res.render('index', { posts: sortedPosts, summary, username, accountType });
 };
 
 exports.searchPosts = (req, res) => {
@@ -322,10 +324,10 @@ exports.searchPosts = (req, res) => {
 
   const summary = postModel.summarizeByRating();
   const foundPostsArray = foundPosts.toArray();
-  const username = getUsernameFromSession(req);
+  const {username, accountType} = getUsernameFromSession(req);
 
   if (foundPostsArray.length > 0) {
-    return res.render('index', { posts: foundPostsArray, summary, username });
+    return res.render('index', { posts: foundPostsArray, summary, username, accountType });
   }
 
   res.send("ไม่พบ Post ที่ต้องการ");
