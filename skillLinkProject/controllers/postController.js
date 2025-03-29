@@ -51,11 +51,20 @@ const deleteOldImage = (imageUrl) => {
 const updatePostDetails = async (post, req) => {
   try {
     post.description = req.body.description;
-    post.rating = req.body.rating;
 
+    // ตรวจสอบการให้คะแนนใหม่จากผู้ใช้
+    const rating = req.body.rating ? parseFloat(req.body.rating) : 0; // ใช้ค่าระดับคะแนนจากฟอร์มถ้ามี
+    post.rating = rating; // ถ้ามีการให้คะแนนใหม่
+
+    // หากมีการอัปโหลดไฟล์ภาพใหม่
     if (req.file) {
-      await deleteOldImage(post.imageUrl);
-      post.imageUrl = `/uploads/${req.file.filename}`;
+      await deleteOldImage(post.imageUrl); // ลบภาพเก่า
+      post.imageUrl = `/uploads/${req.file.filename}`; // กำหนด URL ของภาพใหม่
+    }
+
+    // คำนวณคะแนนเฉลี่ย
+    if (post.ratings && post.ratings.length > 0) {
+      post.rating = post.ratings.reduce((acc, r) => acc + r.rating, 0) / post.ratings.length;
     }
 
     return post;
@@ -63,6 +72,7 @@ const updatePostDetails = async (post, req) => {
     throw new Error(`Error updating post details: ${error}`);
   }
 };
+
 
 function savePosts() {
   postModel.savePostsToFile(postsFilePath);
@@ -135,8 +145,15 @@ exports.deleteMultiplePosts = (req, res) => {
   let { postNames, rating, action } = req.body;
 
   if (action === 'removeByRating') {
+    // แปลง rating ทั้งสองค่าเป็น float
+    const parsedRating = parseFloat(rating); // หรือใช้ `Number(rating)` ก็ได้
+
     postModel.posts.forEachNode((post) => {
-      if (post.rating === rating) {
+      const postRating = parseFloat(post.rating); // แปลงเป็น float เช่นกัน
+
+      console.log(postRating); // ตรวจสอบค่าที่ดึงออกมา
+
+      if (postRating === parsedRating) {
         if (post.imageUrl) {
           deleteImageFile(post.imageUrl);
         }
@@ -270,7 +287,7 @@ exports.deletePost = (req, res) => {
   }
 
   if (post.imageUrl) {
-    deleteImageFile(post.imagePath);
+    deleteImageFile(post.imageUrl);
   }
 
   postModel.posts.removeByName(postName);
@@ -346,14 +363,6 @@ exports.clearSearch = (req, res) => {
   res.redirect('/');
 }
 
-const addRatingToPost = (post, newRating) => {
-  if (typeof newRating === 'number' && newRating >= 1 && newRating <= 5) {
-    post.rating.insertLast(newRating);
-    return true;
-  }
-  return false;
-};
-
 exports.ratePost = (req, res) => {
   const postName = req.params.name;
   const post = postModel.getAllPosts().find(post => post.name === postName);
@@ -362,43 +371,40 @@ exports.ratePost = (req, res) => {
     return res.status(404).send("Post not found");
   }
 
-  const accountId = req.session.accountSession;  // accountId ของผู้ใช้ที่กำลังให้คะแนน
+  const accountId = req.session.accountSession;
   const rating = parseInt(req.body.rating);
 
-  if (rating < 1 || rating > 5) {
+  if (isNaN(rating) || rating < 1 || rating > 5) {
     return res.status(400).send("Invalid rating value. Must be between 1 and 5.");
   }
 
-  // ตรวจสอบว่าโพสต์นี้มีคะแนนจากผู้ใช้คนนี้อยู่หรือไม่
-  if (post.ratings) {
-    const existingRatingIndex = post.ratings.findIndex(rating => rating.accountId === accountId);
+  // ตรวจสอบว่า post มี ratings หรือไม่ ถ้าไม่มีให้สร้าง
+  if (!Array.isArray(post.ratings)) {
+    post.ratings = [];
+  }
 
-    if (existingRatingIndex !== -1) {
-      // ถ้ามีคะแนนจากผู้ใช้อยู่แล้ว ให้ลบคะแนนเก่าออก
-      post.ratings[existingRatingIndex].rating = rating;  // แก้ไขคะแนนเป็นคะแนนใหม่
-    } else {
-      // ถ้าไม่มีคะแนนจากผู้ใช้คนนั้น ให้เพิ่มคะแนนใหม่
-      post.ratings.push({ accountId, rating });
-    }
+  // ค้นหาคะแนนเก่าของผู้ใช้
+  const existingRatingIndex = post.ratings.findIndex(r => r.accountId === accountId);
+
+  if (existingRatingIndex !== -1) {
+    post.ratings[existingRatingIndex].rating = rating; // แก้ไขคะแนนเก่า
   } else {
-    // ถ้าไม่มีการตั้งค่า ratings ให้สร้าง array ขึ้นมาแล้วเพิ่มคะแนนใหม่
-    post.ratings = [{ accountId, rating }];
+    post.ratings.push({ accountId, rating }); // เพิ่มคะแนนใหม่
   }
 
   // คำนวณคะแนนเฉลี่ย
-  post.rating = (post.ratings && post.ratings.size > 0)
-    ? post.ratings.reduce((acc, rating) => acc + rating.rating, 0) / post.ratings.size
+  post.rating = post.ratings.length > 0
+    ? post.ratings.reduce((acc, r) => acc + r.rating, 0) / post.ratings.length
     : 0;
 
-  // ทำให้มั่นใจว่า post.rating เป็นตัวเลข
-  post.rating = Number(post.rating) || 0;
-
-  // บันทึกการเปลี่ยนแปลง
+  // บันทึกโพสต์
   savePosts();
 
   console.log(`Post "${postName}" has been rated successfully!`);
   res.redirect(`/view/${postName}`);
 };
+
+
 
 
 

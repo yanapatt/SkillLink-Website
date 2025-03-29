@@ -26,18 +26,21 @@ class Post {
         name: post.name,
         accountId: account.accountId,
         description: post.description,
-        rating: new LinkedList(),
-        imageUrl: post.imageUrl || null
+        rating: 0,  // ค่าเริ่มต้นเป็น 0
+        imageUrl: post.imageUrl || null,
+        ratings: new LinkedList()  // ใช้ LinkedList สำหรับ ratings
       };
 
-      if (post.rating && Array.isArray(post.rating)) {
-        post.rating.forEach((rate) => {
-          newPost.rating.insertLast(rate); 
+      // ถ้ามีการให้คะแนนจากผู้ใช้
+      if (post.ratings && Array.isArray(post.ratings)) {
+        post.ratings.forEach(rate => {
+          newPost.ratings.insertLast(rate);  // ใส่ rating ใหม่ลงใน LinkedList
         });
+        newPost.rating = this.calculateAverageRating(newPost.ratings);  // คำนวณเฉลี่ยจาก LinkedList
       }
 
       if (!this.findPostByName(newPost.name)) {
-        this.posts.insertLast(newPost);
+        this.posts.insertLast(newPost);  // เพิ่มโพสต์ใหม่ลงใน LinkedList
       } else {
         console.error(`Post with name "${newPost.name}" already exists.`);
       }
@@ -49,41 +52,40 @@ class Post {
   summarizeByRating() {
     const postRatings = [];
     this.posts.forEachNode((post) => {
-      if (post.rating && post.rating.length > 0) {
-        const avgRating = this.calculateAverageRating(post.rating);
+      if (post.ratings.size > 0) {
+        const avgRating = this.calculateAverageRating(post.ratings);
         postRatings.push({ post, avgRating });
       }
     });
 
-    postRatings.sort((a, b) => b.avgRating - a.avgRating);
+    postRatings.sort((a, b) => b.avgRating - a.avgRating);  // เรียงโพสต์จากคะแนนสูงสุด
 
-    const top5Posts = postRatings.slice(0, 5);
-    return top5Posts;
+    return postRatings.slice(0, 5);  // เลือก 5 อันดับโพสต์ที่ดีที่สุด
   }
 
   sortByRating() {
-    return this.posts.toArray().sort((a, b) => {
-      const avgA = this.calculateAverageRating(a.rating);
-      const avgB = this.calculateAverageRating(b.rating);
-      return avgA - avgB;
+    const sortedPosts = [];
+
+    this.posts.forEachNode((post) => {
+      // เก็บเฉพาะ post ที่ต้องการคืนค่าพร้อมเรียงตาม rating
+      sortedPosts.push(post);
     });
+
+    // เรียงโพสต์จาก rating ที่สูงสุด
+    return sortedPosts.sort((a, b) => b.rating - a.rating);  // เรียงโพสต์ตาม rating ภายใน
   }
 
-  calculateAverageRating(ratingList) {
-    if (ratingList.length === 0) {
-      return 0; // Return 0 if the list is empty
+  calculateAverageRating(ratingsLinkedList) {
+    if (ratingsLinkedList.size === 0) {
+      return 0;  // ถ้าไม่มีคะแนน จะคืนค่า 0
     }
 
     let total = 0;
-    let count = 0;
-
-    // Iterate over the LinkedList using forEachNode
-    ratingList.forEachNode((rate) => {
-      total += rate;
-      count++;
+    ratingsLinkedList.forEachNode((node) => {
+      total += node.data.rating;  // ใช้ node.data.rating แทน rate.rating
     });
 
-    return count > 0 ? total / count : 0;
+    return total / ratingsLinkedList.size;  // คำนวณค่าเฉลี่ย
   }
 
   findAccountById(accountId) {
@@ -107,7 +109,9 @@ class Post {
   }
 
   getAllPosts() {
-    return this.posts.toArray();
+    const allPosts = [];
+    this.posts.forEachNode(post => allPosts.push(post));  // นำโพสต์ทั้งหมดมาจาก LinkedList
+    return allPosts;
   }
 
   searchByTitle(name) {
@@ -122,22 +126,16 @@ class Post {
 
   searchByAuthor(username) {
     const foundPosts = new LinkedList();
-    let accountArray = this.accountModel.accounts.toArray();
+    const account = this.accountModel.accounts.toArray().find(acc => acc.username.toLowerCase() === username.toLowerCase());
 
-    if (Array.isArray(accountArray)) {
-      const account = accountArray.find(account => account.username.toLowerCase() === username.toLowerCase());
-
-      if (account) {
-        this.posts.forEachNode((post) => {
-          if (post.accountId === account.accountId) {
-            foundPosts.insertLast(post);
-          }
-        });
-      } else {
-        console.error('Username not found');
-      }
+    if (account) {
+      this.posts.forEachNode((post) => {
+        if (post.accountId === account.accountId) {
+          foundPosts.insertLast(post);
+        }
+      });
     } else {
-      console.error('accounts is undefined or not an array');
+      console.error('Username not found');
     }
 
     return foundPosts.toArray();
@@ -171,17 +169,12 @@ class Post {
               name: post.name,
               accountId: post.accountId,
               description: post.description,
-              rating: post.rating || new LinkedList(), 
-              imageUrl: post.imageUrl || null
+              rating: post.rating || 0,  // ตั้งค่า rating เป็น 0
+              imageUrl: post.imageUrl || null,
+              ratings: post.ratings || new LinkedList()  // ถ้าไม่มี ratings ให้เป็น LinkedList
             };
 
-            if (Array.isArray(post.rating)) {
-              post.rating.forEach((rate) => {
-                newPost.rating.insertLast(rate); 
-              });
-            }
-
-            this.posts.insertLast(newPost); 
+            this.posts.insertLast(newPost);
           }
         });
       }
@@ -189,6 +182,7 @@ class Post {
       console.error("Error loading posts from file:", error.message);
     }
   }
+
 }
 
 module.exports = Post;

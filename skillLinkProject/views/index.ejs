@@ -43,12 +43,17 @@
         <button type="submit">Add Post</button>
       </form>
 
-      <!-- Post Summary by Rating -->
-      <h2>Post Summary by Rating</h2>
+      <!-- Top 5 Rating Posts -->
+      <h2>Top 5 Rating Posts</h2>
       <ul>
-        <% Object.keys(summary).forEach(rating=> { %>
-          <li>Rating <%= rating %>: <%= summary[rating] %> posts</li>
-          <% }) %>
+        <% const topRatedPosts=posts.sort((a, b)=> b.rating - a.rating).slice(0, 5); %>
+          <% topRatedPosts.forEach(post=> { %>
+            <li>
+              <strong>
+                <%= post.name %>
+              </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>) <a href="/view/<%= post.name %>">View</a>
+            </li>
+            <% }) %>
       </ul>
 
       <!-- Search Form -->
@@ -62,7 +67,6 @@
         <button type="submit">Search</button>
         <a href="/clear-search"><button type="button">Clear</button></a>
       </form>
-
       <!-- Sort by Rating Button -->
       <a href="/sort"><button>Sort by Rating</button></a>
 
@@ -75,8 +79,7 @@
               <li>
                 <strong>
                   <%= post.name %>
-                </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>)
-                      <a href="/view/<%= post.name %>">View</a>
+                </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>) <a href="/view/<%= post.name %>">View</a>
               </li>
               <% }) %>
           </ul>
@@ -100,14 +103,9 @@
               </ul>
               <button type="submit">Delete Selected Posts</button>
 
-              <label for="ratingSelect">Remove by Rating:</label>
-              <select name="rating" id="ratingSelect">
-                <option value="1">1 (Low Rating)</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5 (Highest Rating)</option>
-              </select>
+              <label for="rating">Remove by Rating:</label>
+              <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
+                placeholder="Enter rating (0-5)" required>
 
               <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
             </form>

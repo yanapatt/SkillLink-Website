@@ -6,14 +6,6 @@
     <label>Description:</label>
     <textarea name="description" required><%= post.description %></textarea>
 
-    <label>Rating:</label>
-    <select name="rating">
-        <% for (let i=1; i <=5; i++) { %>
-            <option value="<%= i %>" <%=post.rating==i ? "selected" : "" %>><%= i %>
-            </option>
-            <% } %>
-    </select>
-
     <label>Current Image:</label>
     <% if (post.imageUrl) { %>
         <div id="image-container">

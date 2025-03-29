@@ -29,6 +29,9 @@
   <% if (post.accountId === accountId) { %>
     <br />
     <a href="/view/<%= post.name %>?action=edit"><button>Edit Post</button></a>
+    <form action="/delete/<%= post.name %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+      <button type="submit">Delete Post</button>
+    </form>
   <% } %>
 
   <br />
