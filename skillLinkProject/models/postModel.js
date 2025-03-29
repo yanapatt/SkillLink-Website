@@ -26,9 +26,15 @@ class Post {
         name: post.name,
         accountId: account.accountId,
         description: post.description,
-        rating: post.rating,
+        rating: new LinkedList(),
         imageUrl: post.imageUrl || null
       };
+
+      if (post.rating && Array.isArray(post.rating)) {
+        post.rating.forEach((rate) => {
+          newPost.rating.insertLast(rate); 
+        });
+      }
 
       if (!this.findPostByName(newPost.name)) {
         this.posts.insertLast(newPost);
@@ -38,6 +44,46 @@ class Post {
     } else {
       console.error(`Invalid accountId: "${accountId}".`);
     }
+  }
+
+  summarizeByRating() {
+    const postRatings = [];
+    this.posts.forEachNode((post) => {
+      if (post.rating && post.rating.length > 0) {
+        const avgRating = this.calculateAverageRating(post.rating);
+        postRatings.push({ post, avgRating });
+      }
+    });
+
+    postRatings.sort((a, b) => b.avgRating - a.avgRating);
+
+    const top5Posts = postRatings.slice(0, 5);
+    return top5Posts;
+  }
+
+  sortByRating() {
+    return this.posts.toArray().sort((a, b) => {
+      const avgA = this.calculateAverageRating(a.rating);
+      const avgB = this.calculateAverageRating(b.rating);
+      return avgA - avgB;
+    });
+  }
+
+  calculateAverageRating(ratingList) {
+    if (ratingList.length === 0) {
+      return 0; // Return 0 if the list is empty
+    }
+
+    let total = 0;
+    let count = 0;
+
+    // Iterate over the LinkedList using forEachNode
+    ratingList.forEachNode((rate) => {
+      total += rate;
+      count++;
+    });
+
+    return count > 0 ? total / count : 0;
   }
 
   findAccountById(accountId) {
@@ -62,18 +108,6 @@ class Post {
 
   getAllPosts() {
     return this.posts.toArray();
-  }
-
-  summarizeByRating() {
-    const summary = {};
-    this.posts.forEachNode((post) => {
-      summary[post.rating] = (summary[post.rating] || 0) + 1;
-    });
-    return summary;
-  }
-
-  sortByRating() {
-    return this.posts.toArray().sort((a, b) => a.rating - b.rating);
   }
 
   searchByTitle(name) {
@@ -133,13 +167,21 @@ class Post {
       if (Array.isArray(parsedData)) {
         parsedData.forEach((post) => {
           if (!this.findPostByName(post.name)) {
-            this.posts.insertLast({
+            const newPost = {
               name: post.name,
               accountId: post.accountId,
               description: post.description,
-              rating: post.rating,
+              rating: post.rating || new LinkedList(), 
               imageUrl: post.imageUrl || null
-            });
+            };
+
+            if (Array.isArray(post.rating)) {
+              post.rating.forEach((rate) => {
+                newPost.rating.insertLast(rate); 
+              });
+            }
+
+            this.posts.insertLast(newPost); 
           }
         });
       }

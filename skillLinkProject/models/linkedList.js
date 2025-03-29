@@ -36,7 +36,6 @@ class LinkedList {
         return result;
     }
 
-    //Filter function
     removeByName(name) {
         let current = this.head;
         let prev = null;
@@ -49,14 +48,13 @@ class LinkedList {
                     this.head = current.next;
                 }
                 this.size--;
-                return; // ลบเจอแล้วออกจากฟังก์ชัน
+                return;
             }
             prev = current;
             current = current.next;
         }
     }
 
-    //Insert value into head linked list
     insertFirst(value) {
         const newNode = new Node(value);
         newNode.next = this.head;
@@ -67,7 +65,6 @@ class LinkedList {
         this.size++;
     }
 
-    //Remove first value from linked list
     removeFirst() {
         if (this.head) {
             this.head = this.head.next;
@@ -78,7 +75,6 @@ class LinkedList {
         this.size--;
     }
 
-    //Insert value into tail linked list
     insertLast(value) {
         const newNode = new Node(value);
         if (!this.head) {
@@ -91,13 +87,12 @@ class LinkedList {
         this.size++;
     }
 
-    //Remove last value from linked list
     removeLast() {
-        if (!this.head) return;  // ถ้า LinkedList ว่าง
-        if (this.head === this.tail) {  // ถ้ามีเพียง node เดียว
+        if (!this.head) return;  
+        if (this.head === this.tail) {  
             this.head = null;
             this.tail = null;
-            this.size--;  // ลดขนาด
+            this.size--; 
             return;
         }
 
@@ -106,9 +101,9 @@ class LinkedList {
             current = current.next;
         }
 
-        current.next = null;  // ตัดการเชื่อมต่อกับ node สุดท้าย
-        this.tail = current;  // เปลี่ยน tail เป็น node ใหม่
-        this.size--;  // ลดขนาด
+        current.next = null; 
+        this.tail = current;
+        this.size--;  
     }
 
     forEachNode(callback) {

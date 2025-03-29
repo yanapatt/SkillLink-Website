@@ -4,7 +4,7 @@
   <p><strong>Author:</strong> <%= post.username %></p>
   <p><strong>Author ID:</strong> <%= post.accountId %></p>
   <p><strong>Description:</strong> <%= post.description %></p>
-  <p><strong>Rating:</strong> <%= post.rating %></p>
+  <p><strong>Rating:</strong> <%= post.rating || 0 %></p>
 
   <% if (post.imageUrl) { %>
       <p><strong>Post Image:</strong></p>
@@ -13,12 +13,24 @@
       <p>No image available</p>
   <% } %>
 
+  <!-- Form for voting on the post -->
+  <br />
+  <form action="/posts/<%= post.name %>/rate" method="POST">
+    <label>Rate this post:</label><br />
+    <button type="submit" name="rating" value="1">1</button>
+    <button type="submit" name="rating" value="2">2</button>
+    <button type="submit" name="rating" value="3">3</button>
+    <button type="submit" name="rating" value="4">4</button>
+    <button type="submit" name="rating" value="5">5</button>
+  </form>
+
+  <br />
   <!-- Check if the current user is the author of the post -->
   <% if (post.accountId === accountId) { %>
     <br />
     <a href="/view/<%= post.name %>?action=edit"><button>Edit Post</button></a>
   <% } %>
-  
+
   <br />
   <a href="/">Back to Post List</a>
 <% } else { %>

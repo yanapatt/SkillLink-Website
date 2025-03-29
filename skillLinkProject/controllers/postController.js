@@ -81,7 +81,7 @@ const getUsernameFromSession = (req) => {
 
   const accountId = req.session.accountSession;
   let username = 'Guest';
-  let accountType = 'User'; 
+  let accountType = 'User';
 
   if (!accountModel.accounts || accountModel.accounts.isEmpty()) {
     accountModel.loadAccountsFromFile();
@@ -90,7 +90,7 @@ const getUsernameFromSession = (req) => {
   accountModel.accounts.forEachNode((account) => {
     if (account.accountId === accountId) {
       username = account.username;
-      accountType = account.accountType || 'User';  
+      accountType = account.accountType || 'User';
       return;
     }
   });
@@ -333,7 +333,7 @@ exports.searchPosts = (req, res) => {
   }
 
   const summary = postModel.summarizeByRating();
-  const {username, accountType} = getUsernameFromSession(req);
+  const { username, accountType } = getUsernameFromSession(req);
 
   if (foundPosts.length > 0) {
     return res.render('index', { posts: foundPosts, summary, username, accountType });
@@ -345,3 +345,61 @@ exports.searchPosts = (req, res) => {
 exports.clearSearch = (req, res) => {
   res.redirect('/');
 }
+
+const addRatingToPost = (post, newRating) => {
+  if (typeof newRating === 'number' && newRating >= 1 && newRating <= 5) {
+    post.rating.insertLast(newRating);
+    return true;
+  }
+  return false;
+};
+
+exports.ratePost = (req, res) => {
+  const postName = req.params.name;
+  const post = postModel.getAllPosts().find(post => post.name === postName);
+
+  if (!post) {
+    return res.status(404).send("Post not found");
+  }
+
+  const accountId = req.session.accountSession;  // accountId ของผู้ใช้ที่กำลังให้คะแนน
+  const rating = parseInt(req.body.rating);
+
+  if (rating < 1 || rating > 5) {
+    return res.status(400).send("Invalid rating value. Must be between 1 and 5.");
+  }
+
+  // ตรวจสอบว่าโพสต์นี้มีคะแนนจากผู้ใช้คนนี้อยู่หรือไม่
+  if (post.ratings) {
+    const existingRatingIndex = post.ratings.findIndex(rating => rating.accountId === accountId);
+
+    if (existingRatingIndex !== -1) {
+      // ถ้ามีคะแนนจากผู้ใช้อยู่แล้ว ให้ลบคะแนนเก่าออก
+      post.ratings[existingRatingIndex].rating = rating;  // แก้ไขคะแนนเป็นคะแนนใหม่
+    } else {
+      // ถ้าไม่มีคะแนนจากผู้ใช้คนนั้น ให้เพิ่มคะแนนใหม่
+      post.ratings.push({ accountId, rating });
+    }
+  } else {
+    // ถ้าไม่มีการตั้งค่า ratings ให้สร้าง array ขึ้นมาแล้วเพิ่มคะแนนใหม่
+    post.ratings = [{ accountId, rating }];
+  }
+
+  // คำนวณคะแนนเฉลี่ย
+  post.rating = (post.ratings && post.ratings.size > 0)
+    ? post.ratings.reduce((acc, rating) => acc + rating.rating, 0) / post.ratings.size
+    : 0;
+
+  // ทำให้มั่นใจว่า post.rating เป็นตัวเลข
+  post.rating = Number(post.rating) || 0;
+
+  // บันทึกการเปลี่ยนแปลง
+  savePosts();
+
+  console.log(`Post "${postName}" has been rated successfully!`);
+  res.redirect(`/view/${postName}`);
+};
+
+
+
+

@@ -27,19 +27,24 @@ app.use(
 
 // Routes
 app.get('/', accountController.authenticate, postController.getPosts);
-app.get('/view/:name', postController.aboutPost);
-app.get('/edit/:name', postController.aboutPost);
-app.post('/update/:name', postController.updatePost);
+
 app.get('/logout', accountController.logout);
-app.get('/sort', accountController.authenticate, postController.sortPostsByRating);
 app.get('/login', accountController.showLoginPage);
 app.post('/login', accountController.login);
 app.get('/register', accountController.showRegisterPage);
 app.post('/register', accountController.register);
+
 app.post('/add', accountController.authenticate, postController.createPosts);
-app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts);
+app.get('/sort', accountController.authenticate, postController.sortPostsByRating);
+app.get('/view/:name', postController.aboutPost);
+app.get('/edit/:name', postController.aboutPost);
+app.post('/update/:name', postController.updatePost);
+app.post('/posts/:name/rate', accountController.authenticate, postController.ratePost);
+
 app.post('/search', accountController.authenticate, postController.searchPosts);
 app.get('/clear-search', postController.clearSearch);
+
+app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts);
 app.post('/delete/:name', postController.deletePost);
 app.post('/delete-image/:name', postController.deleteImage);
 app.post('/delete-post', accountController.authenticate, postController.deletePostByAction);
