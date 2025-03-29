@@ -90,6 +90,18 @@ body {
     border-radius: 10px;
     margin-left: 20px;
 }
+.sidebar2 {
+    width: 20%;
+    min-width: 200px;  /* กำหนดความกว้างขั้นต่ำ */
+    max-width: 400px;  /* กำหนดความกว้างสูงสุด */
+    height: 60vh;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+    margin-left: 20px;
+}
 .btn {
     padding: 8px 15px;
     border: none;
@@ -120,4 +132,18 @@ body {
     background-color: black; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
     color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
     border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
+}
+.textarea {
+    width: 1000px;
+    height: 400px;
+    border-radius: 20px; /* มุมโค้งเล็กลงให้เห็นชัด */
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.input-text,.textarea{
+    width: 1000px;
+    height: 80px;
+    border-radius: 20px; /* มุมโค้งเล็กลงให้เห็นชัด */
+    padding: 10px;
+    border: 1px solid #ccc;
 }
