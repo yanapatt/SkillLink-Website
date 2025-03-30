@@ -36,11 +36,11 @@ class PostRepository {
             const data = fs.readFileSync(this.filePath, 'utf8');
             if (!data.trim()) return;
             JSON.parse(data).forEach(post => this.posts.insertLast(post));
-        } catch (error) {
-            console.error("Error loading posts from file:", error.message);
+        } catch (err) {
+            console.error("Error loading posts from file:", err.message);
         }
     }
-    
+
     // ดึงข้อมูล Post ทีมีทั้งหมด
     retrieveAllPosts() {
         // ในอนาคตอาจจะปรับให้เป็น LinkedList โดยสมบูรณ์
@@ -48,10 +48,10 @@ class PostRepository {
     }
 
     // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post
-    retrieveByPostName(name) {
-        let foundPosts = null; 
+    retrieveByPostTitle(title) {
+        let foundPosts = null;
         this.posts.forEachNode(post => {
-            if (post.name.toLowerCase() === name.toLowerCase()) {
+            if (post.postTitle.toLowerCase() === title.toLowerCase()) {
                 foundPosts = post;
             }
         });
@@ -61,12 +61,54 @@ class PostRepository {
 
     // เพิ่ม Post ลงบน LinkedList
     insertPosts(post) {
-        if (!this.retrieveByPostName(post.name)) {
+        if (!this.retrieveByPostTitle(post.postTitle)) {
             this.posts.insertLast(post);
             this.saveToFile();
         } else {
-            console.error(`Post with name "${post.name}" already exists.`);
+            console.error(`Post with name "${post.postTitle}" already exists.`);
         }
+    }
+
+    // ลบ Post เดี่ยวโดยชื่อหัวข้อ Post
+    removePosts(title) {
+        const targetPost = this.removePosts(title);
+
+        if (!targetPost) {
+            console.error(`Post with name "${title}" not found.`);
+            return;
+        }
+
+        this.posts.removeByName(title);
+        console.log(`Post "${title}" has been deleted successfully!`);
+        this.saveToFile();
+    }
+
+    // ลบโพสต์แรกสุดใน LinkedList
+    removeFirst() {
+        if (this.posts.isEmpty()) {
+            console.log("No posts available to remove.");
+            return { success: false, message: "No posts available." };
+        }
+
+        const firstPost = this.posts.head.value;
+
+        this.posts.removeFirst();
+        console.log(`First post "${firstPost.postTitle}" has been deleted successfully!`);
+        this.saveToFile();
+    }
+
+    // ลบโพสต์ล่าสุดใน LinkedList
+    removeLast() {
+        if (this.posts.isEmpty()) {
+            console.log("No posts available to remove.");
+            return { success: false, message: "No posts available." };
+        }
+
+        const lastPost = this.posts.tail.value;
+
+        this.posts.removeLast();
+        console.log(`Last post "${lastPost.postTitle}" has been deleted successfully!`);
+        this.saveToFile();
     }
 }
 

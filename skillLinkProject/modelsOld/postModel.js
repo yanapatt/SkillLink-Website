@@ -49,6 +49,7 @@ class Post {
     }
   }
 
+  //
   summarizeByRating() {
     const postRatings = [];
     this.posts.forEachNode((post) => {
@@ -75,6 +76,7 @@ class Post {
     return sortedPosts.sort((a, b) => b.rating - a.rating);  // เรียงโพสต์ตาม rating ภายใน
   }
 
+  //
   calculateAverageRating(ratingsLinkedList) {
     if (ratingsLinkedList.size === 0) {
       return 0;  // ถ้าไม่มีคะแนน จะคืนค่า 0
@@ -98,6 +100,7 @@ class Post {
     return found;
   }
 
+  //
   findPostByName(name) {
     let found = null;
     this.posts.forEachNode((post) => {
@@ -108,12 +111,14 @@ class Post {
     return found;
   }
 
+  //
   getAllPosts() {
     const allPosts = [];
     this.posts.forEachNode(post => allPosts.push(post));  // นำโพสต์ทั้งหมดมาจาก LinkedList
     return allPosts;
   }
 
+  //
   searchByTitle(name) {
     const foundPosts = new LinkedList();
     this.posts.forEachNode((post) => {
@@ -141,6 +146,7 @@ class Post {
     return foundPosts.toArray();
   }
 
+  //
   savePostsToFile() {
     try {
       this.ensureDirectoryExistence(this.filePath);
@@ -153,6 +159,7 @@ class Post {
     }
   }
 
+  //
   loadPostsFromFile() {
     if (!fs.existsSync(this.filePath)) return;
 

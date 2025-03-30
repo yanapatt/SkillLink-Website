@@ -13,6 +13,7 @@ class AccountModel {
     this.loadAccountsFromFile();
   }
 
+  //
   ensureDirectoryExistence(filePath) {
     const dirname = path.dirname(filePath);
     if (!fs.existsSync(dirname)) {
@@ -20,6 +21,7 @@ class AccountModel {
     }
   }
 
+  //
   createAccount(account) {
     account.accountId = uuid();
     account.password = util.encrypt(account.password);
@@ -38,6 +40,7 @@ class AccountModel {
     this.saveAccountsToFile();
   }
 
+  //
   authenticateAccount(username, password) {
     let foundAccount = null;
     this.accounts.forEachNode((account) => {
@@ -48,14 +51,17 @@ class AccountModel {
     return foundAccount;
   }
 
+  //
   getAllAccounts() {
     return this.accounts.toArray().map(this.encryptAccounts);
   }
 
+  //
   encryptAccounts(account) {
     return { ...account, password: "**********" };
   }
 
+  //
   saveAccountsToFile() {
     try {
       this.ensureDirectoryExistence(this.filePath);
@@ -68,6 +74,7 @@ class AccountModel {
     }
   }
 
+  //
   loadAccountsFromFile() {
     if (!fs.existsSync(this.filePath)) return;
 
@@ -96,6 +103,7 @@ class AccountModel {
     }
   }
 
+  //
   findAccountById(accountId) {
     let found = null;
     this.accounts.forEachNode((account) => {
