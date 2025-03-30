@@ -7,6 +7,7 @@ class AccountRepository {
         this.filePath = path.join(__dirname, '..', 'database', 'accounts.json');;
         this.accounts = new LinkedList();
         this.loadFromFile();
+        this.alreadyExistence();
     }
 
     // ยืนยันให้ชัวร์ว่า Directory ถูกสร้างหรือยัง

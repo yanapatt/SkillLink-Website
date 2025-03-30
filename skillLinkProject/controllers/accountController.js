@@ -2,7 +2,6 @@ const AccountService = require('../models/accountService');
 const AccountRepository = require('../models/accountRepository');
 const { uuid } = require('uuidv4');
 
-
 const accountRepo = new AccountRepository();
 const accountService = new AccountService(accountRepo);
 
@@ -14,7 +13,7 @@ const handleError = (res, view, errorMessage) => {
 
 // ตรวจสอบการล็อกอิน
 exports.authenticate = (req, res, next) => {
-    req.session.accountSession ? next() : res.redirect('/login');
+    req.user ? next() : res.redirect('/login'); // ใช้ req.user จาก sessionMiddleware
 };
 
 // ล็อกเอาท์
@@ -45,8 +44,11 @@ exports.login = async (req, res) => {
             accRole: accountSession.accRole
         };
 
-        console.log(`${username} has logged in (AccountID: ${req.session.accountSession.accId})`);
+        req.session.save(() => {
+            console.log('Session updated successfully');
+        });
 
+        console.log('User logged in:', req.session.accountSession);
         return res.redirect('/');
     } catch (error) {
         return handleError(res, 'login', 'An error occurred during login.');
@@ -71,7 +73,6 @@ exports.register = async (req, res) => {
             accPassword: password,
             accPhone: phone
         });
-
 
         // เก็บข้อมูลใน session หลังจากการสมัคร
         req.session.accountSession = {

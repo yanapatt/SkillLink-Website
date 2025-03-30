@@ -143,6 +143,7 @@ exports.createPosts = [upload.single('image'), (req, res) => {
   res.redirect('/');
 }];
 
+
 exports.deleteMultiplePosts = (req, res) => {
   let { postNames, rating, action } = req.body;
 

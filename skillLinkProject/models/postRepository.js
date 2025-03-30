@@ -3,10 +3,11 @@ const path = require("path");
 const LinkedList = require("./linkedList");
 
 class PostRepository {
-    constructor(filePath) {
-        this.filePath = filePath;
+    constructor() {
+        this.filePath = path.join(__dirname, '..', 'database', 'posts.json');
         this.posts = new LinkedList();
         this.loadFromFile();
+        this.alreadyExistence();
     }
 
     // ยืนยันให้ชัวร์ว่า Directory ถูกสร้างหรือยัง

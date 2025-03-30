@@ -32,14 +32,14 @@
 
 <body>
   <h1>Post List</h1>
-  Welcome <%= username %>, Your Role is: <%= accountType %>
+  Welcome <%= accUsername %>, Your Role is: <%= accRole %>
       <a href="/logout">Logout</a>
 
       <!-- Form for adding posts -->
       <form action="/add" method="POST" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Post Name" required />
-        <textarea name="description" placeholder="Post Description" required></textarea>
-        <input type="file" name="image" accept="image/*" />
+        <input type="text" name="postTitle" placeholder="Post Title" required />
+        <textarea name="postDesc" placeholder="Post Description" required></textarea>
+        <input type="file" name="postImgUrl" accept="image/*" />
         <button type="submit">Add Post</button>
       </form>
 
@@ -50,7 +50,7 @@
           <% topRatedPosts.forEach(post=> { %>
             <li>
               <strong>
-                <%= post.name %>
+                <%= posts.name %>
               </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>) <a href="/view/<%= post.name %>">View</a>
             </li>
             <% }) %>
@@ -71,15 +71,15 @@
       <a href="/sort"><button>Sort by Rating</button></a>
 
       <!-- Display Posts Only if Not Admin -->
-      <% if (accountType !=='Admin' ) { %>
+      <% if (accRole !=='Admin' ) { %>
         <div class="posts-list">
           <h2>Posts</h2>
           <ul>
             <% posts.forEach(post=> { %>
               <li>
                 <strong>
-                  <%= post.name %>
-                </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>) <a href="/view/<%= post.name %>">View</a>
+                  <%= post.postTitle %>
+                </strong>: <%= post.postDesc %> by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>) <a href="/view/<%= post.name %>">View</a>
               </li>
               <% }) %>
           </ul>
@@ -87,7 +87,7 @@
         <% } %>
 
           <!-- Display Admin Actions Only if accountType is 'Admin' -->
-          <% if (accountType==='Admin' ) { %>
+          <% if (accRole === 'Admin' ) { %>
             <h2>Admin Actions</h2>
             <form action="/delete" method="POST">
               <ul>
@@ -95,8 +95,8 @@
                   <li>
                     <input type="checkbox" name="postNames" value="<%= post.name %>" />
                     <strong>
-                      <%= post.name %>
-                    </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating %>)
+                      <%= post.postTitle %>
+                    </strong>: <%= post.postDesc %> by <%= post.accUsername %> (Rating: <%= post.postRating %>)
                   </li>
                   <a href="/view/<%= post.name %>">View</a>
                   <% }) %>

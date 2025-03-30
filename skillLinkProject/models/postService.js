@@ -8,38 +8,40 @@ class PostService {
     }
 
     // จัด Format Documents JSON
-    formatPostDoc(postData, accountId) {
-        const formattedPostDoc = {
+    formatPostDoc(postData, accountId, imageUrl) {
+        return {
             postTitle: postData.postTitle,
             accountId: accountId,
             postDesc: postData.postDesc,
-            postRating: 0,
-            postImgUrl: postData.postImgUrl || null,
-            ratingsCount: new LinkedList()
+            postRating: postData.postRating || 0,  // ใช้ค่า default หากไม่มีคะแนน
+            postImgUrl: imageUrl || null,  // ใช้ URL ของภาพถ้ามี
+            ratingsCount: postData.ratingsCount || new LinkedList()
         };
-
-        if (postData.ratingsCount && Array.isArray(postData.ratingsCount)) {
-            postData.ratingsCount.forEach(rate => formattedPostDoc.ratingsCount.insertLast(rate));
-            formattedPostDoc.postRating = this.calculateAverageRating(formattedPostDoc.ratingsCount); // คำนวณแยก
-        }
-
-        console.log("Format doc has been created");
-        return formattedPostDoc;
     }
 
     // สร้าง Post
-    createPost(postData, accountId) {
-        const account = this.accountRepo.retrieveAccountById(accountId);
-        if (!account) {
-            console.error(`Invalid accountId: "${accountId}".`);
-            return;
-        }
+    async createPost(postData, accountId, imgFile) {
+        try {
+            // ตรวจสอบและอัปโหลดภาพ
+            let imageUrl = null;
+            if (imgFile) {
+                // ใช้ imgRepo เพื่อเก็บภาพและรับ URL ของภาพ
+                imageUrl = await this.imgRepo.saveImageToFolder(imgFile);
+            }
 
-        const newPost = this.formatPostDoc(postData, account.accountId);
-        console.log("New post has been created: ", newPost);
-        this.postRepo.insertPosts(newPost);
+            // จัดรูปแบบข้อมูลโพสต์
+            const formattedPostDoc = this.formatPostDoc(postData, accountId, imageUrl);
+
+            // เพิ่มโพสต์ลงใน LinkedList
+            this.postRepo.insertPosts(formattedPostDoc);
+
+            return formattedPostDoc;  // ส่งกลับโพสต์ที่ถูกจัดรูปแบบแล้ว
+        } catch (error) {
+            throw new Error("Failed to create post: " + error.message);
+        }
     }
 
+    // แสดง Post ทั้งหมดจากไฟล์
     getAllPosts() {
         return this.postRepo.retrieveAllPosts();
     }
