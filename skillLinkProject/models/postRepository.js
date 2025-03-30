@@ -112,4 +112,5 @@ class PostRepository {
     }
 }
 
+
 module.exports = PostRepository;

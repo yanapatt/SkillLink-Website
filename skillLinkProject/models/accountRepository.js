@@ -3,8 +3,8 @@ const path = require("path");
 const LinkedList = require("./linkedList");
 
 class AccountRepository {
-    constructor(filePath) {
-        this.filePath = filePath;
+    constructor() {
+        this.filePath = path.join(__dirname, '..', 'database', 'accounts.json');;
         this.accounts = new LinkedList();
         this.loadFromFile();
     }
@@ -35,6 +35,7 @@ class AccountRepository {
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
             if (!data.trim()) return;
+            console.log("Data has been loading successful!: ", data);
             JSON.parse(data).forEach(acc => this.accounts.insertLast(acc));
         } catch (error) {
             console.error("Error loading accounts from file:", error.message);
@@ -52,6 +53,17 @@ class AccountRepository {
         let foundAccounts = null;
         this.accounts.forEachNode(acc => {
             if (acc.accId === accId) {
+                foundAccounts = acc;
+            }
+        });
+        return foundAccounts;
+    }
+
+    // ดึงข้อมูล Account โดยค้นหาจาก Username
+    retrieveAccountByUsername(accUsername) {
+        let foundAccounts = null;
+        this.accounts.forEachNode(acc => {
+            if (acc.accUsername === accUsername) {
                 foundAccounts = acc;
             }
         });

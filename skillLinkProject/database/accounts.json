@@ -1,0 +1,18 @@
+[
+  {
+    "accId": "dcbb3560-50ff-46ed-b5ac-c718ca98367b",
+    "accRole": "Admin",
+    "accUsername": "admin",
+    "accEmail": "admin@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0972988499"
+  },
+  {
+    "accId": "6c38c8c6-0861-461f-9500-07b4967e5590",
+    "accRole": "User",
+    "accUsername": "Yanapatt",
+    "accEmail": "yanapatt@gmail.com",
+    "accPassword": "cc2f127c9de1e7d76a2c084a",
+    "accPhone": "0972984866"
+  }
+]

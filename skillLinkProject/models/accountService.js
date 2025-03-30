@@ -10,7 +10,7 @@ class AccountService {
     // จัด Format Documents JSON
     formatAccountDoc(acc) {
         return {
-            accId: acc.accId || uuid(),
+            accId: acc.accId,
             accRole: acc.accRole || 'User',
             accUsername: acc.accUsername,
             accEmail: acc.accEmail,
@@ -21,11 +21,14 @@ class AccountService {
 
     // สร้าง Accounts
     createAccount(accData) {
-        if (!accData.accUsername || !accData.accEmail || !accData.accPassword || !accData.accPhone) {
+        console.log(accData);
+
+        if (!accData.accRole, !accData.accUsername || !accData.accEmail || !accData.accPassword || !accData.accPhone) {
             console.error("Missing required fields");
             return null;
         }
 
+        accData.accId = accData.accId || uuid();
         accData.accPassword = this.util.encrypt(accData.accPassword);
         const formattedAccount = this.formatAccountDoc(accData);
 
@@ -34,24 +37,25 @@ class AccountService {
     }
 
     // ตรวจสอบบัญชีตอน Login
-    authenticateAccount(accId, username, password) {
-        const account = this.accountRepo.retrieveAccountById(accId);
+    authenticateAccount(username, password) {
+        try {
+            const account = this.accountRepo.retrieveAccountByUsername(username); // ใช้ await
 
-        if (!account) {
-            console.error(`No account found with accountId: ${accId}`);
-            return null;
-        }
+            if (!account) {
+                console.error(`No account found with username: ${username}`);
+                return null;
+            }
 
-        if (account.username !== username) {
-            console.error(`Username does not match for accountId: ${accId}`);
-            return null;
-        }
+            // ตรวจสอบรหัสผ่าน
+            const isPasswordValid = this.util.encrypt(password) === account.accPassword; // ใช้ this.util
+            if (!isPasswordValid) {
+                console.error("Invalid password.");
+                return null;
+            }
 
-        const isPasswordValid = account.accPassword === util.encrypt(password);
-        if (isPasswordValid) {
             return account;
-        } else {
-            console.error("Invalid password.");
+        } catch (error) {
+            console.error("Error during authentication:", error);
             return null;
         }
     }

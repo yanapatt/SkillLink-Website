@@ -1,5 +1,5 @@
-const PostService = require("../services/postService"); // เรียกใช้ postService
-const PostRepository = require("../repositories/postRepository"); // เรียกใช้ postRepository
+const PostService = require("../models/postService"); // เรียกใช้ postService
+const PostRepository = require("../models/postRepository"); // เรียกใช้ postRepository
 
 // สร้าง instance ของ PostRepository และ PostService
 const postRepo = new PostRepository();
@@ -21,6 +21,7 @@ exports.createPosts = async (req, res) => {
 exports.getPosts = async (req, res) => {
     try {
         const posts = await postService.getAllPosts(); // ดึงโพสต์ทั้งหมด
+        console.log("Get post successful!: ", posts);
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);

@@ -26,28 +26,32 @@ app.use(
 );
 
 // Routes
-app.get('/', accountController.authenticate, postController.getPosts);
-
-app.get('/logout', accountController.logout);
+// Login and Register routes are not protected
 app.get('/login', accountController.showLoginPage);
 app.post('/login', accountController.login);
 app.get('/register', accountController.showRegisterPage);
 app.post('/register', accountController.register);
+app.get('/logout', accountController.authenticate, accountController.logout);
 
-app.post('/add', accountController.authenticate, postController.createPosts);
-app.get('/sort', accountController.authenticate, postController.sortPostsByRating);
-app.get('/view/:name', postController.aboutPost);
-app.get('/edit/:name', postController.aboutPost);
-app.post('/update/:name', postController.updatePost);
-app.post('/posts/:name/rate', accountController.authenticate, postController.ratePost);
+// Routes that require authentication (protect with accountController.authenticate)
+app.get('/', accountController.authenticate, postController.getPosts); // Retrieve posts, only if authenticated
 
-app.post('/search', accountController.authenticate, postController.searchPosts);
-app.get('/clear-search', postController.clearSearch);
+//app.post('/add', accountController.authenticate, postController.createPosts); // Add new post
+//app.get('/sort', accountController.authenticate, postController.sortPostsByRating); // Sort posts by rating
+//app.get('/view/:name', accountController.authenticate, postController.aboutPost); // View a post by its name
+//app.get('/edit/:name', accountController.authenticate, postController.aboutPost); // View a post for editing
+//app.post('/update/:name', accountController.authenticate, postController.updatePost); // Update post details
+//app.post('/posts/:name/rate', accountController.authenticate, postController.ratePost); // Rate a post
 
-app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts);
-app.post('/delete/:name', postController.deletePost);
-app.post('/delete-image/:name', postController.deleteImage);
-app.post('/delete-post', accountController.authenticate, postController.deletePostByAction);
+// Search and clear search routes
+//app.post('/search', accountController.authenticate, postController.searchPosts); // Search posts
+//app.get('/clear-search', accountController.authenticate, postController.clearSearch); // Clear search results
+
+// Delete post routes
+//app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts); // Delete multiple posts
+//app.post('/delete/:name', accountController.authenticate, postController.deletePost); // Delete a post by name
+//app.post('/delete-image/:name', accountController.authenticate, postController.deleteImage); // Delete an image from a post
+//app.post('/delete-post', accountController.authenticate, postController.deletePostByAction); // Delete post by action (newest or oldest)
 
 // Start server
 const PORT = process.env.PORT || 3000;

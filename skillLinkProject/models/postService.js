@@ -40,6 +40,10 @@ class PostService {
         this.postRepo.insertPosts(newPost);
     }
 
+    getAllPosts() {
+        return this.postRepo.retrieveAllPosts();
+    }
+
     // คำนวณ Average Rating Score
     calculateAverageRating(ratingsList) {
         if (ratingsList.size === 0) return 0;

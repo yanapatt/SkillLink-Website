@@ -1,7 +1,8 @@
-const AccountService = require('../services/accountService');
-const AccountRepository = require('../repositories/accountRepository');
+const AccountService = require('../models/accountService');
+const AccountRepository = require('../models/accountRepository');
+const { uuid } = require('uuidv4');
 
-// สร้าง instance ของ AccountRepository และ AccountService
+
 const accountRepo = new AccountRepository();
 const accountService = new AccountService(accountRepo);
 
@@ -37,8 +38,14 @@ exports.login = async (req, res) => {
             return handleError(res, 'login', `Invalid credentials for username: ${username}`);
         }
 
-        req.session.accountSession = accountSession.accountId;
-        console.log(`${username} has logged in (AccountID: ${req.session.accountSession})`);
+        // เก็บข้อมูลลงใน session
+        req.session.accountSession = {
+            accId: accountSession.accId,
+            accUsername: accountSession.accUsername,
+            accRole: accountSession.accRole
+        };
+
+        console.log(`${username} has logged in (AccountID: ${req.session.accountSession.accId})`);
 
         return res.redirect('/');
     } catch (error) {
@@ -49,21 +56,32 @@ exports.login = async (req, res) => {
 // การสมัครสมาชิก
 exports.register = async (req, res) => {
     try {
-        const { username, email, password, phone, accountType } = req.body;
+        const { username, email, password, phone, accountRole } = req.body;
 
         if (![username, email, password, phone].every(Boolean)) {
             throw new Error('All fields are required!');
         }
 
-        await accountService.createAccount({
-            username,
-            email,
-            password,
-            phone,
-            accountType: accountType || 'User'
+        // สร้างบัญชีใหม่
+        const newAccount = accountService.createAccount({
+            accId: uuid(),
+            accRole: accountRole,
+            accUsername: username,
+            accEmail: email,
+            accPassword: password,
+            accPhone: phone
         });
 
+
+        // เก็บข้อมูลใน session หลังจากการสมัคร
+        req.session.accountSession = {
+            accId: newAccount.accId,
+            accUsername: newAccount.accUsername,
+            accRole: newAccount.accRole
+        };
+
         console.log(`${username} registered successfully.`);
+
         return res.redirect('/login');
     } catch (error) {
         return handleError(res, 'register', error.message);

@@ -1,12 +1,15 @@
 <h1>Register</h1>
 <form action="/register" method="POST"> <!-- ใช้ POST และ action เป็น /register -->
-  <input type="text" name="username" placeholder="Please enter your username" required />
-  <input type="email" name="email" placeholder="Please enter your email" required /> <!-- อีเมล -->
-  <input type="password" name="password" placeholder="Please enter your password" required />
-  <input type="tel" name="phone" placeholder="Please enter your phone number" required /> <!-- เบอร์โทรศัพท์ -->
+  <input type="text" name="username" placeholder="Enter your username" required />
+  <input type="email" name="email" placeholder="Enter your email" required /> <!-- อีเมล -->
+  <input type="password" name="password" placeholder="Enter your password" required />
 
-  <label for="accountType">Account Type:</label>
-  <select name="accountType" required>
+  <!-- Confirm Password -->
+  <input type="tel" name="phone" placeholder="Enter your phone number" pattern="[0-9]{10}" required />
+
+  <!-- เบอร์โทรศัพท์ with regex for 10 digits -->
+  <label for="accountRole">Account Type:</label>
+  <select name="accountRole" required>
     <option value="User" selected>User</option>
     <option value="Admin">Admin</option>
   </select>
