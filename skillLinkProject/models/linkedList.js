@@ -39,14 +39,19 @@ class LinkedList {
     removeByName(name) {
         let current = this.head;
         let prev = null;
-
+    
         while (current) {
-            if (current.value.name === name) {
+            if (current.value && current.value.name === name) {
                 if (prev) {
                     prev.next = current.next;
                 } else {
                     this.head = current.next;
                 }
+    
+                if (current === this.tail) {
+                    this.tail = prev;
+                }
+    
                 this.size--;
                 return;
             }

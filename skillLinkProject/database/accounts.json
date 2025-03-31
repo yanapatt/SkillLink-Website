@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "accId": "0bc015c2-247e-4ad4-ac11-d02f6ae79b97",
+    "accRole": "Admin",
+    "accUsername": "admin",
+    "accEmail": "admin@gmail.com",
+    "accPassword": "3a4e5ff58f285daa35a26d21",
+    "accPhone": "0889992222"
+  },
+  {
+    "accId": "e56a3928-ce05-4f82-a862-77289356d040",
+    "accRole": "User",
+    "accUsername": "Yanapatt",
+    "accEmail": "yanapatt@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0974129235"
+  }
+]

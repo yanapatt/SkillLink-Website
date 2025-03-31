@@ -51,10 +51,10 @@ app.post('/add', accountController.authenticate, postController.createPosts); //
 //app.get('/clear-search', accountController.authenticate, postController.clearSearch); // Clear search results
 
 // Delete post routes
-//app.post('/delete', accountController.authenticate, postController.deleteMultiplePosts); // Delete multiple posts
+app.post('/delete-multiple-posts', accountController.authenticate, postController.removeMultiplePosts); // Delete multiple posts
 //app.post('/delete/:name', accountController.authenticate, postController.deletePost); // Delete a post by name
 //app.post('/delete-image/:name', accountController.authenticate, postController.deleteImage); // Delete an image from a post
-//app.post('/delete-post', accountController.authenticate, postController.deletePostByAction); // Delete post by action (newest or oldest)
+app.post('/remove-by-action', accountController.authenticate, postController.removePostByAction); // Delete post by action (newest or oldest)
 
 // Start server
 const PORT = process.env.PORT || 3000;

@@ -20,9 +20,11 @@ exports.createPosts = [imgRepo.uploadImage(), async (req, res) => {
         const postData = req.body; // รับข้อมูลจาก request body
         const imgFile = req.file; // รับไฟล์จาก multer
 
+        console.log("Post data: ", postData);
+        console.log("Image file: ", imgFile);
+
         // สร้างโพสต์ใหม่ผ่าน postService และจัดการภาพ
         const newPost = await postService.createPost(postData, accountId, imgFile);
-
         console.log("Create post successful!: ", newPost);
 
         // รีไดเรคกลับไปยังหน้า index
@@ -46,7 +48,7 @@ exports.getPosts = async (req, res) => {
         console.log("Get post successful!: ", posts);
 
         // ดึงข้อมูลชื่อผู้ใช้จาก session
-        let { accId, accUsername, accRole } = req.session.accountSession;
+        let { accUsername, accRole } = req.session.accountSession;
 
         // เชื่อมโยงข้อมูล accountId ในโพสต์กับข้อมูล account ในระบบ
         const allPosts = await Promise.all(posts.map(async (post) => {
@@ -162,7 +164,7 @@ exports.removePostByRating = async (req, res) => {
         }
 
         const { rating } = req.params;
-        const result = await postService.removePostByRating(rating); // ลบโพสต์ตามคะแนน
+        const result = postService.removePostByRating(rating); // ลบโพสต์ตามคะแนน
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
@@ -179,7 +181,7 @@ exports.removePostByTitle = async (req, res) => {
         }
 
         const { title } = req.params;
-        const result = await postService.removePostByTitle(title); // ลบโพสต์ตาม title
+        const result = postService.removePostByTitle(title); // ลบโพสต์ตาม title
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
@@ -190,17 +192,17 @@ exports.removePostByTitle = async (req, res) => {
 // ฟังก์ชันลบโพสต์หลายอัน
 exports.removeMultiplePosts = async (req, res) => {
     try {
-        // ตรวจสอบการล็อกอิน
-        if (!req.session.accountSession) {
-            return res.status(401).json({ message: "Unauthorized. Please log in." });
+        const { postTitles } = req.body; // รับ postTitles จากฟอร์ม
+
+        if (!postTitles || postTitles.length === 0) {
+            return res.status(400).json({ success: false, message: "No posts selected for deletion." });
         }
 
-        const { title, rating } = req.body;
-        const result = await postService.removeMultiplePosts(title, rating); // ลบโพสต์หลายอัน
-        res.status(200).json(result);
+        postService.removeMultiplePosts(postTitles);
+        res.redirect('/'); // Redirect กลับไปที่หน้าแรก
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to remove multiple posts" });
+        console.error("Error deleting multiple posts:", error.message);
+        res.status(500).json({ success: false, message: "Failed to delete selected posts." });
     }
 };
 
@@ -212,12 +214,24 @@ exports.removePostByAction = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const { action } = req.params;
-        const result = await postService.removePostByAction(action);
-        res.status(200).json(result);
+        const { action } = req.body; // รับ action จาก body
+        if (!action || (action !== 'oldest' && action !== 'newest')) {
+            return res.status(400).send("Invalid action. Please specify 'oldest' or 'newest'.");
+        }
+
+        if (action === 'oldest') {
+            // เรียกใช้ removeFirstPost จาก postService
+            result = await postService.removeFirstPost();
+        } else if (action === 'newest') {
+            // เรียกใช้ removeLastPost จาก postService
+            result = await postService.removeLastPost();
+        }
+
+        //console.log(result.message); // แสดงข้อความผลลัพธ์ใน console
+        res.redirect('/'); // Redirect กลับไปที่หน้าแรก
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to remove post by action" });
+        console.error("Error deleting post by action:", error);
+        res.status(500).send("Failed to delete post by action");
     }
 };
 

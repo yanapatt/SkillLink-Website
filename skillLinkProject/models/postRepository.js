@@ -72,15 +72,18 @@ class PostRepository {
 
     // ลบ Post เดี่ยวโดยชื่อหัวข้อ Post
     removePosts(title) {
-        const targetPost = this.removePosts(title);
+        let targetNode = null;
+        targetNode = this.retrieveByPostTitle(title);
 
-        if (!targetPost) {
+        if (!targetNode) {
             console.error(`Post with name "${title}" not found.`);
             return;
         }
 
+        // ลบโพสต์ออกจาก LinkedList
         this.posts.removeByName(title);
         console.log(`Post "${title}" has been deleted successfully!`);
+        // บันทึกการเปลี่ยนแปลงลงไฟล์
         this.saveToFile();
     }
 
@@ -96,6 +99,9 @@ class PostRepository {
         this.posts.removeFirst();
         console.log(`First post "${firstPost.postTitle}" has been deleted successfully!`);
         this.saveToFile();
+
+        // ส่งคืนผลลัพธ์
+        return { success: true, message: `First post "${firstPost.postTitle}" has been deleted successfully!` };
     }
 
     // ลบโพสต์ล่าสุดใน LinkedList
@@ -110,6 +116,9 @@ class PostRepository {
         this.posts.removeLast();
         console.log(`Last post "${lastPost.postTitle}" has been deleted successfully!`);
         this.saveToFile();
+
+        // ส่งคืนผลลัพธ์
+        return { success: true, message: `Last post "${lastPost.postTitle}" has been deleted successfully!` };
     }
 }
 

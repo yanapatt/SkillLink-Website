@@ -31,23 +31,26 @@ class ImageRepository {
 
     // ฟังก์ชันบันทึกภาพลงโฟลเดอร์
     saveImageToFolder(imgFile) {
-        const filename = `${Date.now()}${path.extname(imgFile.originalname)}`;
-        const filePath = path.join(__dirname, '../uploads', filename);
+        if (!imgFile || !imgFile.path) {
+            throw new Error("Invalid image file");
+        }
 
-        // ใช้ imgFile.buffer แทน imgFile
-        fs.writeFileSync(filePath, imgFile.buffer);
-        console.log("Image has been created at:", filePath);
-        return `/uploads/${filename}`;
+        // ใช้ path ของไฟล์ที่ multer สร้างขึ้น
+        const imageUrl = `/uploads/${imgFile.filename}`;
+        console.log("Image URL:", imageUrl);
+        return imageUrl;
     }
 
     // ฟังก์ชันลบภาพออกจากโฟลเดอร์
     removeImageFromFolder(imgUrl) {
-        const imgPath = path.join(__dirname, '..', imgUrl);
+        const imgPath = path.join(__dirname, '..', imgUrl); // สร้าง path ของไฟล์ภาพ
         return new Promise((resolve, reject) => {
             fs.unlink(imgPath, (err) => {
                 if (err) {
-                    reject(`Error deleting image: ${err}`);
+                    console.error(`Error deleting image at ${imgPath}:`, err);
+                    reject(`Error deleting image: ${err.message}`);
                 } else {
+                    console.log(`Image at ${imgPath} deleted successfully`);
                     resolve(`Image at ${imgPath} deleted successfully`);
                 }
             });

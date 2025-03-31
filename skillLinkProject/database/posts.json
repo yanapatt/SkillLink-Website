@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "postTitle": "Monday ",
+    "accountId": "0bc015c2-247e-4ad4-ac11-d02f6ae79b97",
+    "postDesc": "123",
+    "postRating": 0,
+    "postImgUrl": null,
+    "ratingsCount": {
+      "head": null,
+      "tail": null,
+      "size": 0
+    },
+    "accUsername": "admin",
+    "accRole": "Admin"
+  }
+]
