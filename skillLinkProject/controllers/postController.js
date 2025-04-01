@@ -86,6 +86,29 @@ exports.getPosts = async (req, res) => {
     }
 };
 
+// Controller สำหรับ "Get My Posts"
+exports.getMyPosts = async (req, res) => {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: "Unauthorized. Please log in." });
+        }
+
+        const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
+        const myPosts = postService.getMyPosts(accountId); // ใช้ getMyPosts เพื่อดึงโพสต์ของผู้ใช้
+
+        // ส่งผลลัพธ์ไปที่หน้า index
+        res.render('index', {
+            posts: myPosts,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to get your posts" });
+    }
+};
+
 // ฟังก์ชันค้นหาโพสต์
 exports.searchPosts = async (req, res) => {
     try {
@@ -124,33 +147,9 @@ exports.searchPosts = async (req, res) => {
     }
 };
 
-// Controller สำหรับ "Get My Posts"
-exports.getMyPosts = async (req, res) => {
-    try {
-        // ตรวจสอบการล็อกอิน
-        if (!req.session.accountSession) {
-            return res.status(401).json({ message: "Unauthorized. Please log in." });
-        }
-
-        const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
-        const myPosts = postService.getMyPosts(accountId); // ใช้ getMyPosts เพื่อดึงโพสต์ของผู้ใช้
-
-        // ส่งผลลัพธ์ไปที่หน้า index
-        res.render('index', {
-            posts: myPosts,
-            accUsername: req.session.accountSession.accUsername,
-            accRole: req.session.accountSession.accRole
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to get your posts" });
-    }
-};
-
 exports.clearSearch = (req, res) => {
     res.redirect('/');
 }
-
 
 // ฟังก์ชันแสดงรายละเอียดโพสต์
 exports.aboutPost = async (req, res) => {
@@ -183,6 +182,36 @@ exports.aboutPost = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to retrieve post" });
+    }
+};
+
+// อัพเดทโพสต์
+exports.updatePost = async (req, res) => {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: "Unauthorized. Please log in." });
+        }
+
+        const postTitle = req.params.postTitle; // ใช้ชื่อโพสต์เป็นพารามิเตอร์
+        const updateData = req.body;
+        const newImgFile = req.file; // รับไฟล์ภาพจาก multer (ถ้ามี)
+
+        console.log("Post Title:", postTitle);
+        console.log("Update Data:", updateData);
+        console.log("New Image File:", newImgFile);
+
+        // เรียกใช้งาน service อัพเดตโพสต์
+        const result = await postService.updatePost(postTitle, updateData, newImgFile);
+
+        if (!result.success) {
+            return res.status(404).json({ message: result.message });
+        }
+
+        res.redirect("/");
+    } catch (error) {
+        console.error("Error updating post:", error);
+        res.status(500).json({ message: "Failed to update post" });
     }
 };
 
@@ -244,7 +273,7 @@ exports.removePostByTitle = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const postTitle = req.params.postTitle; // ✅ รับค่าตรง ๆ จาก params
+        const postTitle = req.params.postTitle; // รับค่าตรง ๆ จาก params
         console.log("Deleting Post Title:", postTitle);
 
         const result = postService.removePostByTitle(postTitle); // ลบโพสต์ตาม title
@@ -255,7 +284,7 @@ exports.removePostByTitle = async (req, res) => {
 
         console.log("Post deleted successfully:", result);
 
-        // ✅ หลังจากลบเสร็จให้ redirect กลับไปหน้าแรก
+        // หลังจากลบเสร็จให้ redirect กลับไปหน้าแรก
         res.redirect('/');
     } catch (error) {
         console.error(error);
@@ -306,26 +335,5 @@ exports.removePostByAction = async (req, res) => {
     } catch (error) {
         console.error("Error deleting post by action:", error);
         res.status(500).send("Failed to delete post by action");
-    }
-};
-
-// ฟังก์ชันอัพเดทโพสต์
-exports.updatePost = async (req, res) => {
-    try {
-        // ตรวจสอบการล็อกอิน
-        if (!req.session.accountSession) {
-            return res.status(401).json({ message: "Unauthorized. Please log in." });
-        }
-
-        const postId = req.params.id;
-        const updateData = req.body;
-        const updatedPost = await postService.updatePost(postId, updateData);
-        if (!updatedPost) {
-            return res.status(404).json({ message: "Post not found" });
-        }
-        res.status(200).json(updatedPost);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to update post" });
     }
 };

@@ -1,35 +1,45 @@
 <h1>Edit Post</h1>
-<form action="/update/<%= post.name %>" method="POST" enctype="multipart/form-data" id="edit-post-form">
+<form action="/update/<%= encodeURIComponent(post.postTitle) %>" method="POST" enctype="multipart/form-data"
+    id="edit-post-form">
+    <input type="hidden" name="postTitle" value="<%= post.postTitle %>">
+
     <label>Name:</label>
-    <input type="text" name="name" value="<%= post.name %>" disabled>
+    <input type="text" value="<%= post.postTitle %>" disabled>
 
     <label>Description:</label>
-    <textarea name="description" required><%= post.description %></textarea>
+    <textarea name="postDesc" required><%= post.postDesc %></textarea>
 
     <label>Current Image:</label>
-    <% if (post.imageUrl) { %>
+    <% if (post.postImgUrl) { %>
         <div id="image-container">
-            <img src="<%= post.imageUrl %>" alt="Post Image" width="150">
-            <button type="button" id="delete-image-btn" data-url="/delete-image/<%= post.name %>">
+            <img src="<%= post.postImgUrl %>" alt="Post Image" width="150">
+            <button type="button" id="delete-image-btn"
+                data-url="/delete-image/<%= encodeURIComponent(post.postTitle) %>">
                 Delete Image
             </button>
         </div>
         <% } else { %>
-            <p id="no-image-text" style="display: none;">No image available</p>
+            <p id="no-image-text">No image available</p>
             <% } %>
-                <input type="file" name="image" accept="image/*" id="image-upload" <%=post.imageUrl ? 'disabled' : '' %>
-                >
+
+                <input type="file" name="image" accept="image/*" id="image-upload" <%=post.postImgUrl ? 'disabled' : ''
+                    %>>
                 <br><br>
+
                 <button type="submit">Update Post</button>
 </form>
 
 <script>
-    document.getElementById("delete-image-btn")?.addEventListener("click", function () {
+    document.getElementById("delete-image-btn")?.addEventListener("click", function (event) {
+        event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
+
         if (confirm("Are you sure you want to delete this image?")) {
             fetch(this.dataset.url, { method: "POST" })
                 .then(response => {
                     if (response.ok) {
                         document.getElementById("image-container").remove();
+                        document.getElementById("image-upload").disabled = false; // เปิดให้เลือกไฟล์ใหม่
+                        document.getElementById("no-image-text").style.display = "block";
                     } else {
                         alert("Error deleting image");
                     }
@@ -50,37 +60,43 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.imageUrl) {
-                        const imageContainer = document.getElementById("image-container");
-                        if (imageContainer) {
-                            const newImage = document.createElement("img");
-                            newImage.src = data.imageUrl;
-                            newImage.width = 150;
-                            imageContainer.innerHTML = "";
-                            imageContainer.appendChild(newImage);
+                        const imageContainer = document.getElementById("image-container") || document.createElement("div");
+                        imageContainer.id = "image-container";
+                        imageContainer.innerHTML = ""; // ลบเฉพาะรูป ไม่ลบ container
 
-                            const deleteButton = document.createElement("button");
-                            deleteButton.textContent = "Delete Image";
-                            deleteButton.type = "button";
-                            deleteButton.id = "delete-image-btn";
-                            deleteButton.dataset.url = `/delete-image/${data.name}`;
-                            imageContainer.appendChild(deleteButton);
+                        // เพิ่มรูปใหม่
+                        const newImage = document.createElement("img");
+                        newImage.src = data.imageUrl;
+                        newImage.width = 150;
+                        imageContainer.appendChild(newImage);
 
-                            deleteButton.addEventListener("click", function () {
-                                if (confirm("Are you sure you want to delete this image?")) {
-                                    fetch(deleteButton.dataset.url, {
-                                        method: "POST",
+                        // สร้างปุ่มลบใหม่
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Delete Image";
+                        deleteButton.type = "button";
+                        deleteButton.id = "delete-image-btn";
+                        deleteButton.dataset.url = `/delete-image/${data.name}`;
+                        deleteButton.addEventListener("click", function () {
+                            if (confirm("Are you sure you want to delete this image?")) {
+                                fetch(deleteButton.dataset.url, { method: "POST" })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            imageContainer.remove();
+                                            document.getElementById("image-upload").disabled = false;
+                                            document.getElementById("no-image-text").style.display = "block";
+                                        } else {
+                                            alert("Error deleting image");
+                                        }
                                     })
-                                        .then(response => {
-                                            if (response.ok) {
-                                                imageContainer.innerHTML = "No image available"; // ลบภาพจากหน้า
-                                            } else {
-                                                alert("Error deleting image");
-                                            }
-                                        })
-                                        .catch(error => console.error("Error deleting image:", error));
-                                }
-                            });
-                        }
+                                    .catch(error => console.error("Error deleting image:", error));
+                            }
+                        });
+
+                        imageContainer.appendChild(deleteButton);
+                        form.insertBefore(imageContainer, document.getElementById("image-upload"));
+
+                        document.getElementById("image-upload").disabled = true; // ปิดการเลือกไฟล์ใหม่
+                        document.getElementById("no-image-text").style.display = "none"; // ซ่อนข้อความ "No image available"
                     } else {
                         alert("Error uploading image");
                     }

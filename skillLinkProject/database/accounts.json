@@ -1,26 +1,18 @@
 [
   {
-    "accId": "0bc015c2-247e-4ad4-ac11-d02f6ae79b97",
+    "accId": "45ba2699-81bb-4ac5-af53-6b4695ab9891",
     "accRole": "Admin",
     "accUsername": "admin",
     "accEmail": "admin@gmail.com",
-    "accPassword": "3a4e5ff58f285daa35a26d21",
-    "accPhone": "0889992222"
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0979998888"
   },
   {
-    "accId": "e56a3928-ce05-4f82-a862-77289356d040",
+    "accId": "41141c8e-c806-4344-8c47-5b165370f6f6",
     "accRole": "User",
-    "accUsername": "Yanapatt",
-    "accEmail": "yanapatt@gmail.com",
+    "accUsername": "user",
+    "accEmail": "user@gmail.com",
     "accPassword": "6002968392b901e9305d87e3",
-    "accPhone": "0974129235"
-  },
-  {
-    "accId": "7dd459c5-ee00-4cc8-9d79-12ed3f9cae4f",
-    "accRole": "User",
-    "accUsername": "Yanapatt1",
-    "accEmail": "yanapatt1@gmail.com",
-    "accPassword": "6002968392b901e9305d87e3",
-    "accPhone": "0972988499"
+    "accPhone": "0887772222"
   }
 ]

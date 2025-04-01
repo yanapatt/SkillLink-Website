@@ -48,8 +48,59 @@ class PostRepository {
         return this.posts.toArray();
     }
 
-    // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post
-    retrieveByPostTitle(title) {
+    // อัปเดตข้อมูลโพสต์
+    updatePost(title, updatedData, newImgFile) {
+        try {
+            // ดึงข้อมูลโพสต์ทั้งหมด
+            const allPosts = this.retrieveAllPosts();
+
+            // ค้นหาโพสต์ที่ต้องการอัปเดตโดยใช้ find
+            const targetPost = allPosts.find(post => post.postTitle.toLowerCase() === title.toLowerCase());
+
+            if (!targetPost) {
+                console.log(`Post with title "${title}" not found.`);
+                return { success: false, message: `Post with title "${title}" not found.` };
+            }
+
+            // อัปเดตคำอธิบายโพสต์ (ถ้ามีการแก้ไข)
+            if (updatedData.postDesc) {
+                targetPost.postDesc = updatedData.postDesc;
+            }
+
+            // ถ้ามีการอัปโหลดภาพใหม่
+            if (newImgFile) {
+                console.log(`Updating image for post: ${title}`);
+
+                // ลบภาพเก่าออกก่อน (ถ้ามี)
+                if (targetPost.postImgUrl) {
+                    // ลบภาพเก่า (อาจจะต้องเชื่อมกับฟังก์ชันลบภาพเก่าที่คุณมี)
+                    try {
+                        fs.unlinkSync(path.join(__dirname, '..', 'images', targetPost.postImgUrl)); // สมมุติว่าเก็บรูปในโฟลเดอร์ 'images'
+                        console.log(`Old image removed successfully.`);
+                    } catch (error) {
+                        console.error(`Error removing old image: ${error.message}`);
+                    }
+                }
+
+                // อัปโหลดภาพใหม่
+                targetPost.postImgUrl = newImgFile;  // หรือคุณสามารถใช้ฟังก์ชันที่มีในการจัดการกับไฟล์ใหม่
+                console.log(`New image uploaded successfully.`);
+            }
+
+            // อัปเดตโพสต์ใน LinkedList (บันทึกข้อมูลใหม่ในไฟล์)
+            this.saveToFile();
+
+            console.log(`Post "${title}" updated successfully!`);
+            return { success: true, message: `Post "${title}" updated successfully!`, updatedPost: targetPost };
+
+        } catch (err) {
+            console.error("Error updating post:", err.message);
+            return { success: false, message: "Failed to update post." };
+        }
+    }
+
+    // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post มีปัญหาอยู่
+    /*retrieveByPostTitle(title) {
         let foundNode = null;
 
         this.posts.forEachNode((node) => {
@@ -60,7 +111,7 @@ class PostRepository {
         });
 
         return foundNode;
-    }
+    }*/
 
     // เพิ่ม Post ลงบน LinkedList
     insertPosts(post) {

@@ -42,8 +42,8 @@ app.get('/my-posts', accountController.authenticate, postController.getMyPosts);
 app.post('/add', accountController.authenticate, postController.createPosts); // Add new post
 //app.get('/sort', accountController.authenticate, postController.sortPostsByRating); // Sort posts by rating
 app.get('/view/:postTitle', accountController.authenticate, postController.aboutPost); // View a post by its name
-//app.get('/edit/:name', accountController.authenticate, postController.aboutPost); // View a post for editing
-//app.post('/update/:name', accountController.authenticate, postController.updatePost); // Update post details
+app.get('/edit/:postTitle', accountController.authenticate, postController.aboutPost); // View a post for editing
+app.post('/update/:postTitle', accountController.authenticate, postController.updatePost); // Update post details
 //app.post('/posts/:name/rate', accountController.authenticate, postController.ratePost); // Rate a post
 
 // Search and clear search routes
