@@ -46,20 +46,11 @@
       <!-- Top 5 Rating Posts -->
       <h2>Top 5 Rating Posts</h2>
       <ul>
-        <% const topRatedPosts=posts.sort((a, b)=> b.rating - a.rating).slice(0, 5); %>
-          <% topRatedPosts.forEach(post=> { %>
-            <li>
-              <strong>
-                <%= posts.name %>
-              </strong>: <%= post.description %> by <%= post.username %> (Rating: <%= post.rating || 0 %>) <a
-                      href="/view/<%= post.name %>">View</a>
-            </li>
-            <% }) %>
       </ul>
 
       <!-- Search Form -->
       <form action="/search" method="POST">
-        <input type="text" name="searchTerm" placeholder="Search Task" required />
+        <input type="text" name="searchValue" placeholder="Search Posts" required />
         <label for="searchType">Select Search Type:</label>
         <select name="searchType" id="searchType">
           <option value="title">Search by Title</option>
@@ -70,47 +61,61 @@
       </form>
       <!-- Sort by Rating Button -->
       <a href="/sort"><button>Sort by Rating</button></a>
+      
+      <form action="/my-posts" method="GET">
+        <button type="submit">Get My Posts</button>
+      </form>
 
       <!-- Display Posts Only if Not Admin -->
       <% if (accRole !=='Admin' ) { %>
         <div class="posts-list">
           <h2>Posts</h2>
-          <ul>
-            <% posts.forEach(post=> { %>
-              <li>
-                <strong>
-                  <%= post.postTitle %>
-                </strong>: <%= post.postDesc %> by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>) <a
-                        href="/view/<%= post.name %>">View</a>
-              </li>
-              <% }) %>
-          </ul>
+
+          <% if (posts.length===0) { %>
+            <p style="color: red; font-weight: bold;">Not Found!</p>
+            <% } else { %>
+              <ul>
+                <% posts.forEach(post=> { %>
+                  <li>
+                    <strong>
+                      <%= post.postTitle %>
+                    </strong>: <%= post.postDesc %>
+                      by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
+                          <a href="/view/<%= post.postTitle %>">View</a>
+                  </li>
+                  <% }) %>
+              </ul>
+              <% } %>
         </div>
         <% } %>
 
           <!-- Display Admin Actions Only if accountType is 'Admin' -->
           <% if (accRole==='Admin' ) { %>
             <h2>Admin Actions</h2>
-            <form action="/delete-multiple-posts" method="POST">
-              <ul>
-                <% if (posts.length > 0) { %>
-                  <% posts.forEach(post=> { %>
-                    <li>
-                      <input type="checkbox" name="postTitles" value="<%= post.postTitle %>" class="post-checkbox" />
-                      <strong>
-                        <%= post.postTitle %>
-                      </strong>: <%= post.postDesc %> by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
-                    </li>
-                    <% }) %>
-                      <% } %>
-              </ul>
-              <button type="submit" id="delete-button" <%= posts.length === 0 ? 'disabled' : '' %>>Delete Selected Posts</button>
+            <form action="/remove-multiple-posts" method="POST">
 
-              <label for="rating">Remove by Rating:</label>
-              <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
-                placeholder="Enter rating (0-5)" required>
+              <% if (posts.length===0) { %>
+                <p style="color: red; font-weight: bold;">Not Found!</p>
+                <% } else { %>
+                  <ul>
+                    <% posts.forEach(post=> { %>
+                      <li>
+                        <input type="checkbox" name="postTitles" value="<%= post.postTitle %>" class="post-checkbox" />
+                        <strong>
+                          <%= post.postTitle %>
+                        </strong>: <%= post.postDesc %>
+                          by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
+                              <a href="/view/<%= post.postTitle %>">View</a>
+                      </li>
+                      <% }) %>
+                  </ul>
+                  <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
+                  <% } %>
 
-              <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
+                    <label for="rating">Remove by Rating:</label>
+                    <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
+                      placeholder="Enter rating (0-5)" required>
+                    <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
             </form>
 
             <!-- Admin Form to Remove Oldest/Newest Post -->
@@ -122,7 +127,43 @@
               <button type="submit" name="action" value="newest">Remove Newest Post</button>
             </form>
             <% } %>
-
 </body>
 
 </html>
+
+<script>
+  // ฟังก์ชันที่ตรวจสอบว่าได้เลือก Checkbox หรือไม่
+  const checkboxes = document.querySelectorAll('.post-checkbox');
+  const deleteButton = document.getElementById('remove-button');
+
+  // เช็คสถานะ Checkbox ทุกครั้งที่มีการเปลี่ยนแปลง
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      // หากมีการเลือก Checkbox อย่างน้อย 1 ตัว ให้เปิดปุ่ม Delete
+      if (Array.from(checkboxes).some(chk => chk.checked)) {
+        deleteButton.disabled = false;
+      } else {
+        deleteButton.disabled = true;
+      }
+    });
+  });
+
+  // ตรวจสอบให้ปุ่ม Delete ถูก disabled ถ้าไม่มีการเลือกใดๆ
+  document.addEventListener('DOMContentLoaded', function () {
+    if (Array.from(checkboxes).every(chk => !chk.checked)) {
+      deleteButton.disabled = true;
+    }
+  });
+
+  function toggleInput() {
+    const searchType = document.getElementById("searchType").value;
+    const searchInput = document.getElementById("searchValue");
+
+    if (searchType === "myPosts") {
+      searchInput.disabled = true;
+      searchInput.value = ""; // เคลียร์ค่าใน input
+    } else {
+      searchInput.disabled = false;
+    }
+  }
+</script>

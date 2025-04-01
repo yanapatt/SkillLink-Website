@@ -44,11 +44,6 @@ class PostService {
         }
     }
 
-    // แสดง Post ทั้งหมดจากไฟล์
-    getAllPosts() {
-        return this.postRepo.retrieveAllPosts();
-    }
-
     // คำนวณ Average Rating Score
     calculateAverageRating(ratingsList) {
         if (ratingsList.size === 0) return 0;
@@ -57,6 +52,72 @@ class PostService {
         ratingsList.forEachNode(node => total += node.data.rating);
 
         return total / ratingsList.size;
+    }
+
+    // ค้นหาโพสต์ตามชื่อหรือผู้เขียน
+    searchPosts({ searchType, searchValue }) {
+        const foundPosts = new LinkedList();
+
+        if (searchType === 'title') {
+            this.postRepo.retrieveAllPosts().forEach((post) => {
+                if (post.postTitle.toLowerCase().includes(searchValue.toLowerCase())) {
+                    foundPosts.insertLast(post);
+                }
+            });
+        }
+        else if (searchType === 'author') {
+            // ค้นหาบัญชีจาก accounts.json โดยใช้ accUsername
+            const account = this.accountRepo.retrieveAccountByUsername(searchValue);
+
+            if (account) {
+                const targetAccountId = account.accId; // ดึง accountId ของ accUsername ที่พบ
+                this.postRepo.retrieveAllPosts().forEach((post) => {
+                    if (post.accountId === targetAccountId) {
+                        foundPosts.insertLast(post);
+                    }
+                });
+            } else {
+                console.error(`Account not found for username: ${searchValue}`);
+            }
+        }
+        else {
+            console.error('Invalid search type');
+        }
+
+        return foundPosts.toArray(); // ส่งกลับเป็น array ของโพสต์ที่ค้นพบ
+    }
+
+    // โพสต์ของฉัน
+    getMyPosts(accountId) {
+        if (!accountId) {
+            console.error("Account ID is required for getting my posts.");
+            return [];
+        }
+
+        const foundPosts = new LinkedList();
+
+        this.postRepo.retrieveAllPosts().forEach((post) => {
+            if (post.accountId === accountId) {
+                foundPosts.insertLast(post);
+            }
+        });
+
+        return foundPosts.toArray(); // ส่งกลับเป็น array ของโพสต์ของผู้ใช้
+    }
+
+    // แสดงโพสต์ตามชื่อหัวข้อ
+    getPostByTitle(postTitle) {
+        const foundPosts = this.postRepo.retrieveAllPosts().find(post => post.postTitle === postTitle);
+        if (!foundPosts) {
+            console.log(`Post "${postTitle}" not found`);
+            return { success: false, message: "Post not found" };
+        }
+        return foundPosts;
+    }
+
+    // แสดง Post ทั้งหมดจากไฟล์
+    getAllPosts() {
+        return this.postRepo.retrieveAllPosts();
     }
 
     // ลบโพสต์ตามเงื่อนไข (rating หรือ title)
@@ -89,7 +150,7 @@ class PostService {
         });
     }
 
-    // ลบ Post ตามชื่อหัวข้อของ Post
+    // ลบ Post ตามชื่อหัวข้อของ Post และลบภาพประกอบด้วย
     removePostByTitle(postTitle) {
         const targetPost = this.postRepo.retrieveAllPosts().find(post => post.postTitle === postTitle);
 
@@ -98,8 +159,22 @@ class PostService {
             return { success: false, message: "Post not found" };
         }
 
-        this.removePost(targetPost, 'title');
-        return { success: true, message: `Post "${postTitle}" deleted successfully!` };
+        try {
+            // ลบภาพที่เกี่ยวข้อง (ถ้ามี)
+            if (targetPost.postImgUrl) {
+                console.log(`Deleting image: ${targetPost.postImgUrl}`);
+                this.imgRepo.removeImageFromFolder(targetPost.postImgUrl);
+            }
+
+            // ลบโพสต์
+            this.removePost(targetPost, 'title');
+
+            console.log(`Post "${postTitle}" deleted successfully!`);
+            return { success: true, message: `Post "${postTitle}" deleted successfully!` };
+        } catch (error) {
+            console.error(`Error deleting post "${postTitle}":`, error.message);
+            return { success: false, message: `Failed to delete post "${postTitle}".` };
+        }
     }
 
     // ลบหลาย ๆ Posts ในคราวเดียว สามารถลบตามชื่อหัวข้อ Post หรือยอด Rating
@@ -139,7 +214,6 @@ class PostService {
             throw new Error("Failed to delete multiple posts: " + error.message);
         }
     }
-
 
     // ลบ Post แรกสุดออกจาก LinkedList
     async removeFirstPost() {

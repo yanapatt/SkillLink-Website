@@ -23,7 +23,7 @@ exports.createPosts = [imgRepo.uploadImage(), async (req, res) => {
         if (postData.postTitle) {
             postData.postTitle = postData.postTitle.trim();
         }
- 
+
         // สร้างโพสต์ใหม่ผ่าน postService และจัดการภาพ
         const newPost = await postService.createPost(postData, accountId, imgFile);
         console.log("Create post successful!: ", newPost);
@@ -94,14 +94,63 @@ exports.searchPosts = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const { query } = req.body;
-        const posts = await postService.searchPosts(query); // ค้นหาโพสต์จาก query
-        res.status(200).json(posts);
+        // รับข้อมูลจาก request body
+        const { searchValue, searchType } = req.body;
+
+        // ตรวจสอบว่า searchValue และ searchType มีค่าหรือไม่
+        if (!searchValue || !searchType) {
+            return res.status(400).json({ message: "Search value and type are required." });
+        }
+
+        // สร้าง query object สำหรับการค้นหา
+        const query = {
+            searchType,   // ประเภทการค้นหาที่จะใช้ 
+            searchValue,   // คำค้นหาที่จะใช้ค้นหา
+        };
+
+        // ค้นหาโพสต์จาก query
+        const posts = postService.searchPosts(query);
+        res.render('index', {
+            posts,
+            searchValue,
+            searchType,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to search posts" });
     }
 };
+
+// Controller สำหรับ "Get My Posts"
+exports.getMyPosts = async (req, res) => {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: "Unauthorized. Please log in." });
+        }
+
+        const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
+        const myPosts = postService.getMyPosts(accountId); // ใช้ getMyPosts เพื่อดึงโพสต์ของผู้ใช้
+
+        // ส่งผลลัพธ์ไปที่หน้า index
+        res.render('index', {
+            posts: myPosts,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to get your posts" });
+    }
+};
+
+exports.clearSearch = (req, res) => {
+    res.redirect('/');
+}
+
 
 // ฟังก์ชันแสดงรายละเอียดโพสต์
 exports.aboutPost = async (req, res) => {
@@ -111,12 +160,26 @@ exports.aboutPost = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const postId = req.params.id;
-        const post = await postService.getPostById(postId); // แสดงรายละเอียดโพสต์ตาม ID
+        const postTitle = req.params.postTitle; // รับชื่อโพสต์จาก URL parameter
+        const post = await postService.getPostByTitle(postTitle); // เรียกฟังก์ชัน getPostByName จาก PostService
+
+        // ตรวจสอบว่าโพสต์ถูกพบหรือไม่
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
-        res.status(200).json(post);
+
+        // ตรวจสอบว่า action คือ 'edit' หรือไม่
+        if (req.query.action === 'edit') {
+            // ตรวจสอบว่าโพสต์นี้เป็นของผู้ใช้ที่ล็อกอินหรือไม่
+            if (post.accountId !== req.session.accountSession.accId) {
+                return res.status(403).json({ message: "You are not authorized to edit this post." });
+            }
+            // ส่งไปที่หน้าแก้ไขโพสต์
+            return res.render('edit', { post, accUsername: req.session.accountSession.accUsername, accRole: req.session.accountSession.accRole, accId: req.session.accountSession.accId });
+        } else {
+            // ส่งไปที่หน้าดูโพสต์
+            return res.render('post', { post, accUsername: req.session.accountSession.accUsername, accRole: req.session.accountSession.accRole, accId: req.session.accountSession.accId });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to retrieve post" });
@@ -181,9 +244,19 @@ exports.removePostByTitle = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const { title } = req.params;
-        const result = postService.removePostByTitle(title); // ลบโพสต์ตาม title
-        res.status(200).json(result);
+        const postTitle = req.params.postTitle; // ✅ รับค่าตรง ๆ จาก params
+        console.log("Deleting Post Title:", postTitle);
+
+        const result = postService.removePostByTitle(postTitle); // ลบโพสต์ตาม title
+
+        if (!result) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        console.log("Post deleted successfully:", result);
+
+        // ✅ หลังจากลบเสร็จให้ redirect กลับไปหน้าแรก
+        res.redirect('/');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to remove post by title" });
