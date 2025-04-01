@@ -36,29 +36,32 @@ class LinkedList {
         return result;
     }
 
-    removeByName(name) {
+    removeByPostTitle(postTitle) {
         let current = this.head;
         let prev = null;
-    
+
         while (current) {
-            if (current.value && current.value.name === name) {
+            if (current.value && current.value.postTitle === postTitle) {
                 if (prev) {
                     prev.next = current.next;
                 } else {
                     this.head = current.next;
                 }
-    
+
                 if (current === this.tail) {
                     this.tail = prev;
                 }
-    
+
                 this.size--;
+                console.log(`Post with title "${postTitle}" removed.`);
                 return;
             }
             prev = current;
             current = current.next;
         }
+        console.log(`Post with title "${postTitle}" not found.`);
     }
+
 
     insertFirst(value) {
         const newNode = new Node(value);
@@ -93,11 +96,11 @@ class LinkedList {
     }
 
     removeLast() {
-        if (!this.head) return;  
-        if (this.head === this.tail) {  
+        if (!this.head) return;
+        if (this.head === this.tail) {
             this.head = null;
             this.tail = null;
-            this.size--; 
+            this.size--;
             return;
         }
 
@@ -106,9 +109,9 @@ class LinkedList {
             current = current.next;
         }
 
-        current.next = null; 
+        current.next = null;
         this.tail = current;
-        this.size--;  
+        this.size--;
     }
 
     forEachNode(callback) {

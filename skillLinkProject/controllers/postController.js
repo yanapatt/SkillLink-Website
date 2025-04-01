@@ -20,9 +20,10 @@ exports.createPosts = [imgRepo.uploadImage(), async (req, res) => {
         const postData = req.body; // รับข้อมูลจาก request body
         const imgFile = req.file; // รับไฟล์จาก multer
 
-        console.log("Post data: ", postData);
-        console.log("Image file: ", imgFile);
-
+        if (postData.postTitle) {
+            postData.postTitle = postData.postTitle.trim();
+        }
+ 
         // สร้างโพสต์ใหม่ผ่าน postService และจัดการภาพ
         const newPost = await postService.createPost(postData, accountId, imgFile);
         console.log("Create post successful!: ", newPost);

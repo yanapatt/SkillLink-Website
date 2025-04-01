@@ -50,14 +50,16 @@ class PostRepository {
 
     // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post
     retrieveByPostTitle(title) {
-        let foundPosts = null;
-        this.posts.forEachNode(post => {
-            if (post.postTitle.toLowerCase() === title.toLowerCase()) {
-                foundPosts = post;
+        let foundNode = null;
+
+        this.posts.forEachNode((node) => {
+            // Trim ชื่อโพสต์เพื่อหลีกเลี่ยงช่องว่างที่ไม่ต้องการ
+            if (node.value && node.value.postTitle.toLowerCase() === title.toLowerCase()) {
+                foundNode = node; // คืนค่าเป็นโหนดจริง
             }
         });
-        console.log("Retrieve posts successful!:", foundPosts);
-        return foundPosts;
+
+        return foundNode;
     }
 
     // เพิ่ม Post ลงบน LinkedList
@@ -72,17 +74,21 @@ class PostRepository {
 
     // ลบ Post เดี่ยวโดยชื่อหัวข้อ Post
     removePosts(title) {
-        let targetNode = null;
-        targetNode = this.retrieveByPostTitle(title);
+        if (this.posts.isEmpty()) {
+            console.log("No posts available to remove.");
+            return; // ถ้าไม่มีโพสต์ให้ลบ ให้หยุดการทำงาน
+        }
+        /*const targetNode = this.retrieveByPostTitle(title);
 
         if (!targetNode) {
-            console.error(`Post with name "${title}" not found.`);
-            return;
-        }
+            console.log(`Post with title "${title}" not found.`);
+            return; // ถ้าไม่พบโพสต์ที่ต้องการลบ ให้หยุดการทำงาน
+        }*/
 
         // ลบโพสต์ออกจาก LinkedList
-        this.posts.removeByName(title);
-        console.log(`Post "${title}" has been deleted successfully!`);
+        this.posts.removeByPostTitle(title);  // เปลี่ยนจาก removeByName เป็น removeByPostTitle
+        console.log(`Post with title "${title}" has been deleted successfully!`);
+
         // บันทึกการเปลี่ยนแปลงลงไฟล์
         this.saveToFile();
     }
@@ -97,7 +103,6 @@ class PostRepository {
         const firstPost = this.posts.head.value;
 
         this.posts.removeFirst();
-        console.log(`First post "${firstPost.postTitle}" has been deleted successfully!`);
         this.saveToFile();
 
         // ส่งคืนผลลัพธ์
@@ -114,7 +119,6 @@ class PostRepository {
         const lastPost = this.posts.tail.value;
 
         this.posts.removeLast();
-        console.log(`Last post "${lastPost.postTitle}" has been deleted successfully!`);
         this.saveToFile();
 
         // ส่งคืนผลลัพธ์

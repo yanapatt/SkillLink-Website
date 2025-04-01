@@ -115,25 +115,20 @@ class PostService {
             // ใช้ Promise.all เพื่อจัดการการลบโพสต์และภาพแบบ asynchronous
             const deletionResults = await Promise.all(
                 postTitles.map(async (title) => {
-                    const targetPost = this.postRepo.retrieveAllPosts().find(post => post.postTitle === title);
-
-                    if (targetPost) {
-                        try {
-                            // ลบภาพที่เกี่ยวข้อง (ถ้ามี)
-                            if (targetPost.postImgUrl) {
-                                await this.imgRepo.removeImageFromFolder(targetPost.postImgUrl);
-                            }
-
-                            // ลบโพสต์
-                            this.postRepo.removePosts(title);
-                            return { title, success: true, message: `Post "${title}" deleted successfully.` };
-                        } catch (error) {
-                            console.error(`Error deleting post "${title}":`, error.message);
-                            return { title, success: false, message: `Failed to delete post "${title}".` };
+                    try {
+                        // ลบภาพที่เกี่ยวข้อง (ถ้ามี)
+                        const targetPost = this.postRepo.retrieveAllPosts().find(post => post.postTitle === title);
+                        console.log("Target Post: ", targetPost.postImgUrl);
+                        if (targetPost && targetPost.postImgUrl) {
+                            await this.imgRepo.removeImageFromFolder(targetPost.postImgUrl);
+                            // ลบโพสต์ใน postRepo
                         }
-                    } else {
-                        console.log(`Post "${title}" not found.`);
-                        return { title, success: false, message: `Post "${title}" not found.` };
+
+                        this.postRepo.removePosts(title); // ลบโพสต์ออกจาก LinkedList
+                        return { title, success: true, message: `Post "${title}" deleted successfully.` };
+                    } catch (error) {
+                        console.error(`Error deleting post "${title}":`, error.message);
+                        return { title, success: false, message: `Failed to delete post "${title}".` };
                     }
                 })
             );
@@ -144,6 +139,7 @@ class PostService {
             throw new Error("Failed to delete multiple posts: " + error.message);
         }
     }
+
 
     // ลบ Post แรกสุดออกจาก LinkedList
     async removeFirstPost() {
