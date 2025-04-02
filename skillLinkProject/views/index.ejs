@@ -40,7 +40,7 @@
         <input type="text" name="postTitle" placeholder="Post Title" required />
         <textarea name="postDesc" placeholder="Post Description" required></textarea>
         <input type="file" name="postImgUrl" accept="image/*" />
-        <button type="submit">Add Post</button>
+        <button type="submit">Add Post</button> 
       </form>
 
       <!-- Top 5 Rating Posts -->
@@ -109,8 +109,8 @@
                       </li>
                       <% }) %>
                   </ul>
-                  <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
                   <% } %>
+                  <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
 
                     <label for="rating">Remove by Rating:</label>
                     <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
@@ -154,16 +154,4 @@
       deleteButton.disabled = true;
     }
   });
-
-  function toggleInput() {
-    const searchType = document.getElementById("searchType").value;
-    const searchInput = document.getElementById("searchValue");
-
-    if (searchType === "myPosts") {
-      searchInput.disabled = true;
-      searchInput.value = ""; // เคลียร์ค่าใน input
-    } else {
-      searchInput.disabled = false;
-    }
-  }
 </script>

@@ -186,34 +186,63 @@ exports.aboutPost = async (req, res) => {
 };
 
 // อัพเดทโพสต์
-exports.updatePost = async (req, res) => {
+exports.updatePost = [
+    imgRepo.uploadImage(), // ใช้ multer สำหรับจัดการไฟล์
+    async (req, res) => {
+        try {
+            if (!req.session.accountSession) {
+                return res.status(401).json({ message: "Unauthorized. Please log in." });
+            }
+
+            const postTitle = req.params.postTitle;
+            const updateData = req.body;
+            const newImgFile = req.file;
+
+            let updatedPostData = {
+                postTitle: updateData.postTitle.trim(),
+                postDesc: updateData.postDesc.trim(),
+            };
+            
+            // อัปเดตโพสต์ในฐานข้อมูล
+            const result = await postService.updatePost(postTitle, updatedPostData, newImgFile);
+
+            if (!result.success) {
+                return res.status(404).json({ message: result.message });
+            }
+
+            res.redirect("/");
+
+        } catch (error) {
+            console.error("Error updating post:", error);
+            res.status(500).json({ message: "Failed to update post" });
+        }
+    }
+];
+
+// ฟังก์ชันลบรูปภาพจากโพสต์
+exports.removeImage = async (req, res) => {
     try {
-        // ตรวจสอบการล็อกอิน
         if (!req.session.accountSession) {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const postTitle = req.params.postTitle; // ใช้ชื่อโพสต์เป็นพารามิเตอร์
-        const updateData = req.body;
-        const newImgFile = req.file; // รับไฟล์ภาพจาก multer (ถ้ามี)
+        const postTitle = req.params.postTitle;
 
-        console.log("Post Title:", postTitle);
-        console.log("Update Data:", updateData);
-        console.log("New Image File:", newImgFile);
-
-        // เรียกใช้งาน service อัพเดตโพสต์
-        const result = await postService.updatePost(postTitle, updateData, newImgFile);
+        // ส่ง `deleteImage: true` เพื่อให้ `updatePost()` ลบรูป
+        const result = await postService.updatePost(postTitle, { deleteImage: true });
 
         if (!result.success) {
-            return res.status(404).json({ message: result.message });
+            return res.status(404).json({ success: false, message: result.message });
         }
 
-        res.redirect("/");
+        res.json({ success: true, message: "Image removed successfully." });
+
     } catch (error) {
-        console.error("Error updating post:", error);
-        res.status(500).json({ message: "Failed to update post" });
+        console.error("Error removing image:", error);
+        res.status(500).json({ success: false, message: "Failed to remove image" });
     }
 };
+
 
 // ฟังก์ชันจัดเรียงโพสต์ตามคะแนน
 exports.sortPostsByRating = async (req, res) => {

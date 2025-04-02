@@ -49,12 +49,12 @@ class PostRepository {
     }
 
     // อัปเดตข้อมูลโพสต์
-    updatePost(title, updatedData, newImgFile) {
+    updatePost(title, updatedData) {
         try {
             // ดึงข้อมูลโพสต์ทั้งหมด
             const allPosts = this.retrieveAllPosts();
 
-            // ค้นหาโพสต์ที่ต้องการอัปเดตโดยใช้ find
+            // ค้นหาโพสต์ที่ต้องการอัปเดต
             const targetPost = allPosts.find(post => post.postTitle.toLowerCase() === title.toLowerCase());
 
             if (!targetPost) {
@@ -63,31 +63,16 @@ class PostRepository {
             }
 
             // อัปเดตคำอธิบายโพสต์ (ถ้ามีการแก้ไข)
-            if (updatedData.postDesc) {
+            if (updatedData.postDesc !== undefined) {
                 targetPost.postDesc = updatedData.postDesc;
             }
 
-            // ถ้ามีการอัปโหลดภาพใหม่
-            if (newImgFile) {
-                console.log(`Updating image for post: ${title}`);
-
-                // ลบภาพเก่าออกก่อน (ถ้ามี)
-                if (targetPost.postImgUrl) {
-                    // ลบภาพเก่า (อาจจะต้องเชื่อมกับฟังก์ชันลบภาพเก่าที่คุณมี)
-                    try {
-                        fs.unlinkSync(path.join(__dirname, '..', 'images', targetPost.postImgUrl)); // สมมุติว่าเก็บรูปในโฟลเดอร์ 'images'
-                        console.log(`Old image removed successfully.`);
-                    } catch (error) {
-                        console.error(`Error removing old image: ${error.message}`);
-                    }
-                }
-
-                // อัปโหลดภาพใหม่
-                targetPost.postImgUrl = newImgFile;  // หรือคุณสามารถใช้ฟังก์ชันที่มีในการจัดการกับไฟล์ใหม่
-                console.log(`New image uploaded successfully.`);
+            // อัปเดต URL ของรูป (รองรับการลบหรืออัปโหลดใหม่)
+            if (updatedData.postImgUrl !== undefined) {
+                targetPost.postImgUrl = updatedData.postImgUrl;
             }
 
-            // อัปเดตโพสต์ใน LinkedList (บันทึกข้อมูลใหม่ในไฟล์)
+            // บันทึกกลับไปที่ไฟล์
             this.saveToFile();
 
             console.log(`Post "${title}" updated successfully!`);
@@ -100,7 +85,7 @@ class PostRepository {
     }
 
     // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post มีปัญหาอยู่
-    /*retrieveByPostTitle(title) {
+    retrieveByPostTitle(title) {
         let foundNode = null;
 
         this.posts.forEachNode((node) => {
@@ -111,7 +96,7 @@ class PostRepository {
         });
 
         return foundNode;
-    }*/
+    }
 
     // เพิ่ม Post ลงบน LinkedList
     insertPosts(post) {

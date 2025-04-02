@@ -123,7 +123,6 @@ class PostService {
     // อัปเดตข้อมูลของโพสต์ (แก้คำอธิบาย และเปลี่ยนรูปภาพได้)
     async updatePost(postTitle, updatedData, newImgFile) {
         try {
-            // ค้นหาโพสต์ที่ต้องการแก้ไข
             const targetPost = this.postRepo.retrieveAllPosts().find(post => post.postTitle === postTitle);
 
             if (!targetPost) {
@@ -131,39 +130,43 @@ class PostService {
                 return { success: false, message: "Post not found" };
             }
 
-            // อัปเดตคำอธิบายโพสต์ (ถ้ามีการแก้ไข)
+            // อัปเดตคำอธิบายโพสต์
             if (updatedData.postDesc) {
                 targetPost.postDesc = updatedData.postDesc;
             }
 
-            // ถ้ามีภาพใหม่ ให้อัปโหลดภาพใหม่ และลบภาพเก่า
+            // ถ้าผู้ใช้ต้องการลบภาพ
+            if (updatedData.deleteImage === true && targetPost.postImgUrl) {
+                console.log(`Deleting image for post: ${postTitle}`);
+                try {
+                    await this.imgRepo.removeImageFromFolder(targetPost.postImgUrl); // ลบภาพเก่า
+                    targetPost.postImgUrl = ''; // ล้างค่า URL รูป
+                    console.log(`Old image removed successfully.`);
+                } catch (error) {
+                    console.error(`Error removing old image: ${error.message}`);
+                }
+            }
+
+            // อัปโหลดภาพใหม่ (ถ้ามี)
             if (newImgFile) {
                 console.log(`Updating image for post: ${postTitle}`);
-
-                // ลบภาพเก่าออกก่อน (ถ้ามี)
-                if (targetPost.postImgUrl) {
-                    try {
-                        await this.imgRepo.removeImageFromFolder(targetPost.postImgUrl); // ลบภาพเก่า
-                        console.log(`Old image removed successfully.`);
-                    } catch (error) {
-                        console.error(`Error removing old image: ${error.message}`);
-                    }
-                }
-
-                // อัปโหลดภาพใหม่
                 try {
-                    targetPost.postImgUrl = await this.imgRepo.saveImageToFolder(newImgFile); // อัปโหลดภาพใหม่
+                    targetPost.postImgUrl = await this.imgRepo.saveImageToFolder(newImgFile);
                     console.log(`New image uploaded successfully.`);
                 } catch (error) {
                     console.error(`Error uploading new image: ${error.message}`);
                 }
             }
 
-            // อัปเดตโพสต์ใน LinkedList
-            this.postRepo.updatePost(targetPost);
+            // ส่งค่าที่อัปเดตไปยัง repo
+            await this.postRepo.updatePost(postTitle, {
+                postDesc: targetPost.postDesc,
+                postImgUrl: targetPost.postImgUrl
+            });
 
             console.log(`Post "${postTitle}" updated successfully!`);
             return { success: true, message: `Post "${postTitle}" updated successfully!`, updatedPost: targetPost };
+
         } catch (error) {
             console.error(`Error updating post "${postTitle}":`, error.message);
             return { success: false, message: `Failed to update post "${postTitle}".` };
@@ -198,7 +201,7 @@ class PostService {
             }
 
             // ลบโพสต์
-            this.removePost(targetPost, 'title');
+            this.postRepo.removePosts(postTitle); // ลบโพสต์ออกจาก LinkedList
 
             console.log(`Post "${postTitle}" deleted successfully!`);
             return { success: true, message: `Post "${postTitle}" deleted successfully!` };

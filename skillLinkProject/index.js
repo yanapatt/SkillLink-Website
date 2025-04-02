@@ -53,7 +53,7 @@ app.get('/clear-search', accountController.authenticate, postController.clearSea
 // Delete post routes
 app.post('/remove-multiple-posts', accountController.authenticate, postController.removeMultiplePosts); // Delete multiple posts
 app.post('/remove/:postTitle', accountController.authenticate, postController.removePostByTitle); // Delete a post by name
-//app.post('/delete-image/:name', accountController.authenticate, postController.deleteImage); // Delete an image from a post
+app.post('/remove-image/:postTitle', accountController.authenticate, postController.removeImage); // Delete an image from a post
 app.post('/remove-by-action', accountController.authenticate, postController.removePostByAction); // Delete post by action (newest or oldest)
 
 // Start server
