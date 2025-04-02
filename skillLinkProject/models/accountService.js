@@ -65,9 +65,9 @@ class AccountService {
         return this.accountRepo.retrieveAllAccounts().map(this.encryptAccounts);
     }
 
-    // เข้ารหัส Password
+    // เข้ารหัส Password (ปรับชื่อให้ตรง)
     encryptAccounts(acc) {
-        return { ...acc, password: "**********" };
+        return { ...acc, accPassword: "**********" }; // ใช้ accPassword แทน password เพื่อให้ถูกต้อง
     }
 
     /*

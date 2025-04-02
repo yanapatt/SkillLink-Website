@@ -85,9 +85,14 @@ describe("AccountService", () => {
             { accUsername: "user1", accPassword: "encrypted_pass1" },
             { accUsername: "user2", accPassword: "encrypted_pass2" }
         ];
+
+        // Mock ให้ return ค่า mockAccounts
         mockAccountRepo.retrieveAllAccounts.mockReturnValue(mockAccounts);
 
+        // ฟังก์ชันที่ต้องการทดสอบ
         const result = accountService.getAllEncryptAccounts();
+
+        // ตรวจสอบผลลัพธ์หลังจากมาสก์รหัสผ่าน
         expect(result).toEqual([
             { accUsername: "user1", accPassword: "**********" },
             { accUsername: "user2", accPassword: "**********" }
