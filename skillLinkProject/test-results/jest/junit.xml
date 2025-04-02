@@ -1,37 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="16" failures="0" errors="0" time="0.869">
-  <testsuite name="LinkedList" errors="0" failures="0" skipped="0" timestamp="2025-04-02T15:07:29" time="0.771" tests="16">
+<testsuites name="jest tests" tests="26" failures="0" errors="0" time="0.811">
+  <testsuite name="LinkedList" errors="0" failures="0" skipped="0" timestamp="2025-04-02T15:31:39" time="0.714" tests="26">
     <testcase classname="LinkedList insertFirst should add a node at the beginning of the LinkedList" name="LinkedList insertFirst should add a node at the beginning of the LinkedList" time="0.004">
     </testcase>
     <testcase classname="LinkedList insertLast should add a node at the end of the LinkedList" name="LinkedList insertLast should add a node at the end of the LinkedList" time="0.001">
     </testcase>
-    <testcase classname="LinkedList removeByPostTitle should remove a node with the specified postTitle" name="LinkedList removeByPostTitle should remove a node with the specified postTitle" time="0.023">
+    <testcase classname="LinkedList removeByPostTitle should remove a node with the specified postTitle" name="LinkedList removeByPostTitle should remove a node with the specified postTitle" time="0.038">
     </testcase>
-    <testcase classname="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" name="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" time="0.006">
+    <testcase classname="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" name="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" time="0.003">
     </testcase>
     <testcase classname="LinkedList removeFirst should do nothing when LinkedList is empty" name="LinkedList removeFirst should do nothing when LinkedList is empty" time="0.001">
     </testcase>
-    <testcase classname="LinkedList removeFirst should remove the only node when LinkedList has one node" name="LinkedList removeFirst should remove the only node when LinkedList has one node" time="0.001">
+    <testcase classname="LinkedList removeFirst should remove the only node when LinkedList has one node" name="LinkedList removeFirst should remove the only node when LinkedList has one node" time="0">
     </testcase>
-    <testcase classname="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" name="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" time="0.001">
+    <testcase classname="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" name="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" time="0">
     </testcase>
-    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0.001">
+    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
     </testcase>
-    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0.001">
+    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0">
     </testcase>
-    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0.001">
+    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0">
     </testcase>
-    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0.001">
+    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0">
     </testcase>
     <testcase classname="LinkedList toArray should return an empty array when LinkedList is empty" name="LinkedList toArray should return an empty array when LinkedList is empty" time="0">
     </testcase>
-    <testcase classname="LinkedList toArray should convert the LinkedList to an array" name="LinkedList toArray should convert the LinkedList to an array" time="0">
+    <testcase classname="LinkedList toArray should convert the LinkedList to an array" name="LinkedList toArray should convert the LinkedList to an array" time="0.001">
     </testcase>
     <testcase classname="LinkedList getSize should return the size of the LinkedList" name="LinkedList getSize should return the size of the LinkedList" time="0.001">
     </testcase>
-    <testcase classname="LinkedList isEmpty should return true when the LinkedList is empty" name="LinkedList isEmpty should return true when the LinkedList is empty" time="0">
+    <testcase classname="LinkedList isEmpty should return true when the LinkedList is empty" name="LinkedList isEmpty should return true when the LinkedList is empty" time="0.001">
     </testcase>
-    <testcase classname="LinkedList isEmpty should return false when the LinkedList has nodes" name="LinkedList isEmpty should return false when the LinkedList has nodes" time="0">
+    <testcase classname="LinkedList isEmpty should return false when the LinkedList has nodes" name="LinkedList isEmpty should return false when the LinkedList has nodes" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList map should apply the callback to each node and return a new array" name="LinkedList map should apply the callback to each node and return a new array" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList map should return an empty array when LinkedList is empty" name="LinkedList map should return an empty array when LinkedList is empty" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" name="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should update the tail when the last node is removed" name="LinkedList removeByPostTitle should update the tail when the last node is removed" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList forEachNode should handle errors in the callback function gracefully" name="LinkedList forEachNode should handle errors in the callback function gracefully" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should update the tail correctly after removing the last node" name="LinkedList removeLast should update the tail correctly after removing the last node" time="0">
     </testcase>
   </testsuite>
 </testsuites>

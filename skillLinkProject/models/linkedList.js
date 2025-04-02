@@ -132,7 +132,6 @@ class LinkedList {
             current = current.next;
         }
     }
-
 }
 
 module.exports = LinkedList;
