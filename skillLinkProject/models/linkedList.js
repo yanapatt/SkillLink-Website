@@ -12,39 +12,57 @@ class LinkedList {
         this.size = 0;
     }
 
-    //Get current size on linked list
     getSize() {
         return this.size;
     }
 
-    //Convert to array list
+    isEmpty() {
+        return this.size === 0;
+    }
+
     toArray() {
         const result = [];
         this.forEachNode((value) => result.push(value));
         return result;
     }
 
-    //Filter function
-    removeByName(name) {
+    map(callback) {
+        const result = [];
+        let current = this.head;
+        while (current) {
+            result.push(callback(current.value));
+            current = current.next;
+        }
+        return result;
+    }
+
+    removeByPostTitle(postTitle) {
         let current = this.head;
         let prev = null;
 
         while (current) {
-            if (current.value.name === name) {
+            if (current.value && current.value.postTitle === postTitle) {
                 if (prev) {
                     prev.next = current.next;
                 } else {
                     this.head = current.next;
                 }
+
+                if (current === this.tail) {
+                    this.tail = prev;
+                }
+
                 this.size--;
-                return; // ลบเจอแล้วออกจากฟังก์ชัน
+                console.log(`Post with title "${postTitle}" removed.`);
+                return;
             }
             prev = current;
             current = current.next;
         }
+        console.log(`Post with title "${postTitle}" not found.`);
     }
 
-    //Insert value into head linked list
+
     insertFirst(value) {
         const newNode = new Node(value);
         newNode.next = this.head;
@@ -55,7 +73,6 @@ class LinkedList {
         this.size++;
     }
 
-    //Remove first value from linked list
     removeFirst() {
         if (this.head) {
             this.head = this.head.next;
@@ -66,7 +83,6 @@ class LinkedList {
         this.size--;
     }
 
-    //Insert value into tail linked list
     insertLast(value) {
         const newNode = new Node(value);
         if (!this.head) {
@@ -79,13 +95,12 @@ class LinkedList {
         this.size++;
     }
 
-    //Remove last value from linked list
-    /*removeLast() {
-        if (!this.head) return;  // ถ้า LinkedList ว่าง
-        if (this.head === this.tail) {  // ถ้ามีเพียง node เดียว
+    removeLast() {
+        if (!this.head) return;
+        if (this.head === this.tail) {
             this.head = null;
             this.tail = null;
-            this.size--;  // ลดขนาด
+            this.size--;
             return;
         }
 
@@ -94,18 +109,27 @@ class LinkedList {
             current = current.next;
         }
 
-        current.next = null;  // ตัดการเชื่อมต่อกับ node สุดท้าย
-        this.tail = current;  // เปลี่ยน tail เป็น node ใหม่
-        this.size--;  // ลดขนาด
-    }*/
+        current.next = null;
+        this.tail = current;
+        this.size--;
+    }
 
     forEachNode(callback) {
         let current = this.head;
         while (current) {
-            callback(current.value);
+            if (current.value !== null && current.value !== undefined) {
+                try {
+                    callback(current.value);
+                } catch (error) {
+                    console.error("Error in callback function:", error);
+                }
+            } else {
+                console.log("Skipping node with null or undefined value");
+            }
             current = current.next;
         }
     }
+
 }
 
 module.exports = LinkedList;

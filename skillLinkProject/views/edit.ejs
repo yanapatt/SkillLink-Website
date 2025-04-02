@@ -1,0 +1,52 @@
+<h1>Edit Post</h1>
+<form action="/update/<%= post.postTitle %>" method="POST" enctype="multipart/form-data" id="edit-post-form">
+    <label>Name:</label>
+    <input type="text" name="postTitle" value="<%= post.postTitle %>" readonly>
+
+    <label>Description:</label>
+    <textarea name="postDesc" required><%= post.postDesc %></textarea>
+
+    <label>Current Image:</label>
+    <% if (post.postImgUrl) { %>
+        <div id="image-container">
+            <img src="<%= post.postImgUrl %>" alt="Post Image" width="150" id="post-image">
+            <button type="button" id="delete-image-btn" onclick="removeImage('<%= post.postTitle %>')">
+                Delete Image
+            </button>
+        </div>
+        <% } else { %>
+            <input type="file" name="postImgUrl" accept="image/*" id="image-upload">
+            <% } %>
+
+                <br><br>
+                <button type="submit">Update Post</button>
+</form>
+
+
+<script>
+    async function removeImage(postTitle) {
+        try {
+            const response = await fetch(`/remove-image/${postTitle}`, { method: "POST" });
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById("image-container").remove();
+
+                // สร้าง input file ใหม่แล้วแทรกลงในฟอร์ม
+                const imageUploadInput = document.createElement("input");
+                imageUploadInput.type = "file";
+                imageUploadInput.name = "postImgUrl";
+                imageUploadInput.accept = "image/*";
+                imageUploadInput.id = "image-upload";
+
+                const form = document.getElementById("edit-post-form");
+                form.insertBefore(imageUploadInput, form.children[form.children.length - 2]);
+            } else {
+                alert("Failed to remove image.");
+            }
+        } catch (error) {
+            console.error("Error removing image:", error);
+        }
+    }
+
+</script>
