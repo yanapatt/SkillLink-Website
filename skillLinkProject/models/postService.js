@@ -16,7 +16,7 @@ class PostService {
             postDesc: postData.postDesc,
             postRating: postData.postRating || 0,  // ใช้ค่า default หากไม่มีคะแนน
             postImgUrl: imageUrl || null,  // ใช้ URL ของภาพถ้ามี
-            ratingsCount: postData.ratingsCount || new LinkedList()
+            ratingsCount: postData.ratingsCount || [] // ในอนาคตเปลี่ยนเป็น LinkedList
         };
     }
 
@@ -44,14 +44,39 @@ class PostService {
         }
     }
 
+    // อัปเดตคะแนน Rating ของโพสต์
+    async ratePost(postTitle, accountId, newRating) {
+        try {
+            const post = this.postRepo.retrieveAllPosts().find(post => post.postTitle === postTitle);
+            if (!post) return { success: false, message: "Post not found" };
+
+            const existingRatingIndex = post.ratingsCount.findIndex(rating => rating.accountId === accountId);
+
+            if (existingRatingIndex !== -1) {
+                post.ratingsCount[existingRatingIndex].rating = newRating;
+            } else {
+                post.ratingsCount.push({ accountId, rating: newRating });
+            }
+
+            post.postRating = this.calculateAverageRating(post.ratingsCount);
+            await this.postRepo.updatePost(postTitle, { postRating: post.postRating, ratingsCount: post.ratingsCount });
+
+            return { success: true, message: `Post "${postTitle}" rating updated successfully!`, updatedPost: post };
+        } catch (error) {
+            return { success: false, message: "Failed to update rating" };
+        }
+    }
+
+    // เรียงโพสต์ตาม Rating จากมากไปน้อย
+    sortPostsByRating() {
+        return this.postRepo.retrieveAllPosts().sort((a, b) => b.postRating - a.postRating);
+    }
+
     // คำนวณ Average Rating Score
-    calculateAverageRating(ratingsList) {
-        if (ratingsList.size === 0) return 0;
-
-        let total = 0;
-        ratingsList.forEachNode(node => total += node.data.rating);
-
-        return total / ratingsList.size;
+    calculateAverageRating(ratingsArray) {
+        if (ratingsArray.length === 0) return 0;
+        const total = ratingsArray.reduce((sum, rating) => sum + rating.rating, 0);
+        return total / ratingsArray.length;
     }
 
     // ค้นหาโพสต์ตามชื่อหรือผู้เขียน
@@ -85,6 +110,17 @@ class PostService {
         }
 
         return foundPosts.toArray(); // ส่งกลับเป็น array ของโพสต์ที่ค้นพบ
+    }
+
+    // แสดงโพสต์ที่มีคะแนนสูงสุด 5 โพสต์
+    getTopRatedPosts() {
+        const allPosts = this.postRepo.retrieveAllPosts();
+
+        // เรียงโพสต์ตาม postRating จากมากไปหาน้อย
+        const sortedPosts = allPosts.sort((a, b) => b.postRating - a.postRating);
+
+        // เลือกแค่ 5 โพสต์แรกที่มีคะแนนสูงสุด
+        return sortedPosts.slice(0, 5);
     }
 
     // โพสต์ของฉัน
@@ -174,14 +210,35 @@ class PostService {
     }
 
     // ลบโพสต์ตามคะแนน Rating
-    removePostByRating(rating) {
-        const parsedRating = parseFloat(rating);
-        this.postRepo.retrieveAllPosts().forEach((post) => {
-            const postRating = parseFloat(post.postRating);
-            if (postRating === parsedRating) {
-                this.removePost(post, 'rating');
+    async removePostsByRating(rating) {
+        try {
+            const parsedRating = parseFloat(rating);
+            if (isNaN(parsedRating)) {
+                return { success: false, message: "Invalid rating value." };
             }
-        });
+
+            // ค้นหาโพสต์ที่มีคะแนนต่ำกว่าหรือเท่ากับค่าที่กำหนด
+            const postsToDelete = this.postRepo.retrieveAllPosts().filter(post => parseFloat(post.postRating) <= parsedRating);
+
+            if (postsToDelete.length === 0) {
+                return { success: false, message: "No posts found with rating <= " + parsedRating };
+            }
+
+            await Promise.all(postsToDelete.map(async (post) => {
+                try {
+                    // ลบโพสต์จาก LinkedList
+                    this.removePostByTitle(post.postTitle);
+                } catch (error) {
+                    console.error(`Error deleting image for post "${post.postTitle}":`, error.message);
+                    // คุณสามารถเก็บ log หรือส่งข้อความที่เหมาะสมเมื่อเกิดข้อผิดพลาดในการลบภาพ
+                }
+            }));
+
+            return { success: true, message: `Deleted ${postsToDelete.length} post(s) with rating <= ${parsedRating}.` };
+        } catch (error) {
+            console.error("Error deleting posts by rating:", error.message);
+            return { success: false, message: "Failed to delete posts by rating." };
+        }
     }
 
     // ลบ Post ตามชื่อหัวข้อของ Post และลบภาพประกอบด้วย

@@ -36,7 +36,7 @@ exports.createPosts = [imgRepo.uploadImage(), async (req, res) => {
     }
 }];
 
-// Access Post
+// Access Post (แก้ไขให้รวม 5 โพสต์แรก)
 exports.getPosts = async (req, res) => {
     try {
         // ตรวจสอบการล็อกอิน
@@ -47,6 +47,10 @@ exports.getPosts = async (req, res) => {
         // ดึงโพสต์ทั้งหมดจาก service
         const posts = await postService.getAllPosts();
         console.log("Get post successful!: ", posts);
+
+        // ดึง 5 โพสต์แรกจาก postService
+        const firstFivePosts = await postService.getTopRatedPosts();
+        console.log("First 5 posts:", firstFivePosts);
 
         // ดึงข้อมูลชื่อผู้ใช้จาก session
         let { accUsername, accRole } = req.session.accountSession;
@@ -75,7 +79,8 @@ exports.getPosts = async (req, res) => {
 
         // ส่งข้อมูลไปยังหน้า index ผ่าน res.render
         res.render('index', {
-            posts: allPosts,
+            posts: allPosts, // โพสต์ทั้งหมด
+            firstFivePosts: firstFivePosts, // 5 โพสต์แรก
             accUsername: accUsername,
             accRole: accRole
         });
@@ -97,9 +102,13 @@ exports.getMyPosts = async (req, res) => {
         const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
         const myPosts = postService.getMyPosts(accountId); // ใช้ getMyPosts เพื่อดึงโพสต์ของผู้ใช้
 
+        // ดึง 5 โพสต์แรกจาก postService
+        const firstFivePosts = await postService.getTopRatedPosts();
+
         // ส่งผลลัพธ์ไปที่หน้า index
         res.render('index', {
             posts: myPosts,
+            firstFivePosts: firstFivePosts, // ส่ง 5 โพสต์แรก
             accUsername: req.session.accountSession.accUsername,
             accRole: req.session.accountSession.accRole
         });
@@ -119,6 +128,7 @@ exports.searchPosts = async (req, res) => {
 
         // รับข้อมูลจาก request body
         const { searchValue, searchType } = req.body;
+        const firstFivePosts = await postService.getTopRatedPosts();
 
         // ตรวจสอบว่า searchValue และ searchType มีค่าหรือไม่
         if (!searchValue || !searchType) {
@@ -134,6 +144,7 @@ exports.searchPosts = async (req, res) => {
         // ค้นหาโพสต์จาก query
         const posts = postService.searchPosts(query);
         res.render('index', {
+            firstFivePosts,
             posts,
             searchValue,
             searchType,
@@ -202,7 +213,7 @@ exports.updatePost = [
                 postTitle: updateData.postTitle.trim(),
                 postDesc: updateData.postDesc.trim(),
             };
-            
+
             // อัปเดตโพสต์ในฐานข้อมูล
             const result = await postService.updatePost(postTitle, updatedPostData, newImgFile);
 
@@ -245,6 +256,7 @@ exports.removeImage = async (req, res) => {
 
 
 // ฟังก์ชันจัดเรียงโพสต์ตามคะแนน
+// ฟังก์ชันจัดเรียงโพสต์ตามคะแนน
 exports.sortPostsByRating = async (req, res) => {
     try {
         // ตรวจสอบการล็อกอิน
@@ -253,7 +265,14 @@ exports.sortPostsByRating = async (req, res) => {
         }
 
         const posts = await postService.sortPostsByRating(); // จัดเรียงโพสต์ตามคะแนน
-        res.status(200).json(posts);
+        const firstFivePosts = await postService.getTopRatedPosts();
+        
+        res.render('index', {
+            firstFivePosts,
+            posts,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to sort posts" });
@@ -263,22 +282,33 @@ exports.sortPostsByRating = async (req, res) => {
 // ฟังก์ชันให้คะแนนโพสต์
 exports.ratePost = async (req, res) => {
     try {
-        // ตรวจสอบการล็อกอิน
+        // Ensure the user is logged in
         if (!req.session.accountSession) {
             return res.status(401).json({ message: "Unauthorized. Please log in." });
         }
 
-        const { postId, rating } = req.body;
-        const updatedPost = await postService.ratePost(postId, rating); // ให้คะแนนโพสต์
-        res.status(200).json(updatedPost);
+        const { postTitle, rating } = req.body;
+        const accountId = req.session.accountSession.accId;
+
+        console.log("BODY:", req.body); // Log the request body for debugging
+
+        // Update the rating using the PostService
+        const result = await postService.ratePost(postTitle, accountId, parseInt(rating));
+
+        if (!result.success) {
+            return res.status(400).json({ message: result.message });
+        }
+
+        // Redirect to the post page to show updated rating
+        res.redirect(`/view/${postTitle}`);
     } catch (error) {
-        console.error(error);
+        console.error("Error rating post:", error);
         res.status(500).json({ message: "Failed to rate post" });
     }
 };
 
 // ฟังก์ชันลบโพสต์ตามคะแนน
-exports.removePostByRating = async (req, res) => {
+exports.removePostsByRating = async (req, res) => {
     try {
         // ตรวจสอบการล็อกอิน
         if (!req.session.accountSession) {
@@ -286,7 +316,7 @@ exports.removePostByRating = async (req, res) => {
         }
 
         const { rating } = req.params;
-        const result = postService.removePostByRating(rating); // ลบโพสต์ตามคะแนน
+        const result = postService.removePostsByRating(rating); // ลบโพสต์ตามคะแนน
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
@@ -324,14 +354,27 @@ exports.removePostByTitle = async (req, res) => {
 // ฟังก์ชันลบโพสต์หลายอัน
 exports.removeMultiplePosts = async (req, res) => {
     try {
-        const { postTitles } = req.body; // รับ postTitles จากฟอร์ม
+        const { postTitles, rating, action } = req.body;
 
+        if (action === "removeByRating") {
+            // ตรวจสอบว่ามีค่า rating หรือไม่
+            if (rating === undefined || rating === "") {
+                return res.status(400).json({ success: false, message: "Rating is required for deletion." });
+            }
+
+            // ลบโพสต์ที่มีเรตติ้งต่ำกว่าหรือเท่ากับค่าที่กำหนด
+            await postService.removePostsByRating(parseFloat(rating));
+
+            return res.redirect('/');
+        }
+
+        // ตรวจสอบว่ามีโพสต์ที่ถูกเลือกหรือไม่
         if (!postTitles || postTitles.length === 0) {
             return res.status(400).json({ success: false, message: "No posts selected for deletion." });
         }
 
-        postService.removeMultiplePosts(postTitles);
-        res.redirect('/'); // Redirect กลับไปที่หน้าแรก
+        await postService.removeMultiplePosts(postTitles);
+        res.redirect('/');
     } catch (error) {
         console.error("Error deleting multiple posts:", error.message);
         res.status(500).json({ success: false, message: "Failed to delete selected posts." });

@@ -40,13 +40,25 @@
         <input type="text" name="postTitle" placeholder="Post Title" required />
         <textarea name="postDesc" placeholder="Post Description" required></textarea>
         <input type="file" name="postImgUrl" accept="image/*" />
-        <button type="submit">Add Post</button> 
+        <button type="submit">Add Post</button>
       </form>
 
       <!-- Top 5 Rating Posts -->
       <h2>Top 5 Rating Posts</h2>
       <ul>
+        <% firstFivePosts.forEach(post=> { %>
+          <li>
+            <div class="post">
+              <h3>
+                <%= post.postTitle %>
+                  <span>Rating: <%= post.postRating %></span>
+                  <span><a href="/view/<%= post.postTitle %>">View</a></span>
+              </h3>
+            </div>
+          </li>
+          <% }); %>
       </ul>
+
 
       <!-- Search Form -->
       <form action="/search" method="POST">
@@ -61,7 +73,7 @@
       </form>
       <!-- Sort by Rating Button -->
       <a href="/sort"><button>Sort by Rating</button></a>
-      
+
       <form action="/my-posts" method="GET">
         <button type="submit">Get My Posts</button>
       </form>
@@ -110,7 +122,7 @@
                       <% }) %>
                   </ul>
                   <% } %>
-                  <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
+                    <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
 
                     <label for="rating">Remove by Rating:</label>
                     <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
