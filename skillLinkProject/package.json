@@ -15,6 +15,10 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "multer": "^1.4.5-lts.2",
+<<<<<<< HEAD
     "uuidv4": "^6.2.13"
+=======
+    "nodemon": "^3.1.9"
+>>>>>>> 04eceb81f8c26ba5767fe58dd8d76aa629e2938e
   }
 }

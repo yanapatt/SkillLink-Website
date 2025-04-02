@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <title>Post Reviews</title>
   <style>
     body {
@@ -42,6 +43,42 @@
         <input type="file" name="postImgUrl" accept="image/*" />
         <button type="submit">Add Post</button>
       </form>
+=======
+  <title>Task Reviews</title>
+  
+</head>
+
+<body>
+
+
+
+  <h1>Task List</h1>
+  Welcome user
+  <a href="/logout">Logout</a>
+  <form action="/add" method="POST" enctype="multipart/form-data">
+    <input type="text" name="username" placeholder="User Name" required />
+    <input type="text" name="name" placeholder="Task Name" required />
+    <textarea name="description" placeholder="Task Description" required></textarea>
+    <label for="priority">Priority:</label>
+    <select name="priority" id="priority">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <input type="file" name="image" accept="image/*" />
+    <button type="submit">Add Task</button>
+  </form>
+
+
+  <h2>Task Summary by Priority</h2>
+  <ul>
+    <% Object.keys(summary).forEach(priority=> { %>
+      <li>Priority <%= priority %>: <%= summary[priority] %> tasks</li>
+      <% }) %>
+  </ul>
+>>>>>>> 04eceb81f8c26ba5767fe58dd8d76aa629e2938e
 
       <!-- Top 5 Rating Posts -->
       <h2>Top 5 Rating Posts</h2>
