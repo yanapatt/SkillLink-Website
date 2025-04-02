@@ -65,10 +65,13 @@ class AccountService {
         return this.accountRepo.retrieveAllAccounts().map(this.encryptAccounts);
     }
 
-    // เข้ารหัส Password (ปรับชื่อให้ตรง)
+    // เข้ารหัส Password
     encryptAccounts(acc) {
-        return { ...acc, accPassword: "**********" }; // ใช้ accPassword แทน password เพื่อให้ถูกต้อง
+        const { accPassword, ...rest } = acc; // เอาฟิลด์ accPassword ออก
+        return { ...rest, password: "**********" }; // เพิ่มฟิลด์ password ที่มาสก์แล้ว
     }
+
+
 
     /*
     Sprint 4 TODO

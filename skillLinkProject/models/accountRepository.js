@@ -73,13 +73,16 @@ class AccountRepository {
 
     // เพิ่ม Accounts ลงบน LinkedList
     insertAccounts(acc) {
-        if (!this.retrieveAccountById(acc.accountId)) {
-            this.accounts.insertLast(acc);
-            this.saveToFile();
-        } else {
-            console.error(`Account with ID "${account.accountId}" already exists.`);
+        const existingAccount = this.retrieveAccountById(acc.accountId);
+        if (existingAccount) {
+            console.error(`Account with ID "${acc.accountId}" already exists.`);
+            return;  // ไม่เพิ่มบัญชีใหม่ถ้ามีอยู่แล้ว
         }
+        // โค้ดสำหรับเพิ่มบัญชีใหม่
+        this.accounts.insertLast(acc);
+        this.saveToFile();
     }
+
 }
 
 module.exports = AccountRepository;

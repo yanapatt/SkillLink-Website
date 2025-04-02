@@ -14,7 +14,6 @@ jest.mock('../util', () => {
     }));
 });
 
-
 const Encryption = require('../util'); // Mock Encryption
 
 describe("AccountService", () => {
@@ -79,7 +78,6 @@ describe("AccountService", () => {
         expect(result).toBeNull();
     });
 
-    // ✅ Test: getAllEncryptAccounts() - ตรวจสอบการเข้ารหัส password
     test("should return all accounts with masked passwords", () => {
         const mockAccounts = [
             { accUsername: "user1", accPassword: "encrypted_pass1" },
@@ -94,9 +92,10 @@ describe("AccountService", () => {
 
         // ตรวจสอบผลลัพธ์หลังจากมาสก์รหัสผ่าน
         expect(result).toEqual([
-            { accUsername: "user1", accPassword: "**********" },
-            { accUsername: "user2", accPassword: "**********" }
+            { accUsername: "user1", password: "**********" },
+            { accUsername: "user2", password: "**********" }
         ]);
     });
+
 
 });
