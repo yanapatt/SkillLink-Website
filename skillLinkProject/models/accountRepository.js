@@ -14,9 +14,10 @@ class AccountRepository {
     alreadyExistence() {
         const dirname = path.dirname(this.filePath);
         if (!fs.existsSync(dirname)) {
-            console.log("Directory has been exist at:", dirname);
+            console.log("Directory does not exist, creating it at:", dirname);
             fs.mkdirSync(dirname, { recursive: true });
         }
+
     }
 
     // บันทึกข้อมูล JSON ลงไฟล์
@@ -73,15 +74,19 @@ class AccountRepository {
 
     // เพิ่ม Accounts ลงบน LinkedList
     insertAccounts(acc) {
-        const existingAccount = this.retrieveAccountById(acc.accountId);
-        if (existingAccount) {
-            console.error(`Account with ID "${acc.accountId}" already exists.`);
-            return;  // ไม่เพิ่มบัญชีใหม่ถ้ามีอยู่แล้ว
+        if (!acc.accId) {
+            throw new Error("Account ID is missing.");
         }
-        // โค้ดสำหรับเพิ่มบัญชีใหม่
-        this.accounts.insertLast(acc);
-        this.saveToFile();
+
+        const existingAccount = this.retrieveAccountById(acc.accId);
+        if (existingAccount) {
+            return;  // ไม่มีการเรียก insertLast ถ้ามีบัญชีนี้อยู่แล้ว
+        }
+
+        console.log("Inserting account:", acc);  // เพิ่ม log นี้เพื่อดูว่า insertLast ถูกเรียกหรือไม่
+        this.accounts.insertLast(acc);  // เรียก insertLast เพื่อเพิ่มบัญชีใหม่
     }
+
 
 }
 

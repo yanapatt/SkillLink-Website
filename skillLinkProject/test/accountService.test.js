@@ -14,6 +14,7 @@ jest.mock('../util', () => {
     }));
 });
 
+
 const Encryption = require('../util'); // Mock Encryption
 
 describe("AccountService", () => {
