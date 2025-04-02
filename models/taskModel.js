@@ -1,4 +1,4 @@
-const Task = require('../models/taskModel');
+const Task = require("../models/task");
 const LinkedList = require("../models/linkedList");
 
 jest.mock("../models/linkedList"); // Mock LinkedList เพื่อไม่ต้องใช้จริง

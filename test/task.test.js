@@ -1,7 +1,8 @@
-const Task = require("../models/taskModel");  // ใช้ชื่อไฟล์ที่ถูกต้อง
-const LinkedList = require("../models/linkedList");  // ใช้ชื่อไฟล์ที่ถูกต้อง
+const Task = require("../models/task");
+const LinkedList = require("../models/linkedList");
 
-jest.mock("../src/models/linkedList");
+jest.mock("../models/linkedList"); // Mock LinkedList เพื่อไม่ต้องใช้จริง
+
 describe("Task Class Tests", () => {
     let taskManager;
 

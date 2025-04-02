@@ -1,24 +1,41 @@
 {
-  "name": "review",
+  "name": "SkillProject",
   "version": "1.0.0",
-  "description": "",
+  "description": "TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js",
     "test": "jest"
   },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html",
+      "text",
+      "text-summary",
+      "cobertura"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-results/jest"
+        }
+      ]
+    ]
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "crypto": "^1.0.1",
-    "ejs": "^3.1.10",
-    "express": "^4.21.2",
-    "express-session": "^1.18.1",
-    "multer": "^1.4.5-lts.2"
-  },
   "devDependencies": {
     "jest": "^29.7.0",
-    "mocha": "^11.1.0"
+    "jest-junit": "^16.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "path": "^0.12.7"
   }
 }
