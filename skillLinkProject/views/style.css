@@ -11,7 +11,7 @@ body {
     align-items: center;
     justify-content: space-between;
     margin: auto;
-  }
+  } 
 
   .navbar-left {
     display: flex;
@@ -103,7 +103,7 @@ body {
     margin-left: 20px;
 }
 .btn {
-    padding: 8px 15px;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -175,4 +175,79 @@ body {
     display: flex;
     justify-content:right;
     margin-top: 20px;
+}
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    background: black;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.stars {
+    color: gold;
+    cursor: pointer;
+}
+.container5 {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.register-link {
+    margin-top: 10px;
+}
+.register-link a {
+    color: blue;
+    text-decoration: none;
+}
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.containerlogin {
+    max-width: 1000px;
+    max-height: 1000vh  ;
+    margin: 100px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.btn5{
+    background-color: black;
+            color: white;
+            border: 2px solid white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;  
+            width: 100%;
+            display: block;
+            margin: 10px auto;
+}
+.btn5:hover {
+    background-color: rgb(255, 255, 255); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
+    color: rgb(0, 0, 0); /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
+    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
+}
+.account-type {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-link {
+    margin-top: 10px;
+}
+.register-link a {
+    color: blue;
+    text-decoration: none;
 }
