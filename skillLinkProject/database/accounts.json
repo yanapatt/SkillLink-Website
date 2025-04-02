@@ -14,5 +14,13 @@
     "accEmail": "user@gmail.com",
     "accPassword": "6002968392b901e9305d87e3",
     "accPhone": "0887772222"
+  },
+  {
+    "accId": "5c9eaf4a-f202-459c-9020-d6e3428c9b8f",
+    "accRole": "User",
+    "accUsername": "test",
+    "accEmail": "test@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0998882222"
   }
 ]
