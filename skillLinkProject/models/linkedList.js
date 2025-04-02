@@ -74,11 +74,14 @@ class LinkedList {
     }
 
     removeFirst() {
-        if (this.head) {
-            this.head = this.head.next;
-            if (!this.head) {
-                this.tail = null;
-            }
+        if (!this.head) {
+            // หาก LinkedList ว่างเปล่า ให้หยุดการทำงาน
+            return;
+        }
+
+        this.head = this.head.next;
+        if (!this.head) {
+            this.tail = null;
         }
         this.size--;
     }
