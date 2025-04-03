@@ -37,7 +37,7 @@ body {
   }
   .btn:hover {
     background-color: rgb(250, 250, 250); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
+    color: black; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
     border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
 }
   
@@ -65,19 +65,22 @@ body {
     
   }
 .volunteer-list {
-    width: 60%;
+  width: 60%;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: center; 
+    text-align: center;
+    display: flex; /* จัดให้อยู่ตรงกลาง */
+    flex-direction: column;
+    align-items: center;
 }
 .volunteer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
-    padding: 15px 0;
+    padding: 1px 0;
 }
 .volunteer img {
     width: 50px;
@@ -92,14 +95,19 @@ body {
     align-items: center;      /* จัดรายการให้อยู่กลางในแนวตั้ง */
 }
 .volunteer-info ul {
-    list-style-type: none;  /* ลบจุดออกจากรายการ */
-    padding-left: 0;  /* ลบการเยื้องของรายการ */
-    width: 100%; 
-    text-align: center; 
-  }
-  .volunteer-info li {
-    margin: 10px 0;           /* เพิ่มระยะห่างระหว่างรายการ */
-  }
+  list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+    text-align: center; /* ทำให้ข้อความอยู่ตรงกลาง */
+}
+
+.volunteer-info li {
+  display: flex;
+    flex-direction: column;
+    align-items: center; /* ทำให้เนื้อหาอยู่ตรงกลาง */
+    width: 100%;
+    margin: 10px 0;
+}
 .sidebar {
     width: 30%;
     background-color: black;
@@ -152,7 +160,7 @@ body {
     border: 1px solid #ccc;
 }
 .container{
-    max-width: 800px;
+    max-width: 900px;
     margin:20px auto 0 auto;
     background-color: white;
     padding: 20px;
@@ -223,18 +231,24 @@ input {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .btn5{
-    background-color: black;
+            display: flex;
+            background-color: black;
             color: white;
             border: 2px solid white;
             border-radius: 20px;
-            padding: 10px 20px;
+            padding: 10px 50px;
+            margin: 0 auto;
+            gap: 15px;
             font-size: 16px;
-           
             box-sizing: border-box;
             transition: all 0.3s ease;  
-            width: 100%;
+            text-align: center;
+            justify-content: center;
+            outline: none;  /* ลบเส้นใต้ */
             
-            margin: 10px auto;
+}
+.btn5 a{
+  text-decoration: none;
 }
 .btn5:hover {
     background-color: rgb(255, 255, 255); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
@@ -259,18 +273,41 @@ input {
     background-color: rgb(255, 254, 254);
     color: white;
     border: 2px solid white;
-    border-radius: 20px;
-    padding: 10px 20px;
+    border-radius: 10px;
+    padding: 5px 5px;
     font-size: 16px;
     outline: none;
     box-sizing: border-box;
     transition: all 0.3s ease;
+    width: auto;
   }
   .btn3:hover {
-    background-color: rgb(241, 234, 132); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
+    background-color: #e0a800; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
     color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
     border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
 }
+.btn0{
+    display: flex;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px 50px;
+    margin:  0 auto;
+    gap: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    text-align: center;
+    justify-content: center;
+    outline: none;  /* ลบเส้นใต้ */
+}
+.btn0:hover {
+background-color: black; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
+color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
+border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
+}
+
 .img{
   width:1000px;
   border: 2px solid black;
