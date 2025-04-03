@@ -2,11 +2,10 @@
 
 **Use Case Diagram (Update)**
 
-::: mermaid
-sequenceDiagram
-    Christie->>Josh: เกย์ Josh, how are you?
-    Josh-->>Christie: Great!
-    Christie->>Josh: See you later!
+:::mermaid
+graph LR;
+    User --> D[Result one]
+    User --> E[Result two]
 :::
 
 
