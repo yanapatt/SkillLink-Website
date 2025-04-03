@@ -227,3 +227,7 @@ graph LR;
 
 
 ## **Dynamic profiling**
+//TODO
+
+## **สิ่งที่ยังไม่สมบูรณ์ใน Sprint ที่ 3**
+//TODO
