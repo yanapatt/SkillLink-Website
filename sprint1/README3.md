@@ -251,6 +251,20 @@ graph LR;
 
 ![image.png](/.attachments/image-7b1deb90-8d82-4662-8b17-b076f36800bf.png)
 
+### **accountRepository.test.js**
+![image.png](/.attachments/image-31bf95c6-1809-42dd-9372-5bcfa202d491.png)
+![image.png](/.attachments/image-cca981f9-f8a4-4d4a-8b4c-1dbd470a27f0.png)
+![image.png](/.attachments/image-d926b441-d556-49dd-9c35-7dbda060f080.png)
+![image.png](/.attachments/image-e40c83d9-f9b6-46f6-9c20-c0acfb88e86c.png)
+![image.png](/.attachments/image-d54209cd-80f2-40a9-bf5a-7e06c0d5bc1c.png)
+
+### *accountService.test.js*
+![image.png](/.attachments/image-f28342e8-db38-4678-9384-058012ad1bc8.png)
+![image.png](/.attachments/image-66b32ea7-d373-41f1-9f15-db08b670bde8.png)
+![image.png](/.attachments/image-349db7ad-5baa-4d8a-9fff-0e0445c188f6.png)
+
+
+
 
 ## **Static profiling**
 
