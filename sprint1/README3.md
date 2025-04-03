@@ -220,5 +220,7 @@ graph LR;
 ![image.png](/.attachments/image-7b1deb90-8d82-4662-8b17-b076f36800bf.png)
 
 
+## **Static profiling**
+|**File Name**|**Maintainability**|**Lines of Code**|**Difficulty**|**Estimated Errors|   
 
-
+## **Dynamic profiling**
