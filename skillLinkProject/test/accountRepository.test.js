@@ -1,6 +1,8 @@
 const AccountRepository = require("../models/accountRepository");
 const fs = require("fs");
 const LinkedList = require("../models/linkedList");
+const path = require("path");
+
 
 // Mock fs module
 jest.mock("fs");
@@ -180,6 +182,46 @@ describe("AccountRepository", () => {
         // ตรวจสอบว่า console.error ถูกเรียกเพื่อ log ข้อผิดพลาด
         expect(console.error).toHaveBeenCalledWith("Error loading accounts from file:", "File error");
     });
+    // Test: ควรสร้าง directory ถ้าไม่มีอยู่
+    test('should create directory if it does not exist', () => {
+        const mockDirPath = '/mock/path/to/database';
+
+        // Mock path.dirname ให้คืนค่าพาธที่ต้องการ
+        jest.spyOn(path, 'dirname').mockReturnValue(mockDirPath);
+
+        // จำลองว่า directory ไม่มีอยู่
+        fs.existsSync.mockReturnValue(false);
+
+        // Mock fs.mkdirSync
+        fs.mkdirSync = jest.fn();
+
+        // เรียกใช้งาน alreadyExistence
+        accountRepo.alreadyExistence();
+
+        // ตรวจสอบว่า fs.mkdirSync ถูกเรียกเพื่อสร้าง directory
+        expect(fs.mkdirSync).toHaveBeenCalledWith(mockDirPath, { recursive: true });
+    });
+
+    // Test: ควรไม่สร้าง directory ถ้ามีอยู่แล้ว
+    test('should not create directory if it already exists', () => {
+        const mockDirPath = '/mock/path/to/database';
+
+        // Mock path.dirname ให้คืนค่าพาธที่ต้องการ
+        jest.spyOn(path, 'dirname').mockReturnValue(mockDirPath);
+
+        // จำลองว่า directory มีอยู่แล้ว
+        fs.existsSync.mockReturnValue(true);
+
+        // Mock fs.mkdirSync
+        fs.mkdirSync = jest.fn();
+
+        // เรียกใช้งาน alreadyExistence
+        accountRepo.alreadyExistence();
+
+        // ตรวจสอบว่า fs.mkdirSync ไม่ถูกเรียก
+        expect(fs.mkdirSync).not.toHaveBeenCalled();
+    });
+
 });
 
 
