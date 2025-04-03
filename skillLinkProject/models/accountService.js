@@ -28,6 +28,7 @@ class AccountService {
             return null;
         }
 
+
         accData.accId = accData.accId || uuid();
         accData.accPassword = this.util.encrypt(accData.accPassword);
         const formattedAccount = this.formatAccountDoc(accData);

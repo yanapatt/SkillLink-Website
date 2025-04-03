@@ -93,7 +93,8 @@ describe("AccountRepository", () => {
         accountRepo.loadFromFile();
 
         // ตรวจสอบว่า insertLast ถูกเรียกกับข้อมูลที่ถูกต้อง
-        expect(accountRepo.accounts.insertLast).toHaveBeenCalled(); ({
+        expect(accountRepo.accounts.insertLast).toHaveBeenCalled();
+        ({
             accId: "123",
             accUsername: "testuser",
             accEmail: "test@example.com"
@@ -118,5 +119,47 @@ describe("AccountRepository", () => {
             expect.stringContaining('accounts.json') // ตรวจสอบว่าเปลี่ยนเป็นไฟล์ .json
         );
     });
+    test("should return if accounts.json does not exist", () => {
+        fs.existsSync.mockReturnValue(false); // จำลองว่าไฟล์ไม่มีอยู่
+        accountRepo.loadFromFile();
+        expect(fs.readFileSync).not.toHaveBeenCalled(); // ต้องไม่พยายามอ่านไฟล์
+    });
+    test("should return if accounts.json is empty", () => {
+        fs.existsSync.mockReturnValue(true);
+        fs.readFileSync.mockReturnValue(""); // ไฟล์มีอยู่ แต่ไม่มีข้อมูล
+
+        accountRepo.loadFromFile();
+
+        expect(accountRepo.accounts.insertLast).not.toHaveBeenCalled(); // ต้องไม่มีการ insert ข้อมูล
+    });
+    test("should throw an error if account ID is missing", () => {
+        expect(() => {
+            accountRepo.insertAccounts({ accUsername: "test", accEmail: "test@example.com" });
+        }).toThrow("Account ID is missing.");
+    });
+    test("should not insert account if it already exists", () => {
+        const existingAccount = {
+            accId: "123",
+            accUsername: "testuser",
+            accEmail: "test@example.com"
+        };
+
+        // Mock ให้ retrieveAccountById คืนค่าบัญชีที่มีอยู่
+        jest.spyOn(accountRepo, "retrieveAccountById").mockReturnValue(existingAccount);
+
+        accountRepo.insertAccounts(existingAccount);
+
+        expect(accountRepo.accounts.insertLast).not.toHaveBeenCalled(); // ต้องไม่มีการ insert ข้อมูลซ้ำ
+    });
+    test("should log error if loadFromFile fails", () => {
+        fs.existsSync.mockReturnValue(true);
+        fs.readFileSync.mockImplementation(() => { throw new Error("File error"); });
+
+        console.error = jest.fn(); // Mock console.error
+        accountRepo.loadFromFile();
+
+        expect(console.error).toHaveBeenCalledWith("Error loading accounts from file:", "File error");
+    });
+
 });
 
