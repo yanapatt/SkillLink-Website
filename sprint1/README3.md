@@ -4,7 +4,7 @@
 
 ::: mermaid
 sequenceDiagram
-    Christie->>เกย์
+    Christie->>Josh: เกย์ Josh, how are you?
     Josh-->>Christie: Great!
     Christie->>Josh: See you later!
 :::
