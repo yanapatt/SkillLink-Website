@@ -3,7 +3,23 @@
 **Use Case Diagram (Update)**
 
 ::: mermaid
-sequenceDiagram Christie->>Josh: Hello Josh, how are you? Josh-->>Christie: Great! Christie->>Josh: See you later!
+graph TD
+
+    subgraph "SkillLink Website"
+
+        U1[ผู้ใช้ทั่วไป] --> UC1[[โพสต์รูปภาพ พร้อมรายละเอียด]]
+
+        U1 --> UC2[[ให้คะแนน Rating โพสต์]]
+
+        U1 --> UC3[[Login]]
+
+        V1[แอดมิน] --> UC4[[บริหารจัดการโพสต์ของผู้ใช้ทั่วไป]]
+
+        V1 --> UC5[[ให้คะแนน Rating โพสต์]]
+
+        V1 --> UC3
+
+    end
 :::
 
 
