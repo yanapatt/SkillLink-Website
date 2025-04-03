@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - models/postRepository.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>models/postRepository.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">68.60</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">166</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">31.95</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.23</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">const fs = require(&quot;fs&quot;);
+const path = require(&quot;path&quot;);
+const LinkedList = require(&quot;./linkedList&quot;);
+
+class PostRepository {
+    constructor() {
+        this.filePath = path.join(__dirname, &#039;..&#039;, &#039;database&#039;, &#039;posts.json&#039;);
+        this.posts = new LinkedList();
+        this.loadFromFile();
+        this.alreadyExistence();
+    }
+
+    // ยืนยันให้ชัวร์ว่า Directory ถูกสร้างหรือยัง
+    alreadyExistence() {
+        const dirname = path.dirname(this.filePath);
+        if (!fs.existsSync(dirname)) {
+            console.log(&quot;Directory has been exist at:&quot;, dirname);
+            fs.mkdirSync(dirname, { recursive: true });
+        }
+    }
+
+    // บันทึกข้อมูล JSON ลงไฟล์
+    saveToFile() {
+        try {
+            this.alreadyExistence();
+            fs.writeFileSync(`${this.filePath}.tmp`, JSON.stringify(this.posts.toArray(), null, 2));
+            fs.renameSync(`${this.filePath}.tmp`, this.filePath);
+        } catch (err) {
+            console.error(&quot;Error saving posts to file:&quot;, err.message);
+        }
+    }
+
+    // โหลดข้อมูลจาก JSON ไฟล์
+    loadFromFile() {
+        if (!fs.existsSync(this.filePath)) return;
+        try {
+            const data = fs.readFileSync(this.filePath, &#039;utf8&#039;);
+            if (!data || !data.trim()) return; // แก้ไขปัญหาข้อมูลว่าง
+            JSON.parse(data).forEach(post =&gt; this.posts.insertLast(post));
+        } catch (err) {
+            console.error(&quot;Error loading posts from file:&quot;, err.message);
+        }
+    }
+
+    // ดึงข้อมูล Post ทีมีทั้งหมด
+    retrieveAllPosts() {
+        // ในอนาคตอาจจะปรับให้เป็น LinkedList โดยสมบูรณ์
+        return this.posts.toArray();
+    }
+
+    // อัปเดตข้อมูลโพสต์
+    updatePost(title, updatedData) {
+        try {
+            // ดึงข้อมูลโพสต์ทั้งหมด
+            const allPosts = this.retrieveAllPosts();
+
+            // ค้นหาโพสต์ที่ต้องการอัปเดต
+            const targetPost = allPosts.find(post =&gt; post.postTitle.toLowerCase() === title.toLowerCase());
+
+            if (!targetPost) {
+                console.log(`Post with title &quot;${title}&quot; not found.`);
+                return { success: false, message: `Post with title &quot;${title}&quot; not found.` };
+            }
+
+            // อัปเดตคำอธิบายโพสต์ (ถ้ามีการแก้ไข)
+            if (updatedData.postDesc !== undefined) {
+                targetPost.postDesc = updatedData.postDesc;
+            }
+
+            // อัปเดต URL ของรูป (รองรับการลบหรืออัปโหลดใหม่)
+            if (updatedData.postImgUrl !== undefined) {
+                targetPost.postImgUrl = updatedData.postImgUrl;
+            }
+
+            // บันทึกกลับไปที่ไฟล์
+            this.saveToFile();
+
+            console.log(`Post &quot;${title}&quot; updated successfully!`);
+            return { success: true, message: `Post &quot;${title}&quot; updated successfully!`, updatedPost: targetPost };
+
+        } catch (err) {
+            console.error(&quot;Error updating post:&quot;, err.message);
+            return { success: false, message: &quot;Failed to update post.&quot; };
+        }
+    }
+
+    // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post มีปัญหาอยู่
+    retrieveByPostTitle(title) {
+        let foundNode = null;
+
+        this.posts.forEachNode((node) =&gt; {
+            // Trim ชื่อโพสต์เพื่อหลีกเลี่ยงช่องว่างที่ไม่ต้องการ
+            if (node.value &amp;&amp; node.value.postTitle.toLowerCase() === title.toLowerCase()) {
+                foundNode = node; // คืนค่าเป็นโหนดจริง
+            }
+        });
+
+        return foundNode;
+    }
+
+    // เพิ่ม Post ลงบน LinkedList
+    insertPosts(post) {
+        if (!this.retrieveByPostTitle(post.postTitle)) {
+            this.posts.insertLast(post);
+            this.saveToFile();
+        } else {
+            console.error(`Post with name &quot;${post.postTitle}&quot; already exists.`);
+        }
+    }
+
+    // ลบ Post เดี่ยวโดยชื่อหัวข้อ Post
+    removePosts(title) {
+        if (this.posts.isEmpty()) {
+            console.log(&quot;No posts available to remove.&quot;);
+            return; // ถ้าไม่มีโพสต์ให้ลบ ให้หยุดการทำงาน
+        }
+        /*const targetNode = this.retrieveByPostTitle(title);
+
+        if (!targetNode) {
+            console.log(`Post with title &quot;${title}&quot; not found.`);
+            return; // ถ้าไม่พบโพสต์ที่ต้องการลบ ให้หยุดการทำงาน
+        }*/
+
+        // ลบโพสต์ออกจาก LinkedList
+        this.posts.removeByPostTitle(title);  // เปลี่ยนจาก removeByName เป็น removeByPostTitle
+        console.log(`Post with title &quot;${title}&quot; has been deleted successfully!`);
+
+        // บันทึกการเปลี่ยนแปลงลงไฟล์
+        this.saveToFile();
+    }
+
+    // ลบโพสต์แรกสุดใน LinkedList
+    removeFirst() {
+        if (this.posts.isEmpty()) {
+            console.log(&quot;No posts available to remove.&quot;);
+            return { success: false, message: &quot;No posts available.&quot; };
+        }
+
+        const firstPost = this.posts.head.value;
+
+        this.posts.removeFirst();
+        this.saveToFile();
+
+        // ส่งคืนผลลัพธ์
+        return { success: true, message: `First post &quot;${firstPost.postTitle}&quot; has been deleted successfully!` };
+    }
+
+    // ลบโพสต์ล่าสุดใน LinkedList
+    removeLast() {
+        if (this.posts.isEmpty()) {
+            console.log(&quot;No posts available to remove.&quot;);
+            return { success: false, message: &quot;No posts available.&quot; };
+        }
+
+        const lastPost = this.posts.tail.value;
+
+        this.posts.removeLast();
+        this.saveToFile();
+
+        // ส่งคืนผลลัพธ์
+        return { success: true, message: `Last post &quot;${lastPost.postTitle}&quot; has been deleted successfully!` };
+    }
+}
+
+
+module.exports = PostRepository;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

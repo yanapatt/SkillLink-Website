@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - controllers/postController.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>controllers/postController.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">55.18</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">411</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">58.43</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">3.87</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">const PostService = require(&quot;../models/postService&quot;); // เรียกใช้ postService
+const PostRepository = require(&quot;../models/postRepository&quot;); // เรียกใช้ postRepository
+const AccountRepository = require(&quot;../models/accountRepository&quot;);
+const ImageRepository = require(&quot;../models/imageRepository&quot;);
+
+const postRepo = new PostRepository();
+const accRepo = new AccountRepository();
+const imgRepo = new ImageRepository();
+const postService = new PostService(postRepo, accRepo, imgRepo);
+
+// Create Post
+exports.createPosts = [imgRepo.uploadImage(), async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
+        const postData = req.body; // รับข้อมูลจาก request body
+        const imgFile = req.file; // รับไฟล์จาก multer
+
+        if (postData.postTitle) {
+            postData.postTitle = postData.postTitle.trim();
+        }
+
+        // สร้างโพสต์ใหม่ผ่าน postService และจัดการภาพ
+        const newPost = await postService.createPost(postData, accountId, imgFile);
+        console.log(&quot;Create post successful!: &quot;, newPost);
+
+        // รีไดเรคกลับไปยังหน้า index
+        res.redirect(&#039;/&#039;); // หรือใช้ res.render หากต้องการส่งข้อมูลเพิ่มเติม
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to create post&quot; });
+    }
+}];
+
+// Access Post (แก้ไขให้รวม 5 โพสต์แรก)
+exports.getPosts = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        // ดึงโพสต์ทั้งหมดจาก service
+        const posts = await postService.getAllPosts();
+        console.log(&quot;Get post successful!: &quot;, posts);
+
+        // ดึง 5 โพสต์แรกจาก postService
+        const firstFivePosts = await postService.getTopRatedPosts();
+        console.log(&quot;First 5 posts:&quot;, firstFivePosts);
+
+        // ดึงข้อมูลชื่อผู้ใช้จาก session
+        let { accUsername, accRole } = req.session.accountSession;
+
+        // เชื่อมโยงข้อมูล accountId ในโพสต์กับข้อมูล account ในระบบ
+        const allPosts = await Promise.all(posts.map(async (post) =&gt; {
+            try {
+                // หา accountId ใน post และเชื่อมโยงกับข้อมูลผู้ใช้จาก accountService
+                const account = accRepo.retrieveAccountById(post.accountId); // ใช้ accountService ในการดึงข้อมูลบัญชี
+                if (account) {
+                    // ถ้าพบข้อมูล account ให้เพิ่มข้อมูล username และ role
+                    post.accUsername = account.accUsername; // username ของผู้โพสต์
+                    post.accRole = account.accRole || &#039;User&#039;; // ถ้าไม่มี accRole ให้ใช้ &#039;User&#039;
+                } else {
+                    // ถ้าไม่พบข้อมูล account ให้ใช้ค่า default
+                    post.accUsername = &#039;Unknown User&#039;;
+                    post.accRole = &#039;User&#039;;
+                }
+            } catch (error) {
+                console.error(&quot;Error retrieving account:&quot;, error);
+                post.accUsername = &#039;Unknown User&#039;;
+                post.accRole = &#039;User&#039;;
+            }
+            return post;
+        }));
+
+        // ส่งข้อมูลไปยังหน้า index ผ่าน res.render
+        res.render(&#039;index&#039;, {
+            posts: allPosts, // โพสต์ทั้งหมด
+            firstFivePosts: firstFivePosts, // 5 โพสต์แรก
+            accUsername: accUsername,
+            accRole: accRole
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to retrieve posts&quot; });
+    }
+};
+
+// Controller สำหรับ &quot;Get My Posts&quot;
+exports.getMyPosts = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const accountId = req.session.accountSession.accId; // ดึง accountId จาก session
+        const myPosts = postService.getMyPosts(accountId); // ใช้ getMyPosts เพื่อดึงโพสต์ของผู้ใช้
+
+        // ดึง 5 โพสต์แรกจาก postService
+        const firstFivePosts = await postService.getTopRatedPosts();
+
+        // ส่งผลลัพธ์ไปที่หน้า index
+        res.render(&#039;index&#039;, {
+            posts: myPosts,
+            firstFivePosts: firstFivePosts, // ส่ง 5 โพสต์แรก
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to get your posts&quot; });
+    }
+};
+
+// ฟังก์ชันค้นหาโพสต์
+exports.searchPosts = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        // รับข้อมูลจาก request body
+        const { searchValue, searchType } = req.body;
+        const firstFivePosts = await postService.getTopRatedPosts();
+
+        // ตรวจสอบว่า searchValue และ searchType มีค่าหรือไม่
+        if (!searchValue || !searchType) {
+            return res.status(400).json({ message: &quot;Search value and type are required.&quot; });
+        }
+
+        // สร้าง query object สำหรับการค้นหา
+        const query = {
+            searchType,   // ประเภทการค้นหาที่จะใช้ 
+            searchValue,   // คำค้นหาที่จะใช้ค้นหา
+        };
+
+        // ค้นหาโพสต์จาก query
+        const posts = postService.searchPosts(query);
+        res.render(&#039;index&#039;, {
+            firstFivePosts,
+            posts,
+            searchValue,
+            searchType,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to search posts&quot; });
+    }
+};
+
+exports.clearSearch = (req, res) =&gt; {
+    res.redirect(&#039;/&#039;);
+}
+
+// ฟังก์ชันแสดงรายละเอียดโพสต์
+exports.aboutPost = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const postTitle = req.params.postTitle; // รับชื่อโพสต์จาก URL parameter
+        const post = await postService.getPostByTitle(postTitle); // เรียกฟังก์ชัน getPostByName จาก PostService
+
+        // ตรวจสอบว่าโพสต์ถูกพบหรือไม่
+        if (!post) {
+            return res.status(404).json({ message: &quot;Post not found&quot; });
+        }
+
+        // ตรวจสอบว่า action คือ &#039;edit&#039; หรือไม่
+        if (req.query.action === &#039;edit&#039;) {
+            // ตรวจสอบว่าโพสต์นี้เป็นของผู้ใช้ที่ล็อกอินหรือไม่
+            if (post.accountId !== req.session.accountSession.accId) {
+                return res.status(403).json({ message: &quot;You are not authorized to edit this post.&quot; });
+            }
+            // ส่งไปที่หน้าแก้ไขโพสต์
+            return res.render(&#039;edit&#039;, { post, accUsername: req.session.accountSession.accUsername, accRole: req.session.accountSession.accRole, accId: req.session.accountSession.accId });
+        } else {
+            // ส่งไปที่หน้าดูโพสต์
+            return res.render(&#039;post&#039;, { post, accUsername: req.session.accountSession.accUsername, accRole: req.session.accountSession.accRole, accId: req.session.accountSession.accId });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to retrieve post&quot; });
+    }
+};
+
+// อัพเดทโพสต์
+exports.updatePost = [
+    imgRepo.uploadImage(), // ใช้ multer สำหรับจัดการไฟล์
+    async (req, res) =&gt; {
+        try {
+            if (!req.session.accountSession) {
+                return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+            }
+
+            const postTitle = req.params.postTitle;
+            const updateData = req.body;
+            const newImgFile = req.file;
+
+            let updatedPostData = {
+                postTitle: updateData.postTitle.trim(),
+                postDesc: updateData.postDesc.trim(),
+            };
+
+            // อัปเดตโพสต์ในฐานข้อมูล
+            const result = await postService.updatePost(postTitle, updatedPostData, newImgFile);
+
+            if (!result.success) {
+                return res.status(404).json({ message: result.message });
+            }
+
+            res.redirect(&quot;/&quot;);
+
+        } catch (error) {
+            console.error(&quot;Error updating post:&quot;, error);
+            res.status(500).json({ message: &quot;Failed to update post&quot; });
+        }
+    }
+];
+
+// ฟังก์ชันลบรูปภาพจากโพสต์
+exports.removeImage = async (req, res) =&gt; {
+    try {
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const postTitle = req.params.postTitle;
+
+        // ส่ง `deleteImage: true` เพื่อให้ `updatePost()` ลบรูป
+        const result = await postService.updatePost(postTitle, { deleteImage: true });
+
+        if (!result.success) {
+            return res.status(404).json({ success: false, message: result.message });
+        }
+
+        res.json({ success: true, message: &quot;Image removed successfully.&quot; });
+
+    } catch (error) {
+        console.error(&quot;Error removing image:&quot;, error);
+        res.status(500).json({ success: false, message: &quot;Failed to remove image&quot; });
+    }
+};
+
+
+// ฟังก์ชันจัดเรียงโพสต์ตามคะแนน
+// ฟังก์ชันจัดเรียงโพสต์ตามคะแนน
+exports.sortPostsByRating = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const posts = await postService.sortPostsByRating(); // จัดเรียงโพสต์ตามคะแนน
+        const firstFivePosts = await postService.getTopRatedPosts();
+        
+        res.render(&#039;index&#039;, {
+            firstFivePosts,
+            posts,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to sort posts&quot; });
+    }
+};
+
+// ฟังก์ชันให้คะแนนโพสต์
+exports.ratePost = async (req, res) =&gt; {
+    try {
+        // Ensure the user is logged in
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const { postTitle, rating } = req.body;
+        const accountId = req.session.accountSession.accId;
+
+        console.log(&quot;BODY:&quot;, req.body); // Log the request body for debugging
+
+        // Update the rating using the PostService
+        const result = await postService.ratePost(postTitle, accountId, parseInt(rating));
+
+        if (!result.success) {
+            return res.status(400).json({ message: result.message });
+        }
+
+        // Redirect to the post page to show updated rating
+        res.redirect(`/view/${postTitle}`);
+    } catch (error) {
+        console.error(&quot;Error rating post:&quot;, error);
+        res.status(500).json({ message: &quot;Failed to rate post&quot; });
+    }
+};
+
+// ฟังก์ชันลบโพสต์ตามคะแนน
+exports.removePostsByRating = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const { rating } = req.params;
+        const result = postService.removePostsByRating(rating); // ลบโพสต์ตามคะแนน
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to remove post by rating&quot; });
+    }
+};
+
+// ฟังก์ชันลบโพสต์ตาม title
+exports.removePostByTitle = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const postTitle = req.params.postTitle; // รับค่าตรง ๆ จาก params
+        console.log(&quot;Deleting Post Title:&quot;, postTitle);
+
+        const result = postService.removePostByTitle(postTitle); // ลบโพสต์ตาม title
+
+        if (!result) {
+            return res.status(404).json({ message: &quot;Post not found&quot; });
+        }
+
+        console.log(&quot;Post deleted successfully:&quot;, result);
+
+        // หลังจากลบเสร็จให้ redirect กลับไปหน้าแรก
+        res.redirect(&#039;/&#039;);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: &quot;Failed to remove post by title&quot; });
+    }
+};
+
+// ฟังก์ชันลบโพสต์หลายอัน
+exports.removeMultiplePosts = async (req, res) =&gt; {
+    try {
+        const { postTitles, rating, action } = req.body;
+
+        if (action === &quot;removeByRating&quot;) {
+            // ตรวจสอบว่ามีค่า rating หรือไม่
+            if (rating === undefined || rating === &quot;&quot;) {
+                return res.status(400).json({ success: false, message: &quot;Rating is required for deletion.&quot; });
+            }
+
+            // ลบโพสต์ที่มีเรตติ้งต่ำกว่าหรือเท่ากับค่าที่กำหนด
+            await postService.removePostsByRating(parseFloat(rating));
+
+            return res.redirect(&#039;/&#039;);
+        }
+
+        // ตรวจสอบว่ามีโพสต์ที่ถูกเลือกหรือไม่
+        if (!postTitles || postTitles.length === 0) {
+            return res.status(400).json({ success: false, message: &quot;No posts selected for deletion.&quot; });
+        }
+
+        await postService.removeMultiplePosts(postTitles);
+        res.redirect(&#039;/&#039;);
+    } catch (error) {
+        console.error(&quot;Error deleting multiple posts:&quot;, error.message);
+        res.status(500).json({ success: false, message: &quot;Failed to delete selected posts.&quot; });
+    }
+};
+
+// ฟังก์ชันลบโพสต์ตาม action
+exports.removePostByAction = async (req, res) =&gt; {
+    try {
+        // ตรวจสอบการล็อกอิน
+        if (!req.session.accountSession) {
+            return res.status(401).json({ message: &quot;Unauthorized. Please log in.&quot; });
+        }
+
+        const { action } = req.body; // รับ action จาก body
+        if (!action || (action !== &#039;oldest&#039; &amp;&amp; action !== &#039;newest&#039;)) {
+            return res.status(400).send(&quot;Invalid action. Please specify &#039;oldest&#039; or &#039;newest&#039;.&quot;);
+        }
+
+        if (action === &#039;oldest&#039;) {
+            // เรียกใช้ removeFirstPost จาก postService
+            result = await postService.removeFirstPost();
+        } else if (action === &#039;newest&#039;) {
+            // เรียกใช้ removeLastPost จาก postService
+            result = await postService.removeLastPost();
+        }
+
+        //console.log(result.message); // แสดงข้อความผลลัพธ์ใน console
+        res.redirect(&#039;/&#039;); // Redirect กลับไปที่หน้าแรก
+    } catch (error) {
+        console.error(&quot;Error deleting post by action:&quot;, error);
+        res.status(500).send(&quot;Failed to delete post by action&quot;);
+    }
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
