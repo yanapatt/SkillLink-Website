@@ -221,6 +221,7 @@ graph LR;
 
 
 ## **Static profiling**
+
 | **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
 |---------------|---------------------|-------------------|----------------|----------------------|
 
