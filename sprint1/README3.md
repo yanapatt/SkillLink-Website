@@ -4,9 +4,17 @@
 
 :::mermaid
 graph LR;
-    User --> D[Result one]
-    User --> E[Result two]
+    User --> A[Login]
+    User --> B[View Posts and Rating]
+    User --> C[Create Posts]
+    User --> D[Manage own post]
+
+    Admin --> E[Login]
+    Admin --> F[Manage all posts]
 :::
+
+**คำอธิบาย**
+
 
 
 
