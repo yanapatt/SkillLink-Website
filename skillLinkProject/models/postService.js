@@ -230,7 +230,6 @@ class PostService {
                     this.removePostByTitle(post.postTitle);
                 } catch (error) {
                     console.error(`Error deleting image for post "${post.postTitle}":`, error.message);
-                    // คุณสามารถเก็บ log หรือส่งข้อความที่เหมาะสมเมื่อเกิดข้อผิดพลาดในการลบภาพ
                 }
             }));
 
@@ -284,10 +283,8 @@ class PostService {
                     try {
                         // ลบภาพที่เกี่ยวข้อง (ถ้ามี)
                         const targetPost = this.postRepo.retrieveAllPosts().find(post => post.postTitle === title);
-                        console.log("Target Post: ", targetPost.postImgUrl);
                         if (targetPost && targetPost.postImgUrl) {
                             await this.imgRepo.removeImageFromFolder(targetPost.postImgUrl);
-                            // ลบโพสต์ใน postRepo
                         }
 
                         this.postRepo.removePosts(title); // ลบโพสต์ออกจาก LinkedList
@@ -298,6 +295,12 @@ class PostService {
                     }
                 })
             );
+
+            // ตรวจสอบว่ามีโพสต์ใดล้มเหลวทั้งหมดหรือไม่
+            const allFailed = deletionResults.every(result => !result.success);
+            if (allFailed) {
+                throw new Error("All posts failed to delete.");
+            }
 
             return { success: true, results: deletionResults };
         } catch (error) {
@@ -324,8 +327,8 @@ class PostService {
             this.postRepo.removeFirst(); // ลบโพสต์แรก
             return { success: true, message: `First post "${firstPost.postTitle}" deleted successfully!` };
         } catch (error) {
-            console.error("Error removing first post:", error.message);
-            throw new Error("Failed to remove first post: " + error.message);
+            console.error("Error removing first post:", error.message); // ยังไม่ผ่าน 
+            throw new Error("Failed to remove first post: " + error.message); // ยังไม่ผ่าน
         }
     }
 
@@ -347,8 +350,8 @@ class PostService {
             this.postRepo.removeLast(); // ลบโพสต์ล่าสุด
             return { success: true, message: `Last post "${lastPost.postTitle}" deleted successfully!` };
         } catch (error) {
-            console.error("Error removing last post:", error.message);
-            throw new Error("Failed to remove last post: " + error.message);
+            console.error("Error removing last post:", error.message); // ยังไม่ผ่าน
+            throw new Error("Failed to remove last post: " + error.message); // ยังไม่ผ่าน
         }
     }
 }
