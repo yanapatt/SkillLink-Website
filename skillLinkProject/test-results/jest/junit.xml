@@ -1,16 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="45" failures="4" errors="0" time="1.005">
-  <testsuite name="PostRepository" errors="0" failures="4" skipped="0" timestamp="2025-04-02T15:49:46" time="0.759" tests="19">
-    <testcase classname="PostRepository alreadyExistence should create the directory if it does not exist" name="PostRepository alreadyExistence should create the directory if it does not exist" time="0.018">
+<testsuites name="jest tests" tests="52" failures="5" errors="0" time="1.204">
+  <testsuite name="LinkedList" errors="0" failures="0" skipped="0" timestamp="2025-04-03T04:25:48" time="0.719" tests="26">
+    <testcase classname="LinkedList insertFirst should add a node at the beginning of the LinkedList" name="LinkedList insertFirst should add a node at the beginning of the LinkedList" time="0.011">
     </testcase>
-    <testcase classname="PostRepository alreadyExistence should not create the directory if it already exists" name="PostRepository alreadyExistence should not create the directory if it already exists" time="0.004">
+    <testcase classname="LinkedList insertLast should add a node at the end of the LinkedList" name="LinkedList insertLast should add a node at the end of the LinkedList" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should remove a node with the specified postTitle" name="LinkedList removeByPostTitle should remove a node with the specified postTitle" time="0.027">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" name="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" time="0.003">
+    </testcase>
+    <testcase classname="LinkedList removeFirst should do nothing when LinkedList is empty" name="LinkedList removeFirst should do nothing when LinkedList is empty" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeFirst should remove the only node when LinkedList has one node" name="LinkedList removeFirst should remove the only node when LinkedList has one node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" name="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList toArray should return an empty array when LinkedList is empty" name="LinkedList toArray should return an empty array when LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList toArray should convert the LinkedList to an array" name="LinkedList toArray should convert the LinkedList to an array" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList getSize should return the size of the LinkedList" name="LinkedList getSize should return the size of the LinkedList" time="0">
+    </testcase>
+    <testcase classname="LinkedList isEmpty should return true when the LinkedList is empty" name="LinkedList isEmpty should return true when the LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList isEmpty should return false when the LinkedList has nodes" name="LinkedList isEmpty should return false when the LinkedList has nodes" time="0">
+    </testcase>
+    <testcase classname="LinkedList map should apply the callback to each node and return a new array" name="LinkedList map should apply the callback to each node and return a new array" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList map should return an empty array when LinkedList is empty" name="LinkedList map should return an empty array when LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" name="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeByPostTitle should update the tail when the last node is removed" name="LinkedList removeByPostTitle should update the tail when the last node is removed" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList forEachNode should handle errors in the callback function gracefully" name="LinkedList forEachNode should handle errors in the callback function gracefully" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0">
+    </testcase>
+    <testcase classname="LinkedList removeLast should update the tail correctly after removing the last node" name="LinkedList removeLast should update the tail correctly after removing the last node" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PostRepository" errors="0" failures="5" skipped="0" timestamp="2025-04-03T04:25:48" time="0.865" tests="26">
+    <testcase classname="PostRepository alreadyExistence should create the directory if it does not exist" name="PostRepository alreadyExistence should create the directory if it does not exist" time="0.042">
+    </testcase>
+    <testcase classname="PostRepository alreadyExistence should not create the directory if it already exists" name="PostRepository alreadyExistence should not create the directory if it already exists" time="0.006">
       <failure>Error: expect(jest.fn()).not.toHaveBeenCalled()
 
 Expected number of calls: 0
 Received number of calls: 1
 
 1: &quot;D:\\GitKub\\hanza\\skillLinkProject\\database&quot;, {&quot;recursive&quot;: true}
-    at Object.toHaveBeenCalled (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:32:38)
+    at Object.toHaveBeenCalled (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:38:38)
     at Promise.then.completed (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
@@ -24,15 +78,16 @@ Received number of calls: 1
     at runAndTransformResultsToJestFormat (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
     at jestAdapter (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
     at runTestInternal (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
+    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="PostRepository saveToFile should save posts to a file" name="PostRepository saveToFile should save posts to a file" time="0.003">
+    <testcase classname="PostRepository saveToFile should save posts to a file" name="PostRepository saveToFile should save posts to a file" time="0.002">
     </testcase>
-    <testcase classname="PostRepository saveToFile should handle errors during saving" name="PostRepository saveToFile should handle errors during saving" time="0.002">
+    <testcase classname="PostRepository saveToFile should handle errors during saving" name="PostRepository saveToFile should handle errors during saving" time="0.001">
     </testcase>
     <testcase classname="PostRepository loadFromFile should load posts from a file" name="PostRepository loadFromFile should load posts from a file" time="0.001">
     </testcase>
-    <testcase classname="PostRepository loadFromFile should handle empty files gracefully" name="PostRepository loadFromFile should handle empty files gracefully" time="0.006">
+    <testcase classname="PostRepository loadFromFile should handle empty files gracefully" name="PostRepository loadFromFile should handle empty files gracefully" time="0.005">
       <failure>Error: expect(received).toEqual(expected) // deep equality
 
 - Expected  - 1
@@ -45,7 +100,7 @@ Received number of calls: 1
 +     &quot;postTitle&quot;: &quot;Test Post&quot;,
 +   },
 + ]
-    at Object.toEqual (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:83:52)
+    at Object.toEqual (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:103:52)
     at Promise.then.completed (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
@@ -59,21 +114,28 @@ Received number of calls: 1
     at runAndTransformResultsToJestFormat (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
     at jestAdapter (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
     at runTestInternal (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
+    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="PostRepository loadFromFile should handle errors during loading" name="PostRepository loadFromFile should handle errors during loading" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository loadFromFile should handle undefined or empty data gracefully" name="PostRepository loadFromFile should handle undefined or empty data gracefully" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository loadFromFile should handle empty string data gracefully" name="PostRepository loadFromFile should handle empty string data gracefully" time="0.001">
+    <testcase classname="PostRepository loadFromFile should handle errors during loading" name="PostRepository loadFromFile should handle errors during loading" time="0.002">
     </testcase>
     <testcase classname="PostRepository updatePost should update an existing post" name="PostRepository updatePost should update an existing post" time="0.002">
     </testcase>
     <testcase classname="PostRepository updatePost should return an error if the post does not exist" name="PostRepository updatePost should return an error if the post does not exist" time="0.001">
     </testcase>
-    <testcase classname="PostRepository retrieveByPostTitle should retrieve a post by its title" name="PostRepository retrieveByPostTitle should retrieve a post by its title" time="0">
+    <testcase classname="PostRepository updatePost should update an existing post&apos;s description" name="PostRepository updatePost should update an existing post&apos;s description" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository updatePost should update an existing post&apos;s image URL" name="PostRepository updatePost should update an existing post&apos;s image URL" time="0.004">
+    </testcase>
+    <testcase classname="PostRepository updatePost should update both description and image URL" name="PostRepository updatePost should update both description and image URL" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository updatePost should return an error if the post does not exist" name="PostRepository updatePost should return an error if the post does not exist" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository updatePost should log an error and return failure if an exception occurs" name="PostRepository updatePost should log an error and return failure if an exception occurs" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository retrieveByPostTitle should retrieve a post by its title" name="PostRepository retrieveByPostTitle should retrieve a post by its title" time="0.001">
       <failure>TypeError: Cannot read properties of null (reading &apos;value&apos;)
-    at Object.value (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:146:27)
+    at Object.value (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:226:27)
     at Promise.then.completed (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
@@ -87,20 +149,23 @@ Received number of calls: 1
     at runAndTransformResultsToJestFormat (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
     at jestAdapter (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
     at runTestInternal (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
+    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="PostRepository retrieveByPostTitle should return null if the post is not found" name="PostRepository retrieveByPostTitle should return null if the post is not found" time="0">
+    <testcase classname="PostRepository retrieveByPostTitle should return null if the post is not found" name="PostRepository retrieveByPostTitle should return null if the post is not found" time="0.002">
     </testcase>
     <testcase classname="PostRepository insertPosts should insert a new post if it does not already exist" name="PostRepository insertPosts should insert a new post if it does not already exist" time="0.001">
     </testcase>
-    <testcase classname="PostRepository insertPosts should not insert a post if it already exists" name="PostRepository insertPosts should not insert a post if it already exists" time="0.003">
+    <testcase classname="PostRepository insertPosts should not insert a post if it already exists" name="PostRepository insertPosts should not insert a post if it already exists" time="0.001">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
 
 Expected: &quot;Post with name \&quot;Test Post\&quot; already exists.&quot;
-Received: &quot;Error saving posts to file:&quot;, &quot;Write error&quot;
+Received
+       1: &quot;Error loading posts from file:&quot;, &quot;Read error&quot;
+       2: &quot;Error saving posts to file:&quot;, &quot;Write error&quot;
 
-Number of calls: 1
-    at Object.toHaveBeenCalledWith (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:173:37)
+Number of calls: 2
+    at Object.toHaveBeenCalledWith (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:259:37)
     at Promise.then.completed (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
@@ -114,69 +179,48 @@ Number of calls: 1
     at runAndTransformResultsToJestFormat (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
     at jestAdapter (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
     at runTestInternal (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
+    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="PostRepository insertPosts should log an error if a post with the same title already exists" name="PostRepository insertPosts should log an error if a post with the same title already exists" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;Post with name \&quot;Test Post\&quot; already exists.&quot;
+Received
+       1: &quot;Error loading posts from file:&quot;, &quot;Read error&quot;
+       2: &quot;Error saving posts to file:&quot;, &quot;Write error&quot;
+
+Number of calls: 2
+    at Object.toHaveBeenCalledWith (D:\GitKub\hanza\skillLinkProject\test\postRepository.test.js:272:37)
+    at Promise.then.completed (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\prari\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="PostRepository insertPosts should insert a new post if it does not already exist" name="PostRepository insertPosts should insert a new post if it does not already exist" time="0.001">
     </testcase>
     <testcase classname="PostRepository removePosts should remove a post by its title" name="PostRepository removePosts should remove a post by its title" time="0.004">
     </testcase>
-    <testcase classname="PostRepository removePosts should log a message if no posts are available to remove" name="PostRepository removePosts should log a message if no posts are available to remove" time="0.004">
+    <testcase classname="PostRepository removePosts should log a message if no posts are available to remove" name="PostRepository removePosts should log a message if no posts are available to remove" time="0.001">
     </testcase>
-    <testcase classname="PostRepository removeFirst should remove the first post" name="PostRepository removeFirst should remove the first post" time="0.001">
+    <testcase classname="PostRepository removeFirst should remove the first post" name="PostRepository removeFirst should remove the first post" time="0">
     </testcase>
-    <testcase classname="PostRepository removeLast should remove the last post" name="PostRepository removeLast should remove the last post" time="0.001">
+    <testcase classname="PostRepository removeFirst should log a message and return failure if no posts are available to remove" name="PostRepository removeFirst should log a message and return failure if no posts are available to remove" time="0.002">
     </testcase>
-  </testsuite>
-  <testsuite name="LinkedList" errors="0" failures="0" skipped="0" timestamp="2025-04-02T15:49:46" time="0.118" tests="26">
-    <testcase classname="LinkedList insertFirst should add a node at the beginning of the LinkedList" name="LinkedList insertFirst should add a node at the beginning of the LinkedList" time="0.001">
+    <testcase classname="PostRepository removeLast should remove the last post" name="PostRepository removeLast should remove the last post" time="0.002">
     </testcase>
-    <testcase classname="LinkedList insertLast should add a node at the end of the LinkedList" name="LinkedList insertLast should add a node at the end of the LinkedList" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeByPostTitle should remove a node with the specified postTitle" name="LinkedList removeByPostTitle should remove a node with the specified postTitle" time="0.003">
-    </testcase>
-    <testcase classname="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" name="LinkedList removeByPostTitle should log a message when the specified postTitle is not found" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeFirst should do nothing when LinkedList is empty" name="LinkedList removeFirst should do nothing when LinkedList is empty" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeFirst should remove the only node when LinkedList has one node" name="LinkedList removeFirst should remove the only node when LinkedList has one node" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" name="LinkedList removeFirst should remove the first node when LinkedList has multiple nodes" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0">
-    </testcase>
-    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0">
-    </testcase>
-    <testcase classname="LinkedList toArray should return an empty array when LinkedList is empty" name="LinkedList toArray should return an empty array when LinkedList is empty" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList toArray should convert the LinkedList to an array" name="LinkedList toArray should convert the LinkedList to an array" time="0">
-    </testcase>
-    <testcase classname="LinkedList getSize should return the size of the LinkedList" name="LinkedList getSize should return the size of the LinkedList" time="0">
-    </testcase>
-    <testcase classname="LinkedList isEmpty should return true when the LinkedList is empty" name="LinkedList isEmpty should return true when the LinkedList is empty" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList isEmpty should return false when the LinkedList has nodes" name="LinkedList isEmpty should return false when the LinkedList has nodes" time="0">
-    </testcase>
-    <testcase classname="LinkedList map should apply the callback to each node and return a new array" name="LinkedList map should apply the callback to each node and return a new array" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList map should return an empty array when LinkedList is empty" name="LinkedList map should return an empty array when LinkedList is empty" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" name="LinkedList removeByPostTitle should remove a node in the middle of the LinkedList" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeByPostTitle should update the tail when the last node is removed" name="LinkedList removeByPostTitle should update the tail when the last node is removed" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList forEachNode should handle errors in the callback function gracefully" name="LinkedList forEachNode should handle errors in the callback function gracefully" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList forEachNode should skip nodes with null or undefined values" name="LinkedList forEachNode should skip nodes with null or undefined values" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeLast should do nothing when LinkedList is empty" name="LinkedList removeLast should do nothing when LinkedList is empty" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeLast should remove the only node when LinkedList has one node" name="LinkedList removeLast should remove the only node when LinkedList has one node" time="0">
-    </testcase>
-    <testcase classname="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" name="LinkedList removeLast should remove the last node when LinkedList has multiple nodes" time="0.001">
-    </testcase>
-    <testcase classname="LinkedList removeLast should update the tail correctly after removing the last node" name="LinkedList removeLast should update the tail correctly after removing the last node" time="0">
+    <testcase classname="PostRepository removeLast should log a message and return failure if no posts are available to remove" name="PostRepository removeLast should log a message and return failure if no posts are available to remove" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

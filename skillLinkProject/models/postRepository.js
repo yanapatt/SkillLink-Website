@@ -35,7 +35,7 @@ class PostRepository {
         if (!fs.existsSync(this.filePath)) return;
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
-            if (!data.trim()) return;
+            if (!data || !data.trim()) return; // แก้ไขปัญหาข้อมูลว่าง
             JSON.parse(data).forEach(post => this.posts.insertLast(post));
         } catch (err) {
             console.error("Error loading posts from file:", err.message);
