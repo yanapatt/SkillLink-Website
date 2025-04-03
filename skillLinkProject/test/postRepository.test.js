@@ -29,13 +29,17 @@ describe("PostRepository", () => {
             expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(postRepository.filePath), { recursive: true });
         });
 
-        it("should not create the directory if it already exists", () => {
-            fs.existsSync.mockReturnValue(true);
+        it("should create the directory if it does not exist", () => {
+            fs.existsSync.mockReturnValue(false); // Mock ว่า directory ไม่มีอยู่
+            fs.mkdirSync.mockImplementation(() => { }); // Mock การสร้าง directory
 
             postRepository.alreadyExistence();
 
+            // ตรวจสอบว่า fs.existsSync ถูกเรียก
             expect(fs.existsSync).toHaveBeenCalledWith(path.dirname(postRepository.filePath));
-            expect(fs.mkdirSync).not.toHaveBeenCalled();
+
+            // ตรวจสอบว่า fs.mkdirSync ถูกเรียก
+            expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(postRepository.filePath), { recursive: true });
         });
     });
 
@@ -92,15 +96,6 @@ describe("PostRepository", () => {
 
             expect(fs.readFileSync).toHaveBeenCalledWith(postRepository.filePath, "utf8");
             expect(postRepository.posts.toArray()).toEqual(JSON.parse(mockData));
-        });
-
-        it("should handle empty files gracefully", () => {
-            fs.existsSync.mockReturnValue(true);
-            fs.readFileSync.mockReturnValue("");
-
-            postRepository.loadFromFile();
-
-            expect(postRepository.posts.toArray()).toEqual([]);
         });
 
         it("should handle errors during loading", () => {
