@@ -192,7 +192,33 @@ graph LR;
 | postService.test.js | `PostService - removeFirstPost` | `should handle errors during the removal of the first post`                | จัดการข้อผิดพลาดระหว่างการลบโพสต์แรก                                                              |
 | postService.test.js | `PostService - removeLastPost` | `should remove the last post successfully`                                 | ลบโพสต์สุดท้ายสำเร็จ                                                                               |
 | postService.test.js | `PostService - removeLastPost` | `should return an error if there are no posts to remove`                   | ตรวจสอบกรณีไม่มีโพสต์ในระบบ                                                                       |
-| postService.test.js | `PostService - removeLastPost` | `should handle errors during the removal of the last post`                 | จัดการข้อผิดพลาดระหว่างการลบโพสต์สุดท้าย                                          
+| postService.test.js | `PostService - removeLastPost` | `should handle errors during the removal of the last post`                 | จัดการข้อผิดพลาดระหว่างการลบโพสต์สุดท้าย     
+
+## **ตัวอย่าง Test Case Code**                                     
+
+### **linkedList.test.js**
+
+![image.png](/.attachments/image-047d2dbb-7f04-40bc-8235-32be87d8b25e.png)
+
+![image.png](/.attachments/image-4830628c-d654-4e14-a3bf-d69dda4ca731.png)
+
+### **ImageRepository.test.js**
+![image.png](/.attachments/image-cec3f244-041e-4330-97ad-c3e967098304.png)
+
+![image.png](/.attachments/image-478149fa-39e0-4368-9638-3edc5570daeb.png)
+
+### **postRepository.test.js**
+
+![image.png](/.attachments/image-67e8b6c0-88bb-4463-a199-b28b0a7e3e26.png)
+
+![image.png](/.attachments/image-1e41d694-2bf2-4f7b-a2ee-0d1323d0ad7a.png)
+
+### **postService.test.js**
+
+![image.png](/.attachments/image-e65c33e2-226e-4bdd-9d65-bdf2b2fe735c.png)
+
+![image.png](/.attachments/image-7b1deb90-8d82-4662-8b17-b076f36800bf.png)
+
 
 
 
