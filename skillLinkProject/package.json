@@ -36,6 +36,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "jest-junit": "^16.0.0"
+    "jest-junit": "^16.0.0",
+    "node-mocks-http": "^1.16.2"
   }
 }
