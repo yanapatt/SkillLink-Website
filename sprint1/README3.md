@@ -1,11 +1,12 @@
 **Sprint3**
 
 **Use Case Diagram (Update)**
-:::mermaid
-graph LR;
-    A[Hard edge] -->|Link text| B(Round edge) --> C{Decision}
-    C -->|One| D[Result one]
-    C -->|Two| E[Result two]
+
+::: mermaid
+sequenceDiagram
+    Christie->>เกย์
+    Josh-->>Christie: Great!
+    Christie->>Josh: See you later!
 :::
 
 
