@@ -196,6 +196,36 @@ graph LR;
 | postService.test.js | `PostService - removeLastPost` | `should return an error if there are no posts to remove`                   | ตรวจสอบกรณีไม่มีโพสต์ในระบบ                                                                       |
 | postService.test.js | `PostService - removeLastPost` | `should handle errors during the removal of the last post`                 | จัดการข้อผิดพลาดระหว่างการลบโพสต์สุดท้าย     
 
+
+**AccountRepository**
+
+| **Test Suite**       | **Describe**                     | **Test Unit**                                                                 | **Description**                                                                                     |
+|-----------------------|----------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| accountRepository.test.js| `accountRepository -  alreadyExistence`                  | `should create directory if it does not exist`                 |  ควรสร้าง directory ถ้าไม่มีอยู่    
+| accountRepository.test.js| `accountRepository -  alreadyExistence`                  | `should not create directory if it already exists`                 | ควรไม่สร้าง directory ถ้ามีอยู่แล้ว 
+| accountRepository.test.js| `accountRepository -  saveToFile`                  | ` should save accounts to file`| สามารถบันทึกข้อมูลบัญชีลงในไฟล์ได้อย่างถูกต้อง โดยการตรวจสอบว่า fs.writeFileSync()และ fs.renameSync()ถูกเรียกใช้เพื่อบันทึกไฟล์ในตำแหน่งที่ถูกต้อง|
+| accountRepository.test.js| `accountRepository -  saveToFile`                  | `should return if accounts.json does not exist`| ควรไม่ทำอะไรถ้าไฟล์ accounts.json ไม่มีอยู่|
+| accountRepository.test.js| `accountRepository -  saveToFile`                  | `should return if accounts.json is empty`| ควรไม่ทำอะไรถ้าไฟล์ accounts.json ว่างเปล่า|
+| accountRepository.test.js| `accountRepository -  retrieveAllAccounts`|` should retrieve all accounts`| ตรวจสอบว่า ฟังก์ชัน retrieveAllAccounts() ตรวจสอบว่า ฟังก์ชัน retrieveAllAccounts() สามารถดึงข้อมูลบัญชีทั้งหมดได้อย่างถูกต้องจาก LinkedList และคืนค่าข้อมูลที่ถูกต้องในรูปแบบอาร์เรย์|
+| accountRepository.test.js| `accountRepository -retrieveAccountById`|` should retrieve account by ID`| ตรวจสอบว่า ฟังก์ชัน retrieveAllAccounts() ตรวจสอบว่า ฟังก์ชัน retrieveAccountById()ในคลาส AccountRepository สามารถดึงข้อมูลบัญชีที่มีaccIdตรงกับค่าที่ส่งเข้ามาได้อย่างถูกต้อง โดยต้องตรวจสอบว่า ฟังก์ชัน forEachNode() ถูกเรียก และข้อมูลที่ดึงออกมาตรงกับข้อมูลที่คาดหวัง|
+| accountRepository.test.js| `accountRepository -retrieveAccountById`|` should throw an error if account ID is missing`| ควรโยนข้อผิดพลาดหากไม่มี Account ID|
+| accountRepository.test.js| `accountRepository -retrieveAccountByUsername`| `should retrieve account by username`| ตรวจสอบว่า ฟังก์ชัน forEachNode() ถูกเรียก และข้อมูลที่ดึงออกมาตรงกับข้อมูลที่คาดหวัง|
+| accountRepository.test.js| `accountRepository - loadFromFile`                  | `should load accounts from file`| ตรวจสอบว่า ฟังก์ชัน loadFromFile() ทำงานถูกต้องหรือไม่|
+| accountRepository.test.js| `accountRepository - loadFromFile`                  | `should log error if loadFromFile fails`|ตรวจสอบว่าเมื่อ directory ไม่มีอยู่จริงแล้วฟังก์ชันalreadyExistence()จะสร้าง directoryขึ้นมาหรือไม่ซึ่งจะทำการทดสอบโดยการ mock ฟังก์ชันfs.existsSync และfs.mkdirSyncให้ทำงานตามที่ต้องการ|
+| accountRepository.test.js| `accountRepository -  insertAccounts`                  | `should insert an account if it does not already exist`| Test: ควร insert บัญชีใหม่ถ้ายังไม่มีในระบบ|
+| accountRepository.test.js| `accountRepository -  insertAccounts`                  | `should not insert account if it already exists`| Test: ควรไม่ insert ข้อมูลถ้าบัญชีมีอยู่แล้ว|
+
+**AccountService**
+
+| **Test Suite**       | **Describe**                     | **Test Unit**                                                                 | **Description**                                                                                     |
+|-----------------------|----------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| accountService.test.js| `accountService-createAccount`                  | `should create an account successfully`|ควรสร้างบัญชีสำเร็จ|
+| accountService.test.js| `accountService-createAccount`                  | `should return null when required fields are missing`|ควรส่งคืนค่า null เมื่อฟิลด์ที่จำเป็นหายไป|
+| accountService.test.js| `accountService- authenticateAccount`                  | `should authenticate account with valid credentials`|ควรตรวจสอบบัญชีด้วยข้อมูลประจำตัวที่ถูกต้อง|
+| accountService.test.js| `accountService- authenticateAccount`                  | `should return null for incorrect password`|ควรส่งคืนค่า null สำหรับรหัสผ่านที่ไม่ถูกต้อง|
+| accountService.test.js| `accountService- authenticateAccount`                  | `should return null if account does not exist`|ควรส่งคืนค่า null ถ้าบัญชีไม่มีอยู่|
+| accountService.test.js| `accountService-getAllEncryptAccounts`                  | `should return all accounts with masked passwords`|ควรคืนบัญชีทั้งหมดที่มีรหัสผ่านที่ถูกปกปิด|
+
 ## **ตัวอย่าง Test Case Code**                                     
 
 ### **linkedList.test.js**
