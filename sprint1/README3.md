@@ -347,7 +347,32 @@ graph LR;
 //TODO
 
 ## **Website Screenshorts**
-//TODO
+## **Website Screenshorts**
+- หน้า login
+เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/5803b1f8-d714-432a-a172-343c2d394dd7?fileName=image.png)
+
+- หน้า Register
+เป็นการสมัครบัญชีเริ่มแรกเมื่อเข้าใช้ โดยเมื่อลงทะเบียนเสร็จจะกลับไปยังหน้า Login
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/fec04bde-f5bf-44b9-8465-446775f2dbba?fileName=image.png)
+
+- หน้า edit post
+เป็นการ edit post เฉพาะเจ้าของ ของpostนั้นๆ และเมื่อเสร็จจะกลับไปยังหน้าหลัก
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/c7c7ff97-735e-47ef-ab96-9ecd804e3229?fileName=image.png)
+
+- หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Postนั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Postจะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/6e78ed92-f421-4a52-b03a-4d397d8da7b0?fileName=image.png)
+
+-หน้า Home โดยหน้านี้จะแบ่งออกเป็น 2 หน้า โดยจะมีของ Admin และ User
+ -หน้า Home สำหรับ Admin จะสามารถลบ Post หรือ ลบRating ของ Post นั้นได้และยังลบ NewPost กับ OldPost ได้อีกด้วย
+
+  ![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/8a1fbdd6-4002-49ad-82d9-8cd0feee95c3?fileName=image.png)
+
+ -หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้วย
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/23159ab7-0738-4386-9e19-ce6200c5f768?fileName=image.png)
 
 ## **สรุปการประชุมและคลิปวีดีโอ Retrospective ใน Sprint ที่ 3**
 //TODO
