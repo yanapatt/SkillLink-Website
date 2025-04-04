@@ -28,6 +28,7 @@ class AccountService {
             return null;
         }
 
+
         accData.accId = accData.accId || uuid();
         accData.accPassword = this.util.encrypt(accData.accPassword);
         const formattedAccount = this.formatAccountDoc(accData);
@@ -67,8 +68,11 @@ class AccountService {
 
     // เข้ารหัส Password
     encryptAccounts(acc) {
-        return { ...acc, password: "**********" };
+        const { accPassword, ...rest } = acc; // เอาฟิลด์ accPassword ออก
+        return { ...rest, password: "**********" }; // เพิ่มฟิลด์ password ที่มาสก์แล้ว
     }
+
+
 
     /*
     Sprint 4 TODO

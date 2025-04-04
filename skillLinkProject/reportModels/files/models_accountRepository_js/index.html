@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">75.35</p>
+      <p class="stat">74.62</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">85</p>
+      <p class="stat">93</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">22.43</p>
+      <p class="stat">22.71</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.62</p>
+      <p class="stat">0.63</p>
     </div>
   </div>
 </div>
@@ -105,9 +105,10 @@ class AccountRepository {
     alreadyExistence() {
         const dirname = path.dirname(this.filePath);
         if (!fs.existsSync(dirname)) {
-            console.log(&quot;Directory has been exist at:&quot;, dirname);
+            console.log(&quot;Directory does not exist, creating it at:&quot;, dirname);
             fs.mkdirSync(dirname, { recursive: true });
         }
+
     }
 
     // บันทึกข้อมูล JSON ลงไฟล์
@@ -164,13 +165,20 @@ class AccountRepository {
 
     // เพิ่ม Accounts ลงบน LinkedList
     insertAccounts(acc) {
-        if (!this.retrieveAccountById(acc.accountId)) {
-            this.accounts.insertLast(acc);
-            this.saveToFile();
-        } else {
-            console.error(`Account with ID &quot;${account.accountId}&quot; already exists.`);
+        if (!acc.accId) {
+            throw new Error(&quot;Account ID is missing.&quot;);
         }
+
+        const existingAccount = this.retrieveAccountById(acc.accId);
+        if (existingAccount) {
+            return;  // ไม่มีการเรียก insertLast ถ้ามีบัญชีนี้อยู่แล้ว
+        }
+
+        console.log(&quot;Inserting account:&quot;, acc);  // เพิ่ม log นี้เพื่อดูว่า insertLast ถูกเรียกหรือไม่
+        this.accounts.insertLast(acc);  // เรียก insertLast เพื่อเพิ่มบัญชีใหม่
     }
+
+
 }
 
 module.exports = AccountRepository;</textarea>

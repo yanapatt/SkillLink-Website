@@ -16,6 +16,7 @@ test_credentials = [
     {"username": "' OR 1=1 --", "password": "any"},  # SQL Injection attempt
 ]
 
+
 # Function to test login
 def test_login(username, password):
     url = f"{BASE_URL}/login"
@@ -23,21 +24,27 @@ def test_login(username, password):
     try:
         # Send POST request to the login endpoint
         response = requests.post(url, data=data)
-        
+
         # Check if an error is displayed in the response body
         if "Invalid credentials for username" in response.text:
-            print(f"Test with username='{username}' and password='{password}' -> LOGIN FAILED")
-            #print(f"Error Message: {response.text}")
+            print(
+                f"Test with username='{username}' and password='{password}' -> LOGIN FAILED"
+            )
+            # print(f"Error Message: {response.text}")
         elif "Welcome" in response.text:
-            print(f"Test with username='{username}' and password='{password}' -> LOGIN SUCCESS")
-            #print(f"Response: {response.text}")
+            print(
+                f"Test with username='{username}' and password='{password}' -> LOGIN SUCCESS"
+            )
+            # print(f"Response: {response.text}")
         else:
-            print(f"Test with username='{username}' and password='{password}' -> UNKNOWN RESULT")
-            #print(f"Response: {response.text}")
+            print(
+                f"Test with username='{username}' and password='{password}' -> UNKNOWN RESULT"
+            )
+            # print(f"Response: {response.text}")
     except Exception as e:
         print(f"Error testing username='{username}' and password='{password}': {e}")
+
 
 # Iterate through test cases
 for creds in test_credentials:
     test_login(creds["username"], creds["password"])
-
