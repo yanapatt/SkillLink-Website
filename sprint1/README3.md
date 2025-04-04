@@ -407,3 +407,4 @@ graph LR;
 **สิ่งที่จะนำไปปรับปรุงใน Phase 4 :** เพิ่มความถี่ในการประชุมผ่าน Discord เพื่อประสานงานและอัปเดตสถานะงาน วางแผน Scrum Meeting อย่างน้อย 2 ครั้งต่อสัปดาห์และแบ่งเวลาให้กับ UI อย่างเหมาะสม และทบทวนงานให้ตรงกับ Figma มากขึ้น แล้วเพิ่ม edge case และ integration test ใน Sprint ถัดไป
 
 **Link การประชุม Retrospective ใน Sprint ที่ 3**
+https://www.youtube.com/watch?v=1RbFEtS06U0
