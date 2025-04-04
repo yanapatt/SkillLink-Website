@@ -267,6 +267,39 @@ graph LR;
 
 
 ## **Static profiling**
+**Screenshort**
+
+![image.png](/.attachments/image-955830b3-88f6-4b53-952e-758c6234d50f.png)
+
+![image.png](/.attachments/image-31a46d18-b55e-4c71-9abd-ef512decde6e.png)
+
+**ข้อสรุปโดยภาพรวม**
+
+![image.png](/.attachments/image-b59bb16f-14e5-44da-a9c3-65e8fb67e365.png)
+
+- จำหวนโค๊ดในโฟล์เดอร์ Models มีทั้งสิ้น 906 บรรทัด และมีจำนวนบรรทัดโดยเฉลี่ย 151 บรรทัด
+- มีค่าการบำรุงรักษาโดยเฉลี่ย 70.41 ถือว่าอยู่ในระดับปานกลาง
+
+**ค่าการบำรุงรักษา**
+
+![image.png](/.attachments/image-17288b5e-fadd-414d-b1df-41bc876bc371.png)
+
+จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 75.93 ลองลงมาคือ accountRepository, accountService, linkedList, postRepository และ postService โดยมีค่า 74.62, 68.83, 68.73, 68.6 และ 65.78 ตามลำดับ
+
+**จำนวนบรรทัดของโค๊ด**
+![image.png](/.attachments/image-f18a0a2b-0daf-46fe-bba3-7721284ca8bd.png)
+จะเห็นได้ว่า postService มีจำนวนบรรทัดสูงที่สุดอยู่ที่ 359 บรรทัด ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 166, 137, 93, 92 และ 59 ตามลำดับ
+
+**การประเมิณข้อผิดพลาดโดยประมาณจากการใช้งาน**
+
+![image.png](/.attachments/image-d2cfd445-e091-40ac-b5b3-ebcf473445bd.png)
+จะเห็นได้ว่า postService มีข้อผิดพลาดโดยประมาณจากการใช้งานสูงที่สุดอยู่ที่ 3.43 ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 1.23, 0.8, 0.63, 0.48 และ 0.45 ตามลำดับ
+
+**การประเมิณโอกาสเกิดข้อผิดพลาด**
+![image.png](/.attachments/image-a4e2f9fb-d8aa-4365-a333-5e4c8d6ba8f4.png)
+จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, accountService  imageRepository, accountRepository และ linkedList โดยมีค่า 24, 21, 18, 15 และ 14 ตามลำดับ
+
+**สรุปในรูปแบบตาราง**
 
 | **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
 |---------------|---------------------|-------------------|----------------|----------------------|
@@ -277,16 +310,29 @@ graph LR;
 | **postRepository.js** | **68.60** | **166** | **31.95** | **1.23** |
 | **postService.js** | **65.78** | **359** | **64.64** | **3.43** |
 
-
-
 ## **Dynamic profiling**
-//TODO
+
+![image.png](/.attachments/image-8bfe9b67-0561-4722-8226-8768a2edaed7.png)
+
+แสดงให้เห็นว่าต้องใช้เวลาประมาณเท่าใดสำหรับแสดงผลหน้า Website ในแต่ละหน้า โดยเราได้มีการบันทึกผลดังนี้
+- Loading 37 ms
+- Rendering 41 ms
+- Painting 7 ms
+- Scripting 538 ms
+- System 82 ms
+- Total 727 ms
+
+![image.png](/.attachments/image-edc0f7c8-ef85-4c45-8582-5e7fe7ed4ac6.png)
+
+จากการ Audits ได้ผลดังนี้
+เว็ปไซต์ SkillLink มีค่า Performance อยู๋ 81 ค่า Accessibility อยู่ท 79 Best Practices อยู่ 100 และ SEO อยู่ที่ 91 ตามลำดับ
 
 ## **สิ่งที่ยังไม่สมบูรณ์ใน Sprint ที่ 3**
 //TODO
 
 
 ## **Website Screenshorts**
+//TODO
 
 ## **สรุปการประชุมและคลิปวีดีโอ Retrospective ใน Sprint ที่ 3**
 //TODO
