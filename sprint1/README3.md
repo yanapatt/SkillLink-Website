@@ -229,6 +229,21 @@ graph LR;
 | accountService.test.js| `accountService- authenticateAccount`                  | `should return null if account does not exist`|ควรส่งคืนค่า null ถ้าบัญชีไม่มีอยู่|
 | accountService.test.js| `accountService-getAllEncryptAccounts`                  | `should return all accounts with masked passwords`|ควรคืนบัญชีทั้งหมดที่มีรหัสผ่านที่ถูกปกปิด|
 
+## **Test coverage**
+รายงานผลการทดสอบที่ได้ ภาพบางส่วน
+ 
+![image.png](/.attachments/image-f8d393ce-9673-4cc5-bc75-92df1d306044.png)
+
+![image.png](/.attachments/image-3baeab8a-98a6-4730-9fe1-19affaa71db4.png)
+
+![image.png](/.attachments/image-1ac89adf-134d-49b4-894e-1309c99b3a09.png)
+
+## **Grunt Test**
+
+![image.png](/.attachments/image-12ba3b6a-a7f1-46fc-b4e1-146a8647356d.png)
+
+![image.png](/.attachments/image-576ad9ef-a40d-4def-ab32-e441604e69b1.png)
+
 ## **ตัวอย่าง Test Case Code**                                     
 
 ### **linkedList.test.js**
