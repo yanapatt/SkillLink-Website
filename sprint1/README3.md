@@ -291,15 +291,18 @@ graph LR;
 
 **จำนวนบรรทัดของโค๊ด**
 ![image.png](/.attachments/image-f18a0a2b-0daf-46fe-bba3-7721284ca8bd.png)
+
 จะเห็นได้ว่า postService มีจำนวนบรรทัดสูงที่สุดอยู่ที่ 359 บรรทัด ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 166, 137, 93, 92 และ 59 ตามลำดับ
 
 **การประเมิณข้อผิดพลาดโดยประมาณจากการใช้งาน**
 
 ![image.png](/.attachments/image-d2cfd445-e091-40ac-b5b3-ebcf473445bd.png)
+
 จะเห็นได้ว่า postService มีข้อผิดพลาดโดยประมาณจากการใช้งานสูงที่สุดอยู่ที่ 3.43 ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 1.23, 0.8, 0.63, 0.48 และ 0.45 ตามลำดับ
 
 **การประเมิณโอกาสเกิดข้อผิดพลาด**
 ![image.png](/.attachments/image-a4e2f9fb-d8aa-4365-a333-5e4c8d6ba8f4.png)
+
 จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, accountService  imageRepository, accountRepository และ linkedList โดยมีค่า 24, 21, 18, 15 และ 14 ตามลำดับ
 
 **สรุปในรูปแบบตาราง**
