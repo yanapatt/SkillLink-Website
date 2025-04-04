@@ -270,6 +270,13 @@ graph LR;
 
 | **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
 |---------------|---------------------|-------------------|----------------|----------------------|
+| **accountRepository.js** | **74.62** | **93** | **22.71** | **0.63** |
+| **accountService.js** | **68.83** | **92** | **22.43** | **0.48** |
+| **imageRepository.js** | **75.93** | **59** | **15.61** | **0.45** |
+| **linkedList.js** | **68.73** | **137** | **61.20** | **0.80** |
+| **postRepository.js** | **68.60** | **166** | **31.95** | **1.23** |
+| **postService.js** | **65.78** | **359** | **64.64** | **3.43** |
+
 
 
 ## **Dynamic profiling**
@@ -277,6 +284,9 @@ graph LR;
 
 ## **สิ่งที่ยังไม่สมบูรณ์ใน Sprint ที่ 3**
 //TODO
+
+
+## **Website Screenshorts**
 
 ## **สรุปการประชุมและคลิปวีดีโอ Retrospective ใน Sprint ที่ 3**
 //TODO
