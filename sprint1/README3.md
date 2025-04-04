@@ -62,10 +62,7 @@ graph LR;
 3.  เว๊บไซต์ต้องมีความเสถียร ตอบสนองได้อย่างรวดเร็ว
 
 ## **อธิบายการทำงานของ Data Structure**
-//TODO
-
-## **Design and Architecture**
-//TODO
+เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์
 
 ## **Unit Test**
 
