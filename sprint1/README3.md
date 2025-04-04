@@ -347,7 +347,6 @@ graph LR;
 //TODO
 
 ## **Website Screenshorts**
-## **Website Screenshorts**
 - หน้า login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
 
