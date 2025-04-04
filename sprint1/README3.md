@@ -267,8 +267,6 @@ graph LR;
 ![image.png](/.attachments/image-349db7ad-5baa-4d8a-9fff-0e0445c188f6.png)
 
 
-
-
 ## **Static profiling**
 **Screenshort**
 
