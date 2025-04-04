@@ -370,7 +370,7 @@ graph LR;
 
   ![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/8a1fbdd6-4002-49ad-82d9-8cd0feee95c3?fileName=image.png)
 
- -หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้ว
+ -หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้วย
 
 ![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/23159ab7-0738-4386-9e19-ce6200c5f768?fileName=image.png)
 
