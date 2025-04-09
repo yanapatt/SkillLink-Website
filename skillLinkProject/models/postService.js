@@ -1,4 +1,3 @@
-const { render } = require("ejs");
 const LinkedList = require("./linkedList");
 
 class PostService {
@@ -9,39 +8,19 @@ class PostService {
     }
 
     // จัด Format Documents JSON
-    formatPostDoc(postData, accountId, imageUrl) {
+    formatDoc(postData, accId, imageUrl) {
         return {
             postTitle: postData.postTitle,
-            accountId: accountId,
+            accId: accId,
             postDesc: postData.postDesc,
             postRating: postData.postRating || 0,  // ใช้ค่า default หากไม่มีคะแนน
             postImgUrl: imageUrl || null,  // ใช้ URL ของภาพถ้ามี
-            ratingsCount: postData.ratingsCount || [] // ในอนาคตเปลี่ยนเป็น LinkedList
+            ratingsCount: postData.ratingsCount || new LinkedList() // ในอนาคตเปลี่ยนเป็น LinkedList
         };
     }
 
     // สร้าง Post
-    async createPost(postData, accountId, imgFile) {
-        try {
-            // ตรวจสอบและอัปโหลดภาพ
-            let imageUrl = null;
-            if (imgFile) {
-                console.log("Image file: ", imgFile);
-                imageUrl = await this.imgRepo.saveImageToFolder(imgFile); // ใช้ imgRepo เพื่อสร้าง URL
-            }
-
-            // จัดรูปแบบข้อมูลโพสต์
-            const formattedPostDoc = this.formatPostDoc(postData, accountId, imageUrl);
-
-            // เพิ่มโพสต์ลงใน LinkedList
-            this.postRepo.insertPosts(formattedPostDoc);
-
-            console.log("Post created successfully:", formattedPostDoc);
-            return formattedPostDoc; // ส่งกลับโพสต์ที่ถูกจัดรูปแบบแล้ว
-        } catch (error) {
-            console.error("Error creating post:", error.message);
-            throw new Error("Failed to create post: " + error.message);
-        }
+    async createPost(postData, accId, image) {
     }
 
     // อัปเดตคะแนน Rating ของโพสต์
@@ -110,50 +89,6 @@ class PostService {
         }
 
         return foundPosts.toArray(); // ส่งกลับเป็น array ของโพสต์ที่ค้นพบ
-    }
-
-    // แสดงโพสต์ที่มีคะแนนสูงสุด 5 โพสต์
-    getTopRatedPosts() {
-        const allPosts = this.postRepo.retrieveAllPosts();
-
-        // เรียงโพสต์ตาม postRating จากมากไปหาน้อย
-        const sortedPosts = allPosts.sort((a, b) => b.postRating - a.postRating);
-
-        // เลือกแค่ 5 โพสต์แรกที่มีคะแนนสูงสุด
-        return sortedPosts.slice(0, 5);
-    }
-
-    // โพสต์ของฉัน
-    getMyPosts(accountId) {
-        if (!accountId) {
-            console.error("Account ID is required for getting my posts.");
-            return [];
-        }
-
-        const foundPosts = new LinkedList();
-
-        this.postRepo.retrieveAllPosts().forEach((post) => {
-            if (post.accountId === accountId) {
-                foundPosts.insertLast(post);
-            }
-        });
-
-        return foundPosts.toArray(); // ส่งกลับเป็น array ของโพสต์ของผู้ใช้
-    }
-
-    // แสดงโพสต์ตามชื่อหัวข้อ
-    getPostByTitle(postTitle) {
-        const foundPosts = this.postRepo.retrieveAllPosts().find(post => post.postTitle === postTitle);
-        if (!foundPosts) {
-            console.log(`Post "${postTitle}" not found`);
-            return { success: false, message: "Post not found" };
-        }
-        return foundPosts;
-    }
-
-    // แสดง Post ทั้งหมดจากไฟล์
-    getAllPosts() {
-        return this.postRepo.retrieveAllPosts();
     }
 
     // อัปเดตข้อมูลของโพสต์ (แก้คำอธิบาย และเปลี่ยนรูปภาพได้)
