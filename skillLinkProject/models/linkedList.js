@@ -87,6 +87,21 @@ class LinkedList {
         return resultList;
     }
 
+    sort(compareFn) {
+        if (this.size < 2) return;
+    
+        const values = this.toArray();
+        values.sort(compareFn);
+
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+
+        for (const value of values) {
+            this.insertLast(value);
+        }
+    }
+    
     insertFirst(value) {
         const newNode = new Node(value);
         newNode.next = this.head;

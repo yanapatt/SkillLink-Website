@@ -12,31 +12,33 @@ class PostRepository {
 
     // ยืนยันให้ชัวร์ว่า Directory ถูกสร้างหรือยัง
     alreadyExistence() {
-        const dir = path.dirname(this.filePath);
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-            console.log("Directory created at:", dir);
+        const dirname = path.dirname(this.filePath);
+        if (!fs.existsSync(dirname)) {
+            console.log("Directory has been exist at:", dirname);
+            fs.mkdirSync(dirname, { recursive: true });
         }
     }
 
     // บันทึกข้อมูล JSON ลงไฟล์
     saveToFile() {
-        const tempPath = `${this.filePath}.tmp`;
-        const jsonData = JSON.stringify(this.posts.toArray(), null, 2);
-        fs.writeFileSync(tempPath, jsonData);
-        fs.renameSync(tempPath, this.filePath);
+        try {
+            this.alreadyExistence();
+            fs.writeFileSync(`${this.filePath}.tmp`, JSON.stringify(this.posts.toArray(), null, 2));
+            fs.renameSync(`${this.filePath}.tmp`, this.filePath);
+        } catch (err) {
+            console.error("Error saving posts to file:", err.message);
+        }
     }
 
     // โหลดข้อมูลจาก JSON ไฟล์
     loadFromFile() {
         if (!fs.existsSync(this.filePath)) return;
-
-        const raw = fs.readFileSync(this.filePath, 'utf8');
-        if (!raw.trim()) return;
-
-        const data = JSON.parse(raw);
-        if (Array.isArray(data)) {
-            data.forEach(post => this.posts.insertLast(post));
+        try {
+            const data = fs.readFileSync(this.filePath, 'utf8');
+            if (!data || !data.trim()) return;
+            JSON.parse(data).forEach(post => this.posts.insertLast(post));
+        } catch (err) {
+            console.error("Error loading posts from file:", err.message);
         }
     }
 

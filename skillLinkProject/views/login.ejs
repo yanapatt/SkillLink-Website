@@ -1,53 +1,4 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillLink - อาสาสมัคร</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-   <style>
-   .container5 {
-    max-width: 600px;
-    margin: 50px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
-}
-h1 {
-    text-align: center;  /* ทำให้ข้อความใน h1 อยู่ตรงกลาง */
-    font-size: 50px;
-    margin-bottom: 50px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-.btn5{
-    background-color: black;
-            color: white;
-            border: 2px solid white;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            
-            box-sizing: border-box;
-            transition: all 0.3s ease;  
-            width: 100%;
-            
-            margin: 10px auto;
-}
-.btn5:hover {
-    background-color: rgb(255, 255, 255); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: rgb(0, 0, 0); /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-
-    
-
-</style>
-</head>
-<body>
-<div class="container5">
-<h1 >Login SkillLink</h1>
+<h1>Login</h1>
 <!-- <%= %> will escape html, but <%- %> will display html as is -->
 <% if (error) { %>
 <p style="color: red;"><%- error %></p>
@@ -60,6 +11,5 @@ h1 {
     placeholder="Please enter your password" required />
 
   <p>You don't have an account?<a href="/register"> Register now</a></p>
-  <button class="btn5" type="submit">Login</button>
+  <button type="submit">Login</button>
 </form>
-</div>

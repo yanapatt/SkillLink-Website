@@ -5,403 +5,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Post Reviews</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
-.navbar-container {
-    background: black;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: auto;
-  } 
+      font-family: Arial, sans-serif;
+    }
 
-  .navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    
-  }
+    .summary {
+      margin-bottom: 20px;
+    }
 
-  .navbar-left a {
-    color: white;
-    text-decoration: none;
-  }
-  .btn{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    border: 2px solid white;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    outline: none;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-  }
-  .btn:hover {
-    background-color: rgb(250, 250, 250); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: black; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-  
-.search-section {
-    text-align: center;
-    padding: 40px;
-    background-color: white;
-}
-.search-box {
-    padding: 10px;
-    width: 300px;
-    border-radius: 20px;
-    border: 1px solid gray;
-}
-.volunteer-section {
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-    color: black;
-   
-}
-.volunteer-section a {
-    color: black ;  /* ใช้สีปกติของข้อความ */
-    text-decoration: none;  /* ลบเส้นใต้ */
-    
-  }
-.volunteer-list {
-  width: 60%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: center;
-    display: flex; /* จัดให้อยู่ตรงกลาง */
-    flex-direction: column;
-    align-items: center;
-}
-.volunteer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    padding: 1px 0;
-}
-.volunteer img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-.volunteer-info {
-    display: flex;
-    flex-direction: column;  
-    justify-content: center;  /* จัดรายการให้อยู่กลางในแนวนอน */
-    align-items: center;      /* จัดรายการให้อยู่กลางในแนวตั้ง */
-}
-.volunteer-info ul {
-  list-style-type: none;
-    padding-left: 0;
-    width: 100%;
-    text-align: center; /* ทำให้ข้อความอยู่ตรงกลาง */
-}
+    .review {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
 
-.volunteer-info li {
-  display: flex;
-    flex-direction: column;
-    align-items: center; /* ทำให้เนื้อหาอยู่ตรงกลาง */
-    width: 100%;
-    margin: 10px 0;
-}
-.sidebar {
-    width: 30%;
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 40px;
-    border-radius: 10px;
-    margin-left: 20px;
-}
-.sidebar2 {
-    width: 20%;
-    min-width: 200px;  /* กำหนดความกว้างขั้นต่ำ */
-    max-width: 400px;  /* กำหนดความกว้างสูงสุด */
-    height: 60vh;
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 50px;
-    border-radius: 10px;
-    margin-left: 20px;
-}
+    .actions {
+      margin-top: 20px;
+    }
 
-.btn2 {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    
-    border: 2px solid black;
-    padding: 10px 20px;
-    transition: all 0.3s ease;
-}
-.btn2:hover {
-    background-color: white; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: black; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid rgb(245, 243, 244); /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-
-.textarea {
-    width: 1000px;
-    height: 400px;
-    border-radius: 20px; /* มุมโค้งเล็กลงให้เห็นชัด */
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-.input-text,.textarea{
-    width: 1000px;
-    height: 80px;
-    border-radius: 20px; /* มุมโค้งเล็กลงให้เห็นชัด */
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-.container{
-    max-width: 900px;
-    margin:20px auto 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid black;
-}
-.post{
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    border: 2px solid black;
-}
-.post img {
-    width: 100px;
-    height: 100px;
-    background: black;
-    border-radius: 10px;
-    margin-right: 15px;
-}
-.pagination {
-    display: flex;
-    justify-content:right;
-    margin-top: 20px;
-}
-.profile-pic {
-    width: 100px;
-    height: 100px;
-    background: black;
-    border-radius: 50%;
-    margin: 0 auto;
-}
-.stars {
-    color: gold;
-    cursor: pointer;
-}
-.container5 {
-    max-width: 600px;
-    margin: 50px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.register-link {
-    margin-top: 10px;
-}
-.register-link a {
-    color: blue;
-    text-decoration: none;
-}
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.containerlogin {
-    max-width: 1000px;
-    max-height: 1000vh  ;
-    margin: 100px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.btn5{
-            display: flex;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-            border-radius: 20px;
-            padding: 10px 50px;
-            margin: 0 auto;
-            gap: 15px;
-            font-size: 16px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;  
-            text-align: center;
-            justify-content: center;
-            outline: none;  /* ลบเส้นใต้ */
-            
-}
-.btn5 a{
-  text-decoration: none;
-}
-.btn5:hover {
-    background-color: rgb(255, 255, 255); /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: rgb(0, 0, 0); /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-.account-type {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.register-link {
-    margin-top: 10px;
-}
-.register-link a {
-    color: blue;
-    text-decoration: none;
-}
-.btn3 {
-    background-color: rgb(255, 254, 254);
-    color: white;
-    border: 2px solid white;
-    border-radius: 10px;
-    padding: 5px 5px;
-    font-size: 16px;
-    outline: none;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    width: auto;
-  }
-  .btn3:hover {
-    background-color: #e0a800; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-.btn0{
-            display: flex;
-            background-color: white;
-            color: black;
-            border: 2px solid black;
-            border-radius: 20px;
-            padding: 10px 50px;
-            margin:  0 auto;
-            gap: 15px;
-            font-size: 16px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            text-align: center;
-            justify-content: center;
-            outline: none;  /* ลบเส้นใต้ */
-}
-.btn0:hover {
-    background-color: black; /* เปลี่ยนพื้นหลังเป็นสีดำเมื่อวางเมาส์ */
-    color: white; /* เปลี่ยนสีข้อความเป็นขาวเมื่อวางเมาส์ */
-    border: 2px solid white; /* เปลี่ยนเส้นขอบเป็นสีขาวเมื่อวางเมาส์ */
-}
-
+    .posts-list {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
 <body>
-   <!--navbar-->
-   <div class="navbar-container">
-    <div class="navbar-left">
-      <a href="#" style="font-size: 20px">Skillink</a>
-      <a href="#">หน้าหลัก </a>
-      <a href="#">โพสต์</a>
-      <a href="#">Welcome <%= accUsername %>, Your Role is: <%= accRole %></a>
-    </div>
-    <a href="/logout">
-    <button class="btn ">เข้าสู่ระบบ</button></a>
-  </div>
-  <!-- Search Form -->
-
-  <div class="search-section">
-    <h2>ค้นหาอาสาสมัครที่คุณต้องการได้เลย !</h2>
-    <form action="/search" method="POST">
-      <input type="text" name="searchValue" class="search-box" placeholder="Search Posts" required />
-
-      <label for="searchType">Select Search Type:</label>
-      
-      <select style="border-radius: 20px;" name="searchType" id="searchType">
-        <option value="title">Search by Title</option>
-        <option value="author">Search by Author</option>
-      </select>
-      <button class="btn" type="submit">Search</button>
-      <a href="/clear-search"><button class="btn2" type="button">Clear</button></a>
-    </form>
-    <!-- Sort by Rating Button -->
-    <a href="/sort"><button class="btn5" >Sort by Rating</button></a>
-
-    <form action="/my-posts" method="GET">
-      <button class="btn0" type="submit">Get My Posts</button>
-    </form>
-  </div>
-</div>
-</div>
-  
-      <!-- Top 5 Rating Posts -->
-      <div class="volunteer-section">
-        <div class="volunteer-list">
-      <h3 style="text-align: center;">5 อันดับอาสาสมัคร Rating สูง</h3>
-      
-      <ul class="volunteer-info">
-        
-        <% firstFivePosts.forEach(post=> { %>
-          <li>
-
-          
-              <h3>
-                <%= post.postTitle %>
-                  <span>Rating: <%= post.postRating %></span>
-                 <div class="btn3"> 
-                  <span><a href="/view/<%= post.postTitle %>">View</a></span>
-              </h3>
-            
-          </li>
-          <% }); %>
-      </ul>
-    </div>
-  <!--post-->
-<div class="sidebar">
+  <h1>Post List</h1>
   Welcome <%= accUsername %>, Your Role is: <%= accRole %>
-  <h2>โพสต์สิ่งที่คุณต้องการได้เลย !</h2>
-    <!-- Form for adding posts -->
-    <form action="/add" method="POST" enctype="multipart/form-data">
-      <input type="text" name="postTitle" placeholder="Post Title" required />
-      <textarea name="postDesc" placeholder="Post Description" required></textarea>
-      <input type="file" name="postImgUrl" accept="image/*" />
-      <button class="btn5" type="submit">Add Post</button>
-    </form>
-  </div>
-</div>
-      
-    </div>
-  </div>
+      <a href="/logout">Logout</a>
+
+      <!-- Form for adding posts -->
+      <form action="/add" method="POST" enctype="multipart/form-data">
+        <input type="text" name="postTitle" placeholder="Post Title" required />
+        <textarea name="postDesc" placeholder="Post Description" required></textarea>
+        <input type="file" name="postImgUrl" accept="image/*" />
+        <button type="submit">Add Post</button>
+      </form>
+
+      <!-- Top 5 Rating Posts -->
+      <h2>Top 5 Rating Posts</h2>
+      <ul>
+      </ul>
+
+      <!-- Search Form -->
+      <form action="/search" method="POST">
+        <input type="text" name="searchValue" placeholder="Search Posts" required />
+        <label for="searchType">Select Search Type:</label>
+        <select name="searchType" id="searchType">
+          <option value="title">Search by Title</option>
+          <option value="author">Search by Author</option>
+        </select>
+        <button type="submit">Search</button>
+        <a href="/clear-search"><button type="button">Clear</button></a>
+      </form>
+      <!-- Sort by Rating Button -->
+      <a href="/sort"><button>Sort by Rating</button></a>
+
+      <form action="/my-posts" method="GET">
+        <button type="submit">Get My Posts</button>
+      </form>
+
       <!-- Display Posts Only if Not Admin -->
       <% if (accRole !=='Admin' ) { %>
-        <div class="search-section  ">
-          
+        <div class="posts-list">
           <h2>Posts</h2>
-          <div class="volunteer-info">
+
           <% if (posts.length===0) { %>
             <p style="color: red; font-weight: bold;">Not Found!</p>
             <% } else { %>
@@ -412,15 +81,14 @@ input {
                       <%= post.postTitle %>
                     </strong>: <%= post.postDesc %>
                       by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
-                          
-                      <a href="/view/<%= post.postTitle %>"><button class="btn">View</button></a>
+                          <a href="/view/<%= post.postTitle %>">View</a>
                   </li>
                   <% }) %>
               </ul>
               <% } %>
         </div>
         <% } %>
-      </div>
+
           <!-- Display Admin Actions Only if accountType is 'Admin' -->
           <% if (accRole==='Admin' ) { %>
             <h2>Admin Actions</h2>
@@ -433,7 +101,6 @@ input {
                     <% posts.forEach(post=> { %>
                       <li>
                         <input type="checkbox" name="postTitles" value="<%= post.postTitle %>" class="post-checkbox" />
-                        <br>
                         <strong>
                           <%= post.postTitle %>
                         </strong>: <%= post.postDesc %>
@@ -443,22 +110,21 @@ input {
                       <% }) %>
                   </ul>
                   <% } %>
-                </br>
-                    <button class="btn5"  type="submit" id="remove-button" disabled>Remove Selected Posts</button>
+                    <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
 
-                    <label  for="rating">Remove by Rating:</label>
+                    <label for="rating">Remove by Rating:</label>
                     <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
                       placeholder="Enter rating (0-5)" required>
-                    <button class="btn" type="submit" name="action" value="removeByRating">Remove by Rating</button>
+                    <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
             </form>
 
             <!-- Admin Form to Remove Oldest/Newest Post -->
             <form action="/remove-by-action" method="POST">
-              <button class="btn" type="submit" name="action" value="oldest">Remove Oldest Post</button>
+              <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
             </form>
 
             <form action="/remove-by-action" method="POST">
-              <button class="btn" type="submit" name="action" value="newest">Remove Newest Post</button>
+              <button type="submit" name="action" value="newest">Remove Newest Post</button>
             </form>
             <% } %>
 </body>
