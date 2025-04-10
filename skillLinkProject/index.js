@@ -33,8 +33,9 @@ app.post('/register', accountController.register);
 app.get('/logout', accountController.authenticate, accountController.logout);
 
 app.get('/', accountController.authenticate, postController.renderDisplay);
+
 //app.get('/my-posts', accountController.authenticate, postController.getMyPosts); // Retrieve my posts
-//app.post('/add', accountController.authenticate, postController.createPosts); // Add new post
+app.post('/add', accountController.authenticate, postController.createNewPost); // Add new post
 //app.get('/sort', accountController.authenticate, postController.sortPostsByRating); // Sort posts by rating
 //app.get('/view/:postTitle', accountController.authenticate, postController.aboutPost); // View a post by its name
 //app.get('/edit/:postTitle', accountController.authenticate, postController.aboutPost); // View a post for editing

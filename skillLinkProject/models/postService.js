@@ -20,26 +20,29 @@ class PostService {
     }
 
     // สร้าง Post
-    async createPost(postData, accountId, imgFile) {
+    async createPost(postData, accId, imageUrl) {
         try {
-            // ตรวจสอบและอัปโหลดภาพ
-            let imageUrl = null;
-            if (imgFile) {
-                console.log("Image file: ", imgFile);
-                imageUrl = await this.imgRepo.saveImageToFolder(imgFile); // ใช้ imgRepo เพื่อสร้าง URL
+            if (!postData || !accId) {
+                throw new Error("Post data or Account ID is missing.");
             }
 
-            // จัดรูปแบบข้อมูลโพสต์
-            const formattedPostDoc = this.formatPostDoc(postData, accountId, imageUrl);
+            let imageExist = null;
+            if (imageUrl) {
+                console.log("Received imageUrl:", imageUrl);
+                try {
+                    imageExist = await this.imgRepo.saveImage(imageUrl);
+                } catch (imageError) {
+                    console.error("Error saving image:", imageError.message);
+                    throw new Error("Failed to save image");
+                }
+            }
 
-            // เพิ่มโพสต์ลงใน LinkedList
-            this.postRepo.insertPosts(formattedPostDoc);
-
-            console.log("Post created successfully:", formattedPostDoc);
-            return formattedPostDoc; // ส่งกลับโพสต์ที่ถูกจัดรูปแบบแล้ว
+            const postDoc = this.formatPostDoc(postData, accId, imageExist);
+            this.postRepo.insertLastPost(postDoc);
+            return postDoc;
         } catch (error) {
             console.error("Error creating post:", error.message);
-            throw new Error("Failed to create post: " + error.message);
+            throw new Error("Failed to create post");
         }
     }
 }

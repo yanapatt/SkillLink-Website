@@ -56,6 +56,7 @@ class AccountRepository {
         return result;
     }
 
+    // ดึงข้อมูล Accounts ตาม Action ที่กำหนด
     retrieveAccountByAction(value, action) {
         const allAccounts = this.retrieveAllAccounts();
         const targetAccounts = new LinkedList();
@@ -79,24 +80,25 @@ class AccountRepository {
 
     // ตรวจสอบว่า Account มีอยู่หรือไม่
     checkAccountExistence(value, action) {
-        const existingAccounts = this.retrieveAccountByAction(value, action);
-        return existingAccounts.getSize() > 0;
+        let current = this.accounts.head;
+        while (current) {
+            const acc = current.value;
+            if (action === "username" && acc.accUsername === value) {
+                return true;
+            } else if (action === "accId" && acc.accId === value) {
+                return true;
+            } else if (action === "email" && acc.accEmail === value) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
     // เพิ่ม Account ลงบน LinkedList
     insertAccounts(acc) {
         if (!acc.accId) {
             console.error("Account ID is required.");
-            return;
-        }
-
-        if (this.checkAccountExistence(acc.accUsername, "username")) {
-            console.error("Username already exists:", acc.accUsername);
-            return;
-        }
-
-        if (this.checkAccountExistence(acc.accEmail, "email")) {
-            console.error("Email already exists:", acc.accEmail);
             return;
         }
 

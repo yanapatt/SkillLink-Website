@@ -99,6 +99,18 @@ class PostRepository {
         return targetPosts;
     }
 
+    // ตรวจสอบว่า Post ชื่อเดียวกันมีอยู่แล้วหรือไม่
+    isPostTitleExist(title) {
+        let current = this.posts.head;
+        while (current) {
+            if (current.value.title === title) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false; 
+    }
+
     // เพิ่มโพสต์ใหม่ที่ตำแหน่งแรก
     insertFirstPost(post) {
         this.posts.insertFirst(post);

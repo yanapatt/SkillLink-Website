@@ -61,11 +61,12 @@ exports.register = async (req, res) => {
         return handleError(res, 'register', 'All fields are required!');
     }
 
-    // ตรวจสอบว่า username และ email มีอยู่ในระบบหรือไม่
+    // ตรวจสอบว่า username
     if (accountRepo.checkAccountExistence(username, "username")) {
         return res.render('register', { error: "Username already exists." });
     }
 
+    // ตรวจสอบว่า email มีอยู่ในระบบหรือไม่
     if (accountRepo.checkAccountExistence(email, "email")) {
         return res.render('register', { error: "Email already exists." });
     }
