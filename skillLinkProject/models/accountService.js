@@ -34,21 +34,33 @@ class AccountService {
 
     // ตรวจสอบบัญชีตอน Login
     authenticateAccount(username, password) {
-        const account = this.accountRepo.retrieveAccountByUsername(username);
+        const accounts = this.accountRepo.retrieveAccountByAction(username, "username");
 
-        if (!account) {
+        if (!accounts || accounts.size === 0) {
+            console.error(`No account found with username: ${username}`);
+            return null;
+        }
+
+        let accountFound = null;
+        accounts.forEachNode((acc) => {
+            if (acc.accUsername === username) {
+                accountFound = acc;
+            }
+        });
+
+        if (!accountFound) {
             console.error(`No account found with username: ${username}`);
             return null;
         }
 
         // ตรวจสอบรหัสผ่าน
-        const isPasswordValid = this.util.encrypt(password) === account.accPassword;
+        const isPasswordValid = this.util.encrypt(password) === accountFound.accPassword;
         if (!isPasswordValid) {
-            console.error("Invalid password.");
+            console.error(`Invalid password for account: ${username}`);
             return null;
         }
 
-        return account;
+        return accountFound;
     }
 }
 

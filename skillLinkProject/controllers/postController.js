@@ -10,5 +10,5 @@ const postService = new PostService(postRepo, accRepo, imgRepo);
 
 exports.renderPosts = async (req, res) => {
     const allPosts = postRepo.retrieveAllPosts();
-    return allPosts;
+    res.render('index', {posts: allPosts.toArray(), accUsername: req.session.accUsername, accRole: req.session.accRole});
 }

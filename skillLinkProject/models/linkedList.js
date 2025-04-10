@@ -89,7 +89,7 @@ class LinkedList {
 
     sort(compareFn) {
         if (this.size < 2) return;
-    
+
         const values = this.toArray();
         values.sort(compareFn);
 
@@ -101,7 +101,24 @@ class LinkedList {
             this.insertLast(value);
         }
     }
-    
+
+    // เมธอดสำหรับเข้าถึงข้อมูลของ Node
+    getNodeValue(index) {
+        if (index < 0 || index >= this.size) {
+            console.log("Invalid index.");
+            return null;
+        }
+        let current = this.head;
+        let count = 0;
+        while (current) {
+            if (count === index) {
+                return current.value; 
+            }
+            count++;
+            current = current.next;
+        }
+    }
+
     insertFirst(value) {
         const newNode = new Node(value);
         newNode.next = this.head;
@@ -155,7 +172,7 @@ class LinkedList {
     removeAllNodes(callback) {
         let current = this.head;
         let prev = null;
-    
+
         while (current) {
             if (callback(current.value)) {
                 if (prev) {
@@ -163,20 +180,20 @@ class LinkedList {
                 } else {
                     this.head = current.next;
                 }
-    
+
                 if (current === this.tail) {
                     this.tail = prev;
                 }
-    
+
                 this.size--;
             } else {
                 prev = current;
             }
             current = current.next;
         }
-    
+
         if (this.size === 0) {
-            this.tail = null; 
+            this.tail = null;
         }
     }
 }

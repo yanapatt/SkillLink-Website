@@ -13,7 +13,11 @@ const handleError = (res, view, errorMessage) => {
 
 // ล็อกอิน
 exports.authenticate = (req, res, next) => {
-    req.user ? next() : res.redirect('/login');
+    if (req.session.accountSession) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
 };
 
 // ล็อกเอาท์
@@ -30,7 +34,7 @@ exports.showRegisterPage = (req, res) => res.render('register', { error: null })
 // การล็อกอิน
 exports.login = async (req, res, next) => {
     const { username, password } = req.body;
-    const accountSession = await accountService.authenticateAccount(username, password);
+    const accountSession = accountService.authenticateAccount(username, password);
 
     if (!accountSession) {
         return handleError(res, 'login', `Invalid username or password for: ${username}`);

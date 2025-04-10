@@ -37,11 +37,13 @@ class AccountRepository {
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
             if (!data.trim()) return;
-            JSON.parse(data).forEach(acc => this.accounts.insertLast(acc));
+            const accounts = JSON.parse(data);
+            accounts.forEach(acc => this.accounts.insertLast(acc));
         } catch (error) {
             console.error("Error loading accounts from file:", error.message);
         }
     }
+
 
     // ดึงข้อมูล Accounts ทีมีทั้งหมด
     retrieveAllAccounts() {
@@ -72,7 +74,6 @@ class AccountRepository {
                 targetAccounts.insertLast(acc);
             }
         });
-
         return targetAccounts;
     }
 
