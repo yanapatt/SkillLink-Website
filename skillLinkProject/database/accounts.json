@@ -1,18 +1,10 @@
 [
   {
-    "accId": "45ba2699-81bb-4ac5-af53-6b4695ab9891",
-    "accRole": "Admin",
-    "accUsername": "admin",
-    "accEmail": "admin@gmail.com",
-    "accPassword": "6002968392b901e9305d87e3",
-    "accPhone": "0979998888"
-  },
-  {
-    "accId": "41141c8e-c806-4344-8c47-5b165370f6f6",
+    "accId": "196954df-c77c-4f69-84ca-097514d8076f",
     "accRole": "User",
     "accUsername": "user",
-    "accEmail": "user@gmail.com",
-    "accPassword": "6002968392b901e9305d87e3",
-    "accPhone": "0887772222"
+    "accEmail": "admin@gmail.com",
+    "accPassword": "cc2f127c9de1e7d76a2c084a",
+    "accPhone": "0972988499"
   }
 ]

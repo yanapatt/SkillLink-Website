@@ -13,7 +13,7 @@ const handleError = (res, view, errorMessage) => {
 
 // ล็อกอิน
 exports.authenticate = (req, res, next) => {
-    req.user ? next() : res.redirect('/login'); // ใช้ req.user จาก sessionMiddleware
+    req.user ? next() : res.redirect('/login');
 };
 
 // ล็อกเอาท์
@@ -42,7 +42,7 @@ exports.login = async (req, res, next) => {
         accRole: accountSession.accRole
     };
 
-    req.session.save(() => {});
+    req.session.save(() => { });
 
     console.log('User logged in:', req.session.accountSession.accId);
     return res.redirect('/');
@@ -50,34 +50,32 @@ exports.login = async (req, res, next) => {
 
 // การสมัครสมาชิก
 exports.register = async (req, res) => {
-    try {
-        const { username, email, password, phone, accountRole } = req.body;
+    const { username, email, password, phone, accountRole } = req.body;
 
-        if (![username, email, password, phone].every(Boolean)) {
-            throw new Error('All fields are required!');
-        }
-
-        // สร้างบัญชีใหม่
-        const newAccount = accountService.createAccount({
-            accId: uuid(),
-            accRole: accountRole,
-            accUsername: username,
-            accEmail: email,
-            accPassword: password,
-            accPhone: phone
-        });
-
-        // เก็บข้อมูลใน session หลังจากการสมัคร
-        req.session.accountSession = {
-            accId: newAccount.accId,
-            accUsername: newAccount.accUsername,
-            accRole: newAccount.accRole
-        };
-
-        console.log(`${username} registered successfully.`);
-
-        return res.redirect('/login');
-    } catch (error) {
-        return handleError(res, 'register', error.message);
+    // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
+    if (![username, email, password, phone].every(Boolean)) {
+        return handleError(res, 'register', 'All fields are required!');
     }
+
+    // ตรวจสอบว่า username และ email มีอยู่ในระบบหรือไม่
+    if (accountRepo.checkAccountExistence(username, "username")) {
+        return res.render('register', { error: "Username already exists." });
+    }
+
+    if (accountRepo.checkAccountExistence(email, "email")) {
+        return res.render('register', { error: "Email already exists." });
+    }
+
+    // สร้างบัญชีใหม่
+    accountService.createAccount({
+        accId: uuid(),
+        accRole: accountRole,
+        accUsername: username,
+        accEmail: email,
+        accPassword: password,
+        accPhone: phone
+    });
+    
+    return res.redirect('/login');
 };
+

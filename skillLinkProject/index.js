@@ -3,7 +3,6 @@ const path = require('path');
 const session = require('express-session');
 const postController = require('./controllers/postController');
 const accountController = require('./controllers/accountController');
-const sessionMiddleware = require('./controllers/sessionMiddleware');
 
 // Initialize Express app
 const app = express();
@@ -26,17 +25,14 @@ app.use(
   })
 );
 
-// Routes
-app.use(sessionMiddleware);
-
-// Login and Register routes are not protected
+// Login and Register routes
 app.get('/login', accountController.showLoginPage);
 app.post('/login', accountController.login);
 app.get('/register', accountController.showRegisterPage);
 app.post('/register', accountController.register);
 app.get('/logout', accountController.authenticate, accountController.logout);
 
-app.get('/', accountController.authenticate, postController.renderPosts); // Retrieve posts, only if authenticated
+app.get('/', accountController.authenticate, postController.renderPosts);
 //app.get('/my-posts', accountController.authenticate, postController.getMyPosts); // Retrieve my posts
 //app.post('/add', accountController.authenticate, postController.createPosts); // Add new post
 //app.get('/sort', accountController.authenticate, postController.sortPostsByRating); // Sort posts by rating

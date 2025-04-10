@@ -37,7 +37,6 @@ class AccountRepository {
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
             if (!data.trim()) return;
-            console.log("Data has been loading successful!: ", data);
             JSON.parse(data).forEach(acc => this.accounts.insertLast(acc));
         } catch (error) {
             console.error("Error loading accounts from file:", error.message);
@@ -46,48 +45,63 @@ class AccountRepository {
 
     // ดึงข้อมูล Accounts ทีมีทั้งหมด
     retrieveAllAccounts() {
-        // ในอนาคตอาจจะปรับให้เป็น LinkedList โดยสมบูรณ์
-        return this.accounts.toArray();
+        const result = new LinkedList();
+        let current = this.accounts.head;
+        while (current) {
+            result.insertLast(current.value);
+            current = current.next;
+        }
+        return result;
     }
 
-    // ดึงข้อมูล Account โดยค้นหาจาก AccountId
-    retrieveAccountById(accId) {
-        let foundAccounts = null;
-        this.accounts.forEachNode(acc => {
-            if (acc.accId === accId) {
-                foundAccounts = acc;
+    retrieveAccountByAction(value, action) {
+        const allAccounts = this.retrieveAllAccounts();
+        const targetAccounts = new LinkedList();
+
+        if (!['username', 'accId', 'email'].includes(action)) {
+            console.error("Invalid action specified:", action);
+            return targetAccounts;
+        }
+
+        allAccounts.forEachNode((acc) => {
+            if (action === "username" && acc.accUsername === value) {
+                targetAccounts.insertLast(acc);
+            } else if (action === "accId" && acc.accId === value) {
+                targetAccounts.insertLast(acc);
+            } else if (action === "email" && acc.accEmail === value) {
+                targetAccounts.insertLast(acc);
             }
         });
-        return foundAccounts;
+
+        return targetAccounts;
     }
 
-    // ดึงข้อมูล Account โดยค้นหาจาก Username
-    retrieveAccountByUsername(accUsername) {
-        let foundAccounts = null;
-        this.accounts.forEachNode(acc => {
-            if (acc.accUsername === accUsername) {
-                foundAccounts = acc;
-            }
-        });
-        return foundAccounts;
+    // ตรวจสอบว่า Account มีอยู่หรือไม่
+    checkAccountExistence(value, action) {
+        const existingAccounts = this.retrieveAccountByAction(value, action);
+        return existingAccounts.getSize() > 0;
     }
 
-    // เพิ่ม Accounts ลงบน LinkedList
+    // เพิ่ม Account ลงบน LinkedList
     insertAccounts(acc) {
         if (!acc.accId) {
-            throw new Error("Account ID is missing.");
+            console.error("Account ID is required.");
+            return;
         }
 
-        const existingAccount = this.retrieveAccountById(acc.accId);
-        if (existingAccount) {
-            return;  // ไม่มีการเรียก insertLast ถ้ามีบัญชีนี้อยู่แล้ว
+        if (this.checkAccountExistence(acc.accUsername, "username")) {
+            console.error("Username already exists:", acc.accUsername);
+            return;
         }
 
-        console.log("Inserting account:", acc);  // เพิ่ม log นี้เพื่อดูว่า insertLast ถูกเรียกหรือไม่
-        this.accounts.insertLast(acc);  // เรียก insertLast เพื่อเพิ่มบัญชีใหม่
+        if (this.checkAccountExistence(acc.accEmail, "email")) {
+            console.error("Email already exists:", acc.accEmail);
+            return;
+        }
+
+        this.accounts.insertLast(acc);
+        this.saveToFile();
     }
-
-
 }
 
 module.exports = AccountRepository;

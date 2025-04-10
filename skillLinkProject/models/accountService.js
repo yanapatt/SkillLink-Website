@@ -1,5 +1,4 @@
 const Encryption = require('../util');
-const { uuid } = require('uuidv4');
 
 class AccountService {
     constructor(accountRepo) {
@@ -26,7 +25,6 @@ class AccountService {
             return null;
         }
 
-        accData.accId = uuid();
         accData.accPassword = this.util.encrypt(accData.accPassword);
 
         const account = this.formatAccountDoc(accData);
@@ -51,11 +49,6 @@ class AccountService {
         }
 
         return account;
-    }
-
-    encryptAccounts(acc) {
-        const { accPassword, ...rest } = acc; // เอาฟิลด์ accPassword ออก
-        return { ...rest, password: "**********" }; // เพิ่มฟิลด์ password ที่มาสก์แล้ว
     }
 }
 
