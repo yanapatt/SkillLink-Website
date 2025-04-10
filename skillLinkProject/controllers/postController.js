@@ -8,7 +8,11 @@ const accRepo = new AccountRepository();
 const imgRepo = new ImageRepository();
 const postService = new PostService(postRepo, accRepo, imgRepo);
 
-exports.renderPosts = async (req, res) => {
+exports.renderDisplay = async (req, res) => {
     const allPosts = postRepo.retrieveAllPosts();
-    res.render('index', {posts: allPosts.toArray(), accUsername: req.session.accUsername, accRole: req.session.accRole});
+    res.render('index', {
+        posts: allPosts.toArray(), 
+        accUsername: req.session.accountSession.accUsername, 
+        accRole: req.session.accountSession.accRole
+    });
 }

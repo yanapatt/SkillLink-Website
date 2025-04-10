@@ -102,7 +102,6 @@ class LinkedList {
         }
     }
 
-    // เมธอดสำหรับเข้าถึงข้อมูลของ Node
     getNodeValue(index) {
         if (index < 0 || index >= this.size) {
             console.log("Invalid index.");

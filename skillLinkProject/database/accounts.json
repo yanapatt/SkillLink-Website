@@ -6,5 +6,13 @@
     "accEmail": "admin@gmail.com",
     "accPassword": "6002968392b901e9305d87e3",
     "accPhone": "0972988499"
+  },
+  {
+    "accId": "7c6182c6-d488-483f-a67f-82b264872288",
+    "accRole": "User",
+    "accUsername": "yanapatt",
+    "accEmail": "yanapatt@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0972988499"
   }
 ]

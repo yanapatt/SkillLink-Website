@@ -32,7 +32,7 @@ app.get('/register', accountController.showRegisterPage);
 app.post('/register', accountController.register);
 app.get('/logout', accountController.authenticate, accountController.logout);
 
-app.get('/', accountController.authenticate, postController.renderPosts);
+app.get('/', accountController.authenticate, postController.renderDisplay);
 //app.get('/my-posts', accountController.authenticate, postController.getMyPosts); // Retrieve my posts
 //app.post('/add', accountController.authenticate, postController.createPosts); // Add new post
 //app.get('/sort', accountController.authenticate, postController.sortPostsByRating); // Sort posts by rating
