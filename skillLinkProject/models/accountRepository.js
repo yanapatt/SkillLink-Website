@@ -44,7 +44,6 @@ class AccountRepository {
         }
     }
 
-
     // ดึงข้อมูล Accounts ทีมีทั้งหมด
     retrieveAllAccounts() {
         const result = new LinkedList();

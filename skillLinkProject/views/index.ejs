@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Post Reviews</title>
   <style>
     body {
@@ -34,124 +34,143 @@
   <h1>Post List</h1>
   Welcome <%= accUsername %>, Your Role is: <%= accRole %>
       <a href="/logout">Logout</a>
-          <!-- Form for adding posts -->
-          <form action="/add" method="POST" enctype="multipart/form-data">
+
+      <!-- Form for adding posts -->
+      <form action="/add" method="POST" enctype="multipart/form-data">
+        <% if (error) { %>
+          <p id="error-message" style="color: red;">
+            <%= error %>
+          </p>
+          <% } %>
             <input type="text" name="postTitle" placeholder="Post Title" required />
             <textarea name="postDesc" placeholder="Post Description" required></textarea>
             <input type="file" name="postImgUrl" accept="image/*" />
             <button type="submit">Add Post</button>
-          </form>
+      </form>
 
-          <!-- Top 5 Rating Posts -->
-          <h2>Top 5 Rating Posts</h2>
-          <ul>
-          </ul>
+      <!-- Search Form -->
+      <form action="/search" method="POST">
+        <input type="text" name="value" placeholder="Search Posts" required />
+        <label for="searchType">Select Search Type:</label>
+        <select name="action" id="searchType">
+          <option value="byTitle">Search by Title</option>
+          <option value="byAuthor">Search by Author</option>
+        </select>
+        <button type="submit">Search</button>
+        <a href="/clear-search"><button type="button">Clear</button></a>
+      </form>
 
-          <!-- Search Form -->
-          <form action="/search" method="POST">
-            <input type="text" name="searchValue" placeholder="Search Posts" required />
-            <label for="searchType">Select Search Type:</label>
-            <select name="searchType" id="searchType">
-              <option value="title">Search by Title</option>
-              <option value="author">Search by Author</option>
-            </select>
-            <button type="submit">Search</button>
-            <a href="/clear-search"><button type="button">Clear</button></a>
-          </form>
-          <!-- Sort by Rating Button -->
-          <a href="/sort"><button>Sort by Rating</button></a>
+      <!-- Sort by Rating Button -->
+      <form action="/sort" method="GET">
+        <button type="submit">Sort by Rating</button>
+      </form>
 
-          <form action="/my-posts" method="GET">
-            <button type="submit">Get My Posts</button>
-          </form>
+      <form action="/search" method="POST">
+        <input type="hidden" name="action" value="myPosts">
+        <input type="hidden" name="value" value="<%= accId %>">
+        <button type="submit">Get My Posts</button>
+      </form>
 
-          <!-- Display Posts Only if Not Admin -->
-          <% if (accRole !=='Admin' ) { %>
-            <div class="posts-list">
-              <h2>Posts</h2>
+      <!-- Posts for non-admin users -->
+      <% if (accRole !=='Admin' ) { %>
+        <div class="posts-list">
+          <h2>Posts</h2>
+          <% if (posts.length===0) { %>
+            <p style="color: red; font-weight: bold;">Not Found!</p>
+            <% } else { %>
+              <ul>
+                <% posts.forEach(post=> { %>
+                  <li>
+                    <strong>
+                      <%= post.postTitle %>
+                    </strong>: <%= post.postDesc %>
+                      by <%= post.authorName %> (Rating: <%= post.postRating || 0 %>)
+                          <a href="/view/<%= post.postTitle %>">View</a>
+                  </li>
+                  <% }) %>
+              </ul>
+              <% } %>
+        </div>
+        <% } %>
 
+          <!-- Admin Section -->
+          <% if (accRole==='Admin' ) { %>
+            <h2>Admin Actions</h2>
+
+            <!-- Remove by Title -->
+            <form id="remove-by-title-form" action="/remove-posts" method="POST">
               <% if (posts.length===0) { %>
                 <p style="color: red; font-weight: bold;">Not Found!</p>
                 <% } else { %>
                   <ul>
                     <% posts.forEach(post=> { %>
                       <li>
+                        <input type="checkbox" name="value" value="<%= post.postTitle %>" class="post-checkbox" />
                         <strong>
                           <%= post.postTitle %>
                         </strong>: <%= post.postDesc %>
-                          by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
+                          by <%= post.authorName %> (Rating: <%= post.postRating || 0 %>)
                               <a href="/view/<%= post.postTitle %>">View</a>
                       </li>
                       <% }) %>
                   </ul>
                   <% } %>
-            </div>
+                    <input type="hidden" name="action" value="byTitle">
+                    <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
+            </form>
+
+            <!-- Remove by Rating -->
+            <form id="remove-by-rating-form" action="/remove-posts" method="POST">
+              <label for="rating">Remove by Rating:</label>
+              <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
+                placeholder="Enter rating (0-5)" required>
+              <input type="hidden" name="action" value="removeByRating">
+              <button type="submit">Remove by Rating</button>
+            </form>
+
+            <!-- Remove Oldest -->
+            <form action="/remove-first" method="POST">
+              <button type="submit">Remove Oldest Post</button>
+            </form>
+
+            <!-- Remove Newest -->
+            <form action="/remove-last" method="POST">
+              <button type="submit">Remove Newest Post</button>
+            </form>
             <% } %>
-
-              <!-- Display Admin Actions Only if accountType is 'Admin' -->
-              <% if (accRole==='Admin' ) { %>
-                <h2>Admin Actions</h2>
-                <form action="/remove-multiple-posts" method="POST">
-
-                  <% if (posts.length===0) { %>
-                    <p style="color: red; font-weight: bold;">Not Found!</p>
-                    <% } else { %>
-                      <ul>
-                        <% posts.forEach(post=> { %>
-                          <li>
-                            <input type="checkbox" name="postTitles" value="<%= post.postTitle %>"
-                              class="post-checkbox" />
-                            <strong>
-                              <%= post.postTitle %>
-                            </strong>: <%= post.postDesc %>
-                              by <%= post.accUsername %> (Rating: <%= post.postRating || 0 %>)
-                                  <a href="/view/<%= post.postTitle %>">View</a>
-                          </li>
-                          <% }) %>
-                      </ul>
-                      <% } %>
-                        <button type="submit" id="remove-button" disabled>Remove Selected Posts</button>
-
-                        <label for="rating">Remove by Rating:</label>
-                        <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
-                          placeholder="Enter rating (0-5)" required>
-                        <button type="submit" name="action" value="removeByRating">Remove by Rating</button>
-                </form>
-
-                <!-- Admin Form to Remove Oldest/Newest Post -->
-                <form action="/remove-by-action" method="POST">
-                  <button type="submit" name="action" value="oldest">Remove Oldest Post</button>
-                </form>
-
-                <form action="/remove-by-action" method="POST">
-                  <button type="submit" name="action" value="newest">Remove Newest Post</button>
-                </form>
-                <% } %>
 </body>
 
 </html>
 
 <script>
-  // ฟังก์ชันที่ตรวจสอบว่าได้เลือก Checkbox หรือไม่
   const checkboxes = document.querySelectorAll('.post-checkbox');
   const deleteButton = document.getElementById('remove-button');
+  const removeFirstButton = document.querySelector('form[action="/remove-first"] button');
+  const removeLastButton = document.querySelector('form[action="/remove-last"] button');
 
-  // เช็คสถานะ Checkbox ทุกครั้งที่มีการเปลี่ยนแปลง
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
-      // หากมีการเลือก Checkbox อย่างน้อย 1 ตัว ให้เปิดปุ่ม Delete
-      if (Array.from(checkboxes).some(chk => chk.checked)) {
-        deleteButton.disabled = false;
-      } else {
-        deleteButton.disabled = true;
-      }
-    });
-  });
+  function updateButtons() {
+    const hasChecked = Array.from(checkboxes).some(chk => chk.checked);
+    deleteButton.disabled = !hasChecked;
 
-  // ตรวจสอบให้ปุ่ม Delete ถูก disabled ถ้าไม่มีการเลือกใดๆ
-  document.addEventListener('DOMContentLoaded', function () {
-    if (Array.from(checkboxes).every(chk => !chk.checked)) {
-      deleteButton.disabled = true;
+    // ป้องกันการกด RemoveFirst/Last เมื่อมี checkbox ถูกเลือก
+    if (removeFirstButton && removeLastButton) {
+      removeFirstButton.disabled = hasChecked;
+      removeLastButton.disabled = hasChecked;
     }
+  }
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateButtons);
   });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateButtons();
+  });
+
+  const errorMessage = document.getElementById("error-message");
+  if (errorMessage) {
+    setTimeout(() => {
+      errorMessage.style.display = "none";
+    }, 3000);
+  }
 </script>

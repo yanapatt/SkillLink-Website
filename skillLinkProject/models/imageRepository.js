@@ -39,21 +39,23 @@ class ImageRepository {
         if (!imgUrl || !imgUrl.filename) {
             throw new Error("Invalid image file");
         }
-        const imageUrl = `/uploads/${imgUrl.filename}`; 
+        const imageUrl = `/uploads/${imgUrl.filename}`;
         console.log("Image URL:", imageUrl);
         return imageUrl;
     }
 
     // ฟังก์ชันลบภาพจากโฟลเดอร์
     async removeImage(imgUrl) {
+        if (!imgUrl) return;
         const imgPath = path.join(__dirname, '..', imgUrl);
-        try {
-            await fs.promises.unlink(imgPath);
-            console.log(`Image at ${imgPath} deleted successfully`);
-        } catch (err) {
-            throw new Error(`Error deleting image: ${err.message}`);
-        }
+
+        fs.promises.unlink(imgPath).catch(err => {
+            if (err.code !== 'ENOENT') {
+                console.error(`Error deleting image at ${imgPath}: ${err.message}`);
+            }
+        });
     }
+
 }
 
 module.exports = ImageRepository;

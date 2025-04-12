@@ -56,95 +56,90 @@ class PostRepository {
     // ดึงข้อมูลโพสต์ตาม Action ที่กำหนด
     retrievePostsByAction(value, action) {
         const allPosts = this.retrieveAllPosts();
-        let targetPosts = new LinkedList();
+        const results = new LinkedList();
 
         switch (action) {
-            // ดึงโพสต์ที่มีคะแนนมากที่สุด n โพสต์แรก
+            case 'byTitle':
+                allPosts.forEachNode((post) => {
+                    if (post.postTitle.toLowerCase().includes(value.toLowerCase())) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
+            case 'byAuthor':
+                allPosts.forEachNode((post) => {
+                    if (post.authorName && post.authorName.toLowerCase().includes(value.toLowerCase())) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
             case 'topRated':
                 const limit = value || 5;
-                const sortedPosts = allPosts
+                const sorted = allPosts.toArray()
                     .sort((a, b) => b.postRating - a.postRating)
                     .slice(0, limit);
-                sortedPosts.forEach(post => targetPosts.insertLast(post));
+                sorted.forEach(post => results.insertLast(post));
                 break;
 
-            // ดึงโพสต์ตามชื่อ Post
-            case 'byTitle':
-                const foundPosts = allPosts.find((post) => post.title === value);
-                if (foundPosts) {
-                    targetPosts.insertLast(foundPosts);
-                } else {
-                    console.error("No posts found with the given title.");
-                }
-                break;
-
-            // ดึงโพสต์ตาม Account ID ณ ขณะนั้น
             case 'myPosts':
-                if (!value) {
-                    console.error("Account ID is required for getting my posts.");
-                    return targetPosts;
-                }
-
+                if (!value) break;
                 allPosts.forEachNode((post) => {
-                    if (post.accountId === value) {
-                        targetPosts.insertLast(post);
+                    if (post.authorId === value) {
+                        results.insertLast(post);
                     }
                 });
                 break;
 
             default:
-                console.error("Invalid action specified.");
-                break;
+                console.error("Invalid action");
         }
-        return targetPosts;
+        return results;
+    }
+
+    // เรียงโพสต์ตามคะแนน
+    sortPostsByRating() {
+        return this.posts.sort((a, b) => b.postRating - a.postRating);
     }
 
     // ตรวจสอบว่า Post ชื่อเดียวกันมีอยู่แล้วหรือไม่
-    isPostTitleExist(title) {
+    checkPostTitleExistence(value) {
         let current = this.posts.head;
         while (current) {
-            if (current.value.title === title) {
+            const post = current.value;
+            if (post.postTitle === value) {
                 return true;
             }
             current = current.next;
         }
-        return false; 
+        return false;
     }
 
     // เพิ่มโพสต์ใหม่ที่ตำแหน่งแรก
     insertFirstPost(post) {
         this.posts.insertFirst(post);
         this.saveToFile();
-        console.log("Post inserted at the beginning:", post);
     }
 
     // ลบโพสต์ที่เก่าที่สุดที่ตำแหน่งแรก
     removeFirstPost() {
-        const removedPost = this.posts.removeFirst();
-        if (removedPost) {
-            this.saveToFile();
-            console.log("Post removed from the beginning:", removedPost);
-        } else {
-            console.error("No posts to remove from the beginning.");
-        }
+        this.posts.removeFirst();
+        this.saveToFile();
+        console.log("First post removed.");
     }
 
     // เพิ่มโพสต์ใหม่ที่ตำแหน่งสุดท้าย
     insertLastPost(post) {
         this.posts.insertLast(post);
         this.saveToFile();
-        console.log("Post inserted at the end:", post);
     }
 
     // ลบโพสต์ที่ใหม่ที่สุดที่ตำแหน่งสุดท้าย
     removeLastPost() {
-        const removedPost = this.posts.removeLast();
-        if (removedPost) {
-            this.saveToFile();
-            console.log("Post removed from the end:", removedPost);
-        } else {
-            console.error("No posts to remove from the end.");
-        }
+        this.posts.removeLast();
+        this.saveToFile();
+        console.log("Last post removed.");
     }
 
     // ลบโพสต์ทั้งหมด
