@@ -116,6 +116,22 @@ class PostRepository {
         return false;
     }
 
+    // อัปเดตข้อมูลโพสต์ตามชื่อ
+    updateData(postTitle, newDescription, newImgUrl) {
+        let current = this.posts.head;
+        while (current) {
+            const post = current.value;
+            if (post.postTitle === postTitle) {
+                post.postDesc = newDescription;
+                post.postImgUrl = newImgUrl;
+                this.saveToFile();
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
     // เพิ่มโพสต์ใหม่ที่ตำแหน่งแรก
     insertFirstPost(post) {
         this.posts.insertFirst(post);

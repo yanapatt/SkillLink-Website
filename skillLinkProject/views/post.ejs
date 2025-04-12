@@ -34,7 +34,9 @@
           </form>
 
           <% if (p.authorId===accId) { %>
-            <a href="/view/<%= p.postTitle %>?action=edit"><button>Edit Post</button></a>
+            <a href="/view/<%= p.postTitle %>?action=edit">
+              <button>Edit Post</button>
+            </a>
             <form action="/remove-posts" method="POST"
               onsubmit="return confirm('Are you sure you want to delete this post?');">
               <input type="hidden" name="value" value="<%= p.postTitle %>" />

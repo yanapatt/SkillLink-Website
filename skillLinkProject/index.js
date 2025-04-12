@@ -42,6 +42,8 @@ app.post('/search', accountController.authenticate, postController.searchPostByA
 app.get('/clear-search', accountController.authenticate, postController.clearSearch); // Clear search result
 app.get('/view/:postTitle', accountController.authenticate, postController.aboutPost); // View a post by its name
 
+app.post('/update/:postTitle', accountController.authenticate, postController.updatePost); // Update post details
+
 app.post('/remove-posts', accountController.authenticate, postController.removePostsByAction); // Delete multiple posts
 app.post('/remove-first', accountController.authenticate, postController.removeFirstPost); // Delete first post
 app.post('/remove-last', accountController.authenticate, postController.removeLastPost); // Delete last post

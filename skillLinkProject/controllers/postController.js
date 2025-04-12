@@ -47,7 +47,19 @@ exports.createNewPost = [imgRepo.uploadImage(), async (req, res) => {
 exports.aboutPost = async (req, res) => {
     const postTitle = req.params.postTitle;
     const targetPost = postRepo.retrievePostsByAction(postTitle, 'byTitle');
+    const action = req.query.action;
     console.log(targetPost.toArray());
+
+    if (action === 'edit') {
+        return res.render('edit', {
+            error: null,
+            post: targetPost.toArray(),
+            accId: req.session.accountSession.accId,
+            accUsername: req.session.accountSession.accUsername,
+            accRole: req.session.accountSession.accRole
+        });
+    }
+
     res.render('post', {
         error: null,
         post: targetPost.toArray(),
@@ -72,6 +84,19 @@ exports.searchPostByAction = async (req, res) => {
 exports.clearSearch = async (req, res) => {
     res.redirect('/');
 }
+
+exports.updatePost = [imgRepo.uploadImage(), async (req, res) => {
+    const postTitle = req.body.postTitle;
+    const newData = {
+        postDesc: req.body.postDesc,
+        deleteImg: req.body.deleteImg
+    };
+    console.log(newData);
+    const newImgFile = req.file ? req.file : null;
+    await postService.updateDataInPost(postTitle, newData, newImgFile);
+
+    res.redirect('/');
+}]
 
 exports.removePostsByAction = async (req, res) => {
     const { action, value } = req.body;

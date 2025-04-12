@@ -1,52 +1,55 @@
 <h1>Edit Post</h1>
-<form action="/update/<%= post.postTitle %>" method="POST" enctype="multipart/form-data" id="edit-post-form">
-    <label>Name:</label>
-    <input type="text" name="postTitle" value="<%= post.postTitle %>" readonly>
 
-    <label>Description:</label>
-    <textarea name="postDesc" required><%= post.postDesc %></textarea>
+<% if (post && post.length> 0) { %>
+    <% post.forEach(p=> { %>
+        <form action="/update/<%= p.postTitle %>" method="POST" enctype="multipart/form-data" id="edit-post-form">
+            <label>Name:</label>
+            <input type="text" name="postTitle" value="<%= p.postTitle %>" readonly>
 
-    <label>Current Image:</label>
-    <% if (post.postImgUrl) { %>
-        <div id="image-container">
-            <img src="<%= post.postImgUrl %>" alt="Post Image" width="150" id="post-image">
-            <button type="button" id="delete-image-btn" onclick="removeImage('<%= post.postTitle %>')">
-                Delete Image
-            </button>
-        </div>
-        <% } else { %>
-            <input type="file" name="postImgUrl" accept="image/*" id="image-upload">
-            <% } %>
+            <label>Description:</label>
+            <textarea name="postDesc" required><%= p.postDesc %></textarea>
 
-                <br><br>
-                <button type="submit">Update Post</button>
-</form>
+            <input type="hidden" name="deleteImg" id="deleteImg" value="false" />
 
+            <label>Current Image:</label>
+            <% if (p.postImgUrl) { %>
+                <div id="image-container">
+                    <img src="<%= p.postImgUrl %>" alt="Post Image" width="150" id="post-image">
+                    <button type="button" id="delete-image-btn" onclick="handleDeleteImage()">Delete Image</button>
+                </div>
+                <% } else { %>
+                    <input type="file" name="postImgUrl" accept="image/*" id="image-upload">
+                    <% } %>
 
-<script>
-    async function removeImage(postTitle) {
-        try {
-            const response = await fetch(`/remove-image/${postTitle}`, { method: "POST" });
-            const result = await response.json();
+                        <br><br>
+                        <button type="submit">Update Post</button>
+        </form>
+        <br><a href="/">Back to Post List</a>
+        <hr />
+        <% }) %>
+            <% } else { %>
+                <h1>Post Not Found</h1>
+                <a href="/">Back to Post List</a>
+                <% } %>
 
-            if (result.success) {
-                document.getElementById("image-container").remove();
+                    <script>
+                        function handleDeleteImage() {
+                            const container = document.getElementById("image-container");
+                            const deleteField = document.getElementById("deleteImg");
 
-                // สร้าง input file ใหม่แล้วแทรกลงในฟอร์ม
-                const imageUploadInput = document.createElement("input");
-                imageUploadInput.type = "file";
-                imageUploadInput.name = "postImgUrl";
-                imageUploadInput.accept = "image/*";
-                imageUploadInput.id = "image-upload";
+                            if (container && deleteField) {
+                                container.remove();
+                                deleteField.value = "true"; e
 
-                const form = document.getElementById("edit-post-form");
-                form.insertBefore(imageUploadInput, form.children[form.children.length - 2]);
-            } else {
-                alert("Failed to remove image.");
-            }
-        } catch (error) {
-            console.error("Error removing image:", error);
-        }
-    }
+                                const fileInput = document.createElement("input");
+                                fileInput.type = "file";
+                                fileInput.name = "postImgUrl";
+                                fileInput.accept = "image/*";
+                                fileInput.id = "image-upload";
 
-</script>
+                                const form = document.getElementById("edit-post-form");
+                                const submitButton = form.querySelector("button[type='submit']");
+                                form.insertBefore(fileInput, submitButton);
+                            }
+                        }
+                    </script>

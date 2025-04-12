@@ -43,6 +43,33 @@ class PostService {
         }
     }
 
+    // อัพเดตข้อมูล Post
+    async updateDataInPost(postTitle, newData, newImgFile) {
+        try {
+            const targetPosts = this.postRepo.retrievePostsByAction(postTitle, "byTitle");
+
+            if (targetPosts.getSize() === 0) {
+                return;
+            }
+
+            const post = targetPosts.head.value;
+
+            if (newData.deleteImg === "true" && post.postImgUrl) {
+                await this.imgRepo.removeImage(post.postImgUrl);
+                post.postImgUrl = null;
+            }
+
+            if (newImgFile) {
+                const savedImgUrl = await this.imgRepo.saveImage(newImgFile);
+                post.postImgUrl = savedImgUrl;
+            }
+
+            await this.postRepo.updateData(postTitle, newData.postDesc, post.postImgUrl);
+        } catch (error) {
+            console.error("Error updating post:", error.message);
+        }
+    }
+
     // ลบ Post ตาม Action
     async removePostsByAction(value, action) {
         try {
