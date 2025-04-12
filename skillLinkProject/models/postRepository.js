@@ -75,12 +75,32 @@ class PostRepository {
                 });
                 break;
 
+            case 'sortByRating':
+                const sortedByRating = allPosts.toArray()
+                    .sort((a, b) => b.postRating - a.postRating);
+                sortedByRating.forEach(post => results.insertLast(post));
+                break;
+
             case 'topRated':
                 const limit = value || 5;
                 const sorted = allPosts.toArray()
                     .sort((a, b) => b.postRating - a.postRating)
                     .slice(0, limit);
                 sorted.forEach(post => results.insertLast(post));
+                break;
+
+            case 'byRating':
+                const ratingThreshold = parseFloat(value);
+                if (isNaN(ratingThreshold)) {
+                    console.error("Invalid rating value");
+                    break;
+                }
+
+                allPosts.forEachNode((post) => {
+                    if (post.postRating === ratingThreshold) {
+                        results.insertLast(post);
+                    }
+                });
                 break;
 
             case 'myPosts':
@@ -98,11 +118,6 @@ class PostRepository {
         return results;
     }
 
-    // เรียงโพสต์ตามคะแนน
-    sortPostsByRating() {
-        return this.posts.sort((a, b) => b.postRating - a.postRating);
-    }
-
     // ตรวจสอบว่า Post ชื่อเดียวกันมีอยู่แล้วหรือไม่
     checkPostTitleExistence(value) {
         let current = this.posts.head;
@@ -117,13 +132,15 @@ class PostRepository {
     }
 
     // อัปเดตข้อมูลโพสต์ตามชื่อ
-    updateData(postTitle, newDescription, newImgUrl) {
+    updateData(postTitle, newData, newImgUrl) {
         let current = this.posts.head;
         while (current) {
             const post = current.value;
             if (post.postTitle === postTitle) {
-                post.postDesc = newDescription;
-                post.postImgUrl = newImgUrl;
+                post.postDesc = newData.postDesc || post.postDesc;
+                post.postRating = newData.postRating || post.postRating;
+                post.postImgUrl = newImgUrl || post.postImgUrl;
+                post.ratingsCount = newData.ratingsCount || post.ratingsCount;
                 this.saveToFile();
                 return true;
             }

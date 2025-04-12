@@ -3,14 +3,50 @@
     "postTitle": "MyMateNate",
     "authorName": "admin",
     "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-    "postDesc": "สวัสดีครับผมมายเมทเนท",
-    "postRating": 0,
+    "postDesc": "123",
+    "postRating": 2,
     "postImgUrl": null,
     "ratingsCount": {
-      "head": null,
-      "tail": null,
-      "size": 0
-    },
-    "postDescription": "123456"
+      "head": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 2
+        },
+        "next": null
+      },
+      "tail": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 2
+        },
+        "next": null
+      },
+      "size": 1
+    }
+  },
+  {
+    "postTitle": "Tuesday",
+    "authorName": "admin",
+    "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+    "postDesc": "8888",
+    "postRating": 5,
+    "postImgUrl": null,
+    "ratingsCount": {
+      "head": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "tail": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "size": 1
+    }
   }
 ]

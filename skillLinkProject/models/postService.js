@@ -20,6 +20,57 @@ class PostService {
         };
     }
 
+    // คำนวณคะแนนเฉลี่ยของโพสต์
+    calculateAverageRating(postTitle) {
+        const targetPosts = this.postRepo.retrievePostsByAction(postTitle, "byTitle");
+        if (targetPosts.getSize() === 0) return 0;
+
+        let totalRatingSum = 0;
+        let totalRatingCount = 0;
+
+        targetPosts.forEachNode(post => {
+            const scores = post.ratingsCount.map(r => r.ratingScore);
+            totalRatingSum += scores.reduce((acc, s) => acc + s, 0);
+            totalRatingCount += scores.length;
+        });
+
+        return totalRatingCount > 0 ? totalRatingSum / totalRatingCount : 0;
+    }
+
+    // อัพเดตคะแนนโพสต์
+    async ratingPost(postTitle, ratingScore, authorId) {
+        try {
+            const targetPosts = this.postRepo.retrievePostsByAction(postTitle, "byTitle");
+            if (targetPosts.getSize() === 0) return;
+
+            const post = targetPosts.head.value;
+            const ratingList = post.ratingsCount;
+
+            const existingRating = ratingList.find(r => r.authorId === authorId);
+            if (existingRating) {
+                existingRating.ratingScore = ratingScore;
+            } else {
+                ratingList.insertLast({ authorId, ratingScore });
+            }
+
+            const allScores = ratingList.map(r => r.ratingScore); // ใช้ map จาก LinkedList เลย
+            const ratingCount = allScores.length;
+            const newRating = allScores.reduce((acc, score) => acc + score, 0) / ratingCount;
+
+            post.postRating = newRating;
+
+            const newData = {
+                postRating: newRating,
+                ratingsCount: ratingList,
+            };
+
+            await this.postRepo.updateData(postTitle, newData, post.postImgUrl);
+
+        } catch (error) {
+            console.error("Error rating post:", error.message);
+        }
+    }
+
     // สร้าง Post
     async createPost(postData, authorName, authorId, imageUrl) {
         try {
@@ -91,6 +142,10 @@ class PostService {
             this.postRepo.removePostsByFilter((post) => {
                 if (action === "byTitle") {
                     return post.postTitle === value;
+                } else if (action === "byRating") {
+                    const ratingThreshold = parseFloat(value);
+                    if (isNaN(ratingThreshold)) return false;
+                    return post.postRating >= ratingThreshold;
                 }
                 return false;
             });

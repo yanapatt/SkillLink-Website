@@ -43,14 +43,11 @@ app.get('/clear-search', accountController.authenticate, postController.clearSea
 app.get('/view/:postTitle', accountController.authenticate, postController.aboutPost); // View a post by its name
 
 app.post('/update/:postTitle', accountController.authenticate, postController.updatePost); // Update post details
+app.post('/posts/:postTitle/rate', accountController.authenticate, postController.ratingPost); // Rate a post
 
 app.post('/remove-posts', accountController.authenticate, postController.removePostsByAction); // Delete multiple posts
 app.post('/remove-first', accountController.authenticate, postController.removeFirstPost); // Delete first post
 app.post('/remove-last', accountController.authenticate, postController.removeLastPost); // Delete last post
-
-//app.get('/edit/:postTitle', accountController.authenticate, postController.aboutPost); // View a post for editing
-//app.post('/update/:postTitle', accountController.authenticate, postController.updatePost); // Update post details
-//app.post('/posts/:postTitle/rate', accountController.authenticate, postController.ratePost); // Rate a post
 
 // Start server
 const PORT = process.env.PORT || 3000;

@@ -61,7 +61,9 @@
       </form>
 
       <!-- Sort by Rating Button -->
-      <form action="/sort" method="GET">
+      <form action="/search" method="POST">
+        <input type="hidden" name="action" value="sortByRating">
+        <input type="hidden" name="value" value="<%= accId %>">
         <button type="submit">Sort by Rating</button>
       </form>
 
@@ -122,9 +124,9 @@
             <!-- Remove by Rating -->
             <form id="remove-by-rating-form" action="/remove-posts" method="POST">
               <label for="rating">Remove by Rating:</label>
-              <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" value="0"
+              <input type="number" id="rating" name="value" min="0" max="5" step="0.1" value="0"
                 placeholder="Enter rating (0-5)" required>
-              <input type="hidden" name="action" value="removeByRating">
+              <input type="hidden" name="action" value="byRating">
               <button type="submit">Remove by Rating</button>
             </form>
 
@@ -147,15 +149,19 @@
   const deleteButton = document.getElementById('remove-button');
   const removeFirstButton = document.querySelector('form[action="/remove-first"] button');
   const removeLastButton = document.querySelector('form[action="/remove-last"] button');
+  const removeByRatingButton = document.querySelector('#remove-by-rating-form button');
 
   function updateButtons() {
     const hasChecked = Array.from(checkboxes).some(chk => chk.checked);
     deleteButton.disabled = !hasChecked;
 
-    // ป้องกันการกด RemoveFirst/Last เมื่อมี checkbox ถูกเลือก
     if (removeFirstButton && removeLastButton) {
       removeFirstButton.disabled = hasChecked;
       removeLastButton.disabled = hasChecked;
+    }
+
+    if (removeByRatingButton) {
+      removeByRatingButton.disabled = hasChecked;
     }
   }
 

@@ -98,6 +98,21 @@ exports.updatePost = [imgRepo.uploadImage(), async (req, res) => {
     res.redirect('/');
 }]
 
+exports.ratingPost = async (req, res) => {
+    const postTitle = req.body.postTitle;
+    const rating = parseInt(req.body.rating);
+    const accId = req.session.accountSession.accId;
+
+    await postService.ratingPost(postTitle, rating, accId);
+    res.render('post', {
+        error: null,
+        post: postRepo.retrievePostsByAction(postTitle, 'byTitle').toArray(),
+        accId: req.session.accountSession.accId,
+        accUsername: req.session.accountSession.accUsername,
+        accRole: req.session.accountSession.accRole
+    })
+}
+
 exports.removePostsByAction = async (req, res) => {
     const { action, value } = req.body;
     if (action === 'byTitle' && value) {
@@ -105,6 +120,10 @@ exports.removePostsByAction = async (req, res) => {
         for (let title of titles) {
             await postService.removePostsByAction(title, action);
         }
+        res.redirect('/');
+    } else if (action === 'byRating' && value) {
+        const rating = parseFloat(value);
+        await postService.removePostsByAction(rating, action);
         res.redirect('/');
     }
 };
