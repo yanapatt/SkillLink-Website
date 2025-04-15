@@ -101,7 +101,7 @@ describe("PostRepository - Post Retrieval", () => {
 
     test("should retrieve posts by author", () => {
         const results = postRepo.retrievePostsByAction("Author 2", "byAuthor");
-        expect(results.toArray().length).toBe(2); // Post 2 & Post 5
+        expect(results.toArray().length).toBe(2);
         expect(results.head.value.authorName).toBe("Author 2");
     });
 
