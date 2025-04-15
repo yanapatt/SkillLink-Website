@@ -137,10 +137,10 @@ class PostRepository {
         while (current) {
             const post = current.value;
             if (post.postTitle === postTitle) {
-                post.postDesc = newData.postDesc || post.postDesc;
-                post.postRating = newData.postRating || post.postRating;
-                post.postImgUrl = newImgUrl || post.postImgUrl;
-                post.ratingsCount = newData.ratingsCount || post.ratingsCount;
+                post.postDesc = newData.postDesc ?? post.postDesc;
+                post.postRating = newData.postRating ?? post.postRating;
+                post.postImgUrl = newImgUrl ?? post.postImgUrl;
+                post.ratingsCount = newData.ratingsCount ?? post.ratingsCount;
                 this.saveToFile();
                 return true;
             }
