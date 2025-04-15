@@ -81,7 +81,6 @@ class PostService {
                     imageExist = await this.imgRepo.saveImage(imageUrl);
                 } catch (imageError) {
                     console.error("Error saving image:", imageError.message);
-                    throw new Error("Failed to save image");
                 }
             }
 
@@ -90,7 +89,6 @@ class PostService {
             return postDoc;
         } catch (error) {
             console.error("Error creating post:", error.message);
-            throw new Error("Failed to create post");
         }
     }
 
@@ -160,13 +158,14 @@ class PostService {
             if (this.postRepo.posts.isEmpty()) {
                 return;
             }
+
             const firstPost = this.postRepo.posts.head.value;
-            if (firstPost) {
-                if (firstPost.postImgUrl) {
-                    await this.imgRepo.removeImage(firstPost.postImgUrl);
-                }
-                this.postRepo.removeFirstPost();
+
+            if (firstPost.postImgUrl) {
+                await this.imgRepo.removeImage(firstPost.postImgUrl);
             }
+
+            this.postRepo.removeFirstPost();
         } catch (error) {
             console.error("Error removing first post:", error.message);
         }
@@ -178,13 +177,14 @@ class PostService {
             if (this.postRepo.posts.isEmpty()) {
                 return;
             }
+
             const lastPost = this.postRepo.posts.tail.value;
-            if (lastPost) {
-                if (lastPost.postImgUrl) {
-                    await this.imgRepo.removeImage(lastPost.postImgUrl);
-                }
-                this.postRepo.removeLastPost();
+
+            if (lastPost.postImgUrl) {
+                await this.imgRepo.removeImage(lastPost.postImgUrl);
             }
+
+            this.postRepo.removeLastPost();
         } catch (error) {
             console.error("Error removing last post:", error.message);
         }
