@@ -25,8 +25,6 @@ class LinkedList {
         while (current) {
             if (current.value !== null && current.value !== undefined) {
                 callback(current.value);
-            } else {
-                console.log("Skipping node with null or undefined value");
             }
             current = current.next;
         }
@@ -56,7 +54,6 @@ class LinkedList {
             }
             current = current.next;
         }
-        return null;
     }
 
     filter(callback) {
@@ -111,7 +108,7 @@ class LinkedList {
         let count = 0;
         while (current) {
             if (count === index) {
-                return current.value; 
+                return current.value;
             }
             count++;
             current = current.next;

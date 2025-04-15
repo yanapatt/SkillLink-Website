@@ -1,320 +1,200 @@
 const LinkedList = require("../models/linkedList");
 
-//Version 0.1
-describe("LinkedList", () => {
-    let linkedList;
+describe("LinkedList Basic Operations", () => {
+    let list;
 
-    // Create a new LinkedList before each test case
-    // สร้าง LinkedList ใหม่ก่อนการทดสอบแต่ละเคส
     beforeEach(() => {
-        linkedList = new LinkedList();
+        list = new LinkedList();
     });
 
-    describe("insertFirst", () => {
-        it("should add a node at the beginning of the LinkedList", () => {
-            // ควรเพิ่ม Node ที่จุดเริ่มต้นของ LinkedList
-            linkedList.insertFirst({ postTitle: "First Post" });
-            linkedList.insertFirst({ postTitle: "Second Post" });
-
-            const result = linkedList.toArray();
-            expect(result.length).toBe(2); // Expect the LinkedList to have 2 nodes
-            expect(result[0].postTitle).toBe("Second Post"); // The first node should be "Second Post"
-            expect(result[1].postTitle).toBe("First Post"); // The second node should be "First Post"
-        });
+    test("should initialize an empty LinkedList", () => {
+        expect(list.getSize()).toBe(0);
+        expect(list.isEmpty()).toBe(true);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
     });
 
-    describe("insertLast", () => {
-        it("should add a node at the end of the LinkedList", () => {
-            // ควรเพิ่ม Node ที่จุดท้ายของ LinkedList
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
+    test("insertFirst should add a node at the beginning", () => {
+        list.insertFirst(10);
+        expect(list.getSize()).toBe(1);
+        expect(list.head.value).toBe(10);
+        expect(list.tail.value).toBe(10);
 
-            const result = linkedList.toArray();
-            expect(result.length).toBe(2); // Expect the LinkedList to have 2 nodes
-            expect(result[0].postTitle).toBe("First Post"); // The first node should be "First Post"
-            expect(result[1].postTitle).toBe("Second Post"); // The second node should be "Second Post"
-        });
+        list.insertFirst(20);
+        expect(list.getSize()).toBe(2);
+        expect(list.head.value).toBe(20);
+        expect(list.tail.value).toBe(10);
     });
 
-    describe("removeByPostTitle", () => {
-        it("should remove a node with the specified postTitle", () => {
-            // ควรลบ Node ที่มี postTitle ตรงกับค่าที่กำหนด
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
+    test("insertLast should add a node at the end", () => {
+        list.insertLast(10);
+        expect(list.getSize()).toBe(1);
+        expect(list.head.value).toBe(10);
+        expect(list.tail.value).toBe(10);
 
-            linkedList.removeByPostTitle("First Post");
-            const result = linkedList.toArray();
-
-            expect(result.length).toBe(1); // Expect the LinkedList to have 1 node after removal
-            expect(result[0].postTitle).toBe("Second Post"); // The remaining node should be "Second Post"
-        });
-
-        it("should log a message when the specified postTitle is not found", () => {
-            // ควรแสดงข้อความแจ้งเตือนเมื่อไม่พบ Node ที่ต้องการลบ
-            console.log = jest.fn(); // Mock console.log
-
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.removeByPostTitle("Nonexistent Post");
-
-            expect(console.log).toHaveBeenCalledWith('Post with title "Nonexistent Post" not found.');
-        });
+        list.insertLast(20);
+        expect(list.getSize()).toBe(2);
+        expect(list.head.value).toBe(10);
+        expect(list.tail.value).toBe(20);
     });
 
-    describe("removeFirst", () => {
-        it("should do nothing when LinkedList is empty", () => {
-            // ควรไม่ทำอะไรเมื่อ LinkedList ว่างเปล่า
-            linkedList.removeFirst();
-            expect(linkedList.getSize()).toBe(0); // LinkedList size should remain 0
-        });
-
-        it("should remove the only node when LinkedList has one node", () => {
-            // ควรลบ Node เดียวเมื่อ LinkedList มีเพียง 1 Node
-            linkedList.insertFirst({ postTitle: "First Post" });
-            linkedList.removeFirst();
-
-            expect(linkedList.getSize()).toBe(0); // LinkedList size should be 0
-            expect(linkedList.toArray()).toEqual([]); // LinkedList should be empty
-        });
-
-        it("should remove the first node when LinkedList has multiple nodes", () => {
-            // ควรลบ Node แรกเมื่อ LinkedList มีหลาย Node
-            linkedList.insertFirst({ postTitle: "First Post" });
-            linkedList.insertFirst({ postTitle: "Second Post" });
-            linkedList.removeFirst();
-
-            const result = linkedList.toArray();
-            expect(result.length).toBe(1); // LinkedList should have 1 node left
-            expect(result[0].postTitle).toBe("First Post"); // The remaining node should be "First Post"
-        });
+    test("removeFirst should remove the first node", () => {
+        list.insertFirst(10);
+        list.insertFirst(20);
+        list.removeFirst();
+        expect(list.getSize()).toBe(1);
+        expect(list.head.value).toBe(10);
     });
 
-    describe("removeLast", () => {
-        it("should do nothing when LinkedList is empty", () => {
-            // ควรไม่ทำอะไรเมื่อ LinkedList ว่างเปล่า
-            linkedList.removeLast();
-            expect(linkedList.getSize()).toBe(0); // LinkedList size should remain 0
-        });
+    test("removeFirst should set tail to null when the last node is removed", () => {
+        list.insertFirst(10);
+        expect(list.getSize()).toBe(1);
+        expect(list.head).not.toBeNull();
+        expect(list.tail).not.toBeNull();
 
-        it("should remove the only node when LinkedList has one node", () => {
-            // ควรลบ Node เดียวเมื่อ LinkedList มีเพียง 1 Node
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.removeLast();
-
-            expect(linkedList.getSize()).toBe(0); // LinkedList size should be 0
-            expect(linkedList.toArray()).toEqual([]); // LinkedList should be empty
-        });
-
-        it("should remove the last node when LinkedList has multiple nodes", () => {
-            // ควรลบ Node สุดท้ายเมื่อ LinkedList มีหลาย Node
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-            linkedList.removeLast();
-
-            const result = linkedList.toArray();
-            expect(result.length).toBe(1); // LinkedList should have 1 node left
-            expect(result[0].postTitle).toBe("First Post"); // The remaining node should be "First Post"
-        });
+        list.removeFirst();
+        expect(list.getSize()).toBe(0);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
     });
 
-    describe("forEachNode", () => {
-        it("should skip nodes with null or undefined values", () => {
-            // ควรข้าม Node ที่มีค่า null หรือ undefined
-            linkedList.insertLast(null);
-            linkedList.insertLast({ postTitle: "Valid Post" });
-            linkedList.insertLast(undefined);
-
-            const result = [];
-            linkedList.forEachNode((nodeValue) => {
-                result.push(nodeValue);
-            });
-
-            expect(result).toEqual([{ postTitle: "Valid Post" }]); // Only valid nodes should be processed
-        });
+    test("removeFirst should do nothing if the LinkedList is empty", () => {
+        expect(list.getSize()).toBe(0);
+        list.removeFirst();
+        expect(list.getSize()).toBe(0);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
     });
 
-    describe("toArray", () => {
-        it("should return an empty array when LinkedList is empty", () => {
-            // ควรคืนค่า Array ว่างเมื่อ LinkedList ว่างเปล่า
-            const result = linkedList.toArray();
-            expect(result).toEqual([]);
-        });
-
-        it("should convert the LinkedList to an array", () => {
-            // ควรแปลง LinkedList เป็น Array ได้อย่างถูกต้อง
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-
-            const result = linkedList.toArray();
-            expect(result).toEqual([
-                { postTitle: "First Post" },
-                { postTitle: "Second Post" },
-            ]);
-        });
+    test("removeLast should remove the last node", () => {
+        list.insertFirst(10);
+        list.insertLast(20);
+        list.removeLast();
+        expect(list.getSize()).toBe(1);
+        expect(list.head.value).toBe(10);
     });
 
-    describe("getSize", () => {
-        it("should return the size of the LinkedList", () => {
-            // ควรคืนค่าขนาดของ LinkedList ได้อย่างถูกต้อง
-            expect(linkedList.getSize()).toBe(0); // Initially, the size should be 0
+    test("removeLast should set head and tail to null when the last node is removed", () => {
+        list.insertLast(10);
+        expect(list.getSize()).toBe(1);
+        expect(list.head).not.toBeNull();
+        expect(list.tail).not.toBeNull();
 
-            linkedList.insertLast({ postTitle: "First Post" });
-            expect(linkedList.getSize()).toBe(1); // After adding one node, the size should be 1
-
-            linkedList.insertLast({ postTitle: "Second Post" });
-            expect(linkedList.getSize()).toBe(2); // After adding another node, the size should be 2
-        });
+        list.removeLast();
+        expect(list.getSize()).toBe(0);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
     });
 
-    describe("isEmpty", () => {
-        it("should return true when the LinkedList is empty", () => {
-            // ควรคืนค่า true เมื่อ LinkedList ว่างเปล่า
-            expect(linkedList.isEmpty()).toBe(true);
-        });
+    test("removeLast should traverse the list to find the second-to-last node", () => {
+        list.insertLast(10);
+        list.insertLast(20);
+        list.insertLast(30);
 
-        it("should return false when the LinkedList has nodes", () => {
-            // ควรคืนค่า false เมื่อ LinkedList มี Node
-            linkedList.insertLast({ postTitle: "First Post" });
-            expect(linkedList.isEmpty()).toBe(false);
-        });
+        expect(list.getSize()).toBe(3);
+        expect(list.tail.value).toBe(30);
+
+        list.removeLast();
+        expect(list.getSize()).toBe(2);
+        expect(list.tail.value).toBe(20);
     });
 
-    //Version 0.2
-    describe("map", () => {
-        it("should apply the callback to each node and return a new array", () => {
-            // ควรแปลงค่าของแต่ละ Node และคืนค่าเป็น Array ใหม่
-            linkedList.insertLast({ postTitle: "First Post", postRating: 5 });
-            linkedList.insertLast({ postTitle: "Second Post", postRating: 10 });
+    test("removeLast should do nothing if the LinkedList is empty", () => {
+        expect(list.getSize()).toBe(0);
+        list.removeLast();
+        expect(list.getSize()).toBe(0);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
+    });
+});
 
-            const result = linkedList.map((node) => node.postRating * 2);
+describe("LinkedList Higher-Order Methods", () => {
+    let list;
 
-            expect(result).toEqual([10, 20]); // คาดว่า Array ที่ได้จะเป็น [10, 20]
-        });
-
-        it("should return an empty array when LinkedList is empty", () => {
-            // ควรคืนค่า Array ว่างเมื่อ LinkedList ว่างเปล่า
-            const result = linkedList.map((node) => node.postRating * 2);
-
-            expect(result).toEqual([]); // คาดว่า Array ที่ได้จะว่างเปล่า
-        });
+    beforeEach(() => {
+        list = new LinkedList();
+        list.insertLast(10);
+        list.insertLast(20);
+        list.insertLast(30);
     });
 
-    describe("removeByPostTitle", () => {
-        it("should remove a node in the middle of the LinkedList", () => {
-            // เพิ่ม Node หลายตัวใน LinkedList
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Middle Post" });
-            linkedList.insertLast({ postTitle: "Last Post" });
-
-            // ลบ Node ตรงกลาง
-            linkedList.removeByPostTitle("Middle Post");
-
-            const result = linkedList.toArray();
-            expect(result.length).toBe(2); // คาดว่า LinkedList จะเหลือ 2 Node
-            expect(result[0].postTitle).toBe("First Post"); // Node แรกควรเป็น "First Post"
-            expect(result[1].postTitle).toBe("Last Post"); // Node สุดท้ายควรเป็น "Last Post"
-        });
+    test("toArray should convert LinkedList to an array", () => {
+        expect(list.toArray()).toEqual([10, 20, 30]);
     });
 
-    describe("removeByPostTitle", () => {
-        it("should update the tail when the last node is removed", () => {
-            // เพิ่ม Node หลายตัวใน LinkedList
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-            linkedList.insertLast({ postTitle: "Last Post" });
-
-            // ลบ Node สุดท้าย
-            linkedList.removeByPostTitle("Last Post");
-
-            const result = linkedList.toArray();
-            expect(result.length).toBe(2); // คาดว่า LinkedList จะเหลือ 2 Node
-            expect(result[0].postTitle).toBe("First Post"); // Node แรกควรเป็น "First Post"
-            expect(result[1].postTitle).toBe("Second Post"); // Node สุดท้ายควรเป็น "Second Post"
-
-            // ตรวจสอบว่า tail ถูกอัปเดต
-            expect(linkedList.tail.value.postTitle).toBe("Second Post");
-        });
+    test("map should apply a callback to each node and return a new array", () => {
+        const result = list.map((value) => value * 2);
+        expect(result).toEqual([20, 40, 60]);
     });
 
-    describe("forEachNode", () => {
-        it("should handle errors in the callback function gracefully", () => {
-            const linkedList = new LinkedList();
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-
-            const mockCallback = jest.fn((value) => {
-                if (value.postTitle === "Second Post") {
-                    throw new Error("Test error");
-                }
-            });
-
-            console.error = jest.fn();
-
-            linkedList.forEachNode(mockCallback);
-
-            expect(mockCallback).toHaveBeenCalledTimes(2);
-
-            expect(console.error).toHaveBeenCalledWith(
-                "Error in callback function:",
-                expect.any(Error)
-            );
-        });
-
-        it("should skip nodes with null or undefined values", () => {
-            const linkedList = new LinkedList();
-            linkedList.insertLast(null);
-            linkedList.insertLast({ postTitle: "Valid Post" });
-            linkedList.insertLast(undefined);
-
-            const result = [];
-            linkedList.forEachNode((nodeValue) => {
-                result.push(nodeValue);
-            });
-
-            expect(result).toEqual([{ postTitle: "Valid Post" }]); 
-        });
+    test("find should return the first node that matches the condition", () => {
+        const result = list.find((value) => value === 20);
+        expect(result).toBe(20);
     });
 
-    describe("removeLast", () => {
-        let linkedList;
-    
-        beforeEach(() => {
-            linkedList = new LinkedList();
-        });
-    
-        it("should do nothing when LinkedList is empty", () => {
-            linkedList.removeLast();
-            expect(linkedList.getSize()).toBe(0);
-            expect(linkedList.toArray()).toEqual([]);
-        });
-    
-        it("should remove the only node when LinkedList has one node", () => {
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.removeLast();
-    
-            expect(linkedList.getSize()).toBe(0); 
-            expect(linkedList.toArray()).toEqual([]);
-        });
-    
-        it("should remove the last node when LinkedList has multiple nodes", () => {
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-            linkedList.insertLast({ postTitle: "Third Post" });
-    
-            linkedList.removeLast();
-    
-            const result = linkedList.toArray();
-            expect(result.length).toBe(2);
-            expect(result[0].postTitle).toBe("First Post");
-            expect(result[1].postTitle).toBe("Second Post");
-        });
-    
-        it("should update the tail correctly after removing the last node", () => {
-            linkedList.insertLast({ postTitle: "First Post" });
-            linkedList.insertLast({ postTitle: "Second Post" });
-    
-            linkedList.removeLast();
-    
-            expect(linkedList.tail.value.postTitle).toBe("First Post"); 
-        });
+    test("filter should return a new LinkedList with nodes that match the condition", () => {
+        const filteredList = list.filter((value) => value > 10);
+        expect(filteredList.toArray()).toEqual([20, 30]);
+    });
+
+    test("slice should return a new LinkedList with nodes in the specified range", () => {
+        const slicedList = list.slice(1, 3);
+        expect(slicedList.toArray()).toEqual([20, 30]);
+    });
+
+    test("forEachNode should skip nodes with null or undefined values", () => {
+        list.insertLast(null);
+        list.insertLast(undefined);
+
+        const result = [];
+        list.forEachNode((value) => result.push(value));
+
+        expect(result).toEqual([10, 20, 30]);
+    });
+});
+
+describe("LinkedList Utility Methods", () => {
+    let list;
+
+    beforeEach(() => {
+        list = new LinkedList();
+        list.insertLast(30);
+        list.insertLast(10);
+        list.insertLast(20);
+    });
+
+    test("should not sort if the LinkedList has less than 2 nodes", () => {
+        list.removeLast();
+        list.removeLast();
+        list.sort((a, b) => a - b);
+
+        expect(list.toArray()).toEqual([30]);
+    });
+
+    test("should sort if the LinkedList has 2 or more nodes", () => {
+        list.sort((a, b) => a - b);
+
+        expect(list.toArray()).toEqual([10, 20, 30]);
+    });
+
+    test("getNodeValue should return the value at the specified index", () => {
+        expect(list.getNodeValue(0)).toBe(30);
+        expect(list.getNodeValue(1)).toBe(10);
+        expect(list.getNodeValue(2)).toBe(20);
+        expect(list.getNodeValue(3)).toBeNull();
+    });
+
+    test("removeAllNodes should remove all nodes that match the condition", () => {
+        list.removeAllNodes((value) => value > 15);
+        expect(list.toArray()).toEqual([10]);
+    });
+
+    test("removeAllNodes should set tail to null when all nodes are removed", () => {
+        expect(list.getSize()).toBe(3);
+        list.removeAllNodes(() => true);
+
+        expect(list.getSize()).toBe(0);
+        expect(list.head).toBeNull();
+        expect(list.tail).toBeNull();
     });
 });
