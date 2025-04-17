@@ -354,7 +354,7 @@ input {
      <!--navbar-->
   <div class="navbar-container">
     <div class="navbar-left">
-      <a href="#" style="font-size: 20px">Skillink</a>
+      <a href="/" style="font-size: 20px">Skillink</a>
       <a href="#">หน้าหลัก</a>
       <a href="#">โพสต์</a>
     </div>
@@ -364,21 +364,26 @@ input {
   
 <% if (post) { %>
   <div class="search-section">
-   
   <h2>Post Details</h2>
+  
+    <div class="volunteer-section">
+      <div class="sidebar">
   <p><strong>Name:</strong> <%= post.postTitle %></p>
   <p><strong>Author:</strong> <%= post.accUsername %></p>
   <p><strong>Author ID:</strong> <%= post.accountId %></p>
   <p><strong>Description:</strong> <%= post.postDesc %></p>
-  <p><strong>Rating:</strong> <%= post.postRating || 0 %></p>
-
+  <p><strong>Rating:</strong> ⭐ <%= post.postRating || 0 %></p>
+      
+    </div> 
+    <div class="volunteer-section">
   <% if (post.postImgUrl) { %>
-      <p><strong>Post Image:</strong></p>
+     <p><strong>Post Image:</strong></p>
       <img class="img" src="<%= post.postImgUrl %>" alt="Post Image" >
   <% } else { %>
       <p>No image available</p>
   <% } %>
-
+      </div>
+    </div> 
   <!-- Form for voting on the post -->
   <br />
   <form action="/posts/<%= post.postTitle %>/rate" method="POST">
