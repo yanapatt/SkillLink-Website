@@ -12,6 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static file middleware for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to parse request body
 app.use(express.urlencoded({ extended: true }));

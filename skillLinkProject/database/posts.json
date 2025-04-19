@@ -1,48 +1,23 @@
 [
   {
-    "postTitle": "MyMateNate",
+    "postTitle": "SawadeeKub ",
     "authorName": "admin",
     "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-    "postDesc": "123",
-    "postRating": 2,
-    "postImgUrl": null,
+    "postDesc": "555",
+    "postRating": 3,
+    "postImgUrl": "/uploads/1745079228158.png",
     "ratingsCount": {
       "head": {
         "value": {
           "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-          "ratingScore": 2
+          "ratingScore": 3
         },
         "next": null
       },
       "tail": {
         "value": {
           "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-          "ratingScore": 2
-        },
-        "next": null
-      },
-      "size": 1
-    }
-  },
-  {
-    "postTitle": "Tuesday",
-    "authorName": "admin",
-    "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-    "postDesc": "8888",
-    "postRating": 5,
-    "postImgUrl": null,
-    "ratingsCount": {
-      "head": {
-        "value": {
-          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-          "ratingScore": 5
-        },
-        "next": null
-      },
-      "tail": {
-        "value": {
-          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
-          "ratingScore": 5
+          "ratingScore": 3
         },
         "next": null
       },

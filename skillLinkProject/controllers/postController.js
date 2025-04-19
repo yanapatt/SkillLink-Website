@@ -10,9 +10,12 @@ const postService = new PostService(postRepo, accRepo, imgRepo);
 
 exports.renderDisplay = async (req, res) => {
     const posts = postRepo.retrieveAllPosts().toArray();
+    const topFivePost = postRepo.retrievePostsByAction(5, 'topRated').toArray();
+
     res.render('index', {
         error: null,
         posts: posts,
+        firstFivePosts: topFivePost,
         accId: req.session.accountSession.accId,
         accUsername: req.session.accountSession.accUsername,
         accRole: req.session.accountSession.accRole
@@ -24,11 +27,13 @@ exports.createNewPost = [imgRepo.uploadImage(), async (req, res) => {
     const authorName = req.session.accountSession.accUsername;
     const authorId = req.session.accountSession.accId;
     const { postTitle, postDesc } = req.body;
+    const topFivePost = postRepo.retrievePostsByAction(5, 'topRated').toArray();
 
     if (postRepo.checkPostTitleExistence(postTitle)) {
         return res.render('index', {
             error: `Post title "${postTitle}" already exists.`,
             posts: postRepo.retrieveAllPosts().toArray(),
+            firstFivePosts: topFivePost,
             accId: req.session.accountSession.accId,
             accUsername: req.session.accountSession.accUsername,
             accRole: req.session.accountSession.accRole
@@ -72,9 +77,12 @@ exports.aboutPost = async (req, res) => {
 exports.searchPostByAction = async (req, res) => {
     const { action, value } = req.body;
     const foundPosts = postRepo.retrievePostsByAction(value, action);
+    const topFivePost = postRepo.retrievePostsByAction(5, 'topRated').toArray();
+
     res.render('index', {
         error: null,
         posts: foundPosts.toArray(),
+        firstFivePosts: topFivePost,
         accId: req.session.accountSession.accId,
         accUsername: req.session.accountSession.accUsername,
         accRole: req.session.accountSession.accRole
@@ -102,7 +110,7 @@ exports.ratingPost = async (req, res) => {
     const postTitle = req.body.postTitle;
     const rating = parseInt(req.body.rating);
     const accId = req.session.accountSession.accId;
-
+    
     await postService.ratingPost(postTitle, rating, accId);
     res.render('post', {
         error: null,
