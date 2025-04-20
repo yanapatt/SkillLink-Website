@@ -113,7 +113,7 @@ class PostService {
                 post.postImgUrl = savedImgUrl;
             }
 
-            await this.postRepo.updateData(postTitle, newData.postDesc, post.postImgUrl);
+            await this.postRepo.updateData(postTitle, newData, post.postImgUrl);
         } catch (error) {
             console.error("Error updating post:", error.message);
         }

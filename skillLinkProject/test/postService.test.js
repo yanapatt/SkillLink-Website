@@ -211,7 +211,11 @@ describe("PostService", () => {
 
                 await postService.updateDataInPost("MyPost", newData, null);
 
-                expect(mockPostRepo.updateData).toHaveBeenCalledWith("MyPost", "Updated description", "oldImage.jpg");
+                expect(mockPostRepo.updateData).toHaveBeenCalledWith(
+                    "MyPost",
+                    { deleteImg: "false", postDesc: "Updated description" },
+                    "oldImage.jpg"
+                );
             });
 
             test("should delete image when deleteImg is true", async () => {
@@ -223,7 +227,11 @@ describe("PostService", () => {
 
                 expect(mockImgRepo.removeImage).toHaveBeenCalledWith("oldImage.jpg");
                 expect(mockPost.postImgUrl).toBeNull();
-                expect(mockPostRepo.updateData).toHaveBeenCalledWith("MyPost", "Updated", null);
+                expect(mockPostRepo.updateData).toHaveBeenCalledWith(
+                    "MyPost",
+                    { "deleteImg": "true", "postDesc": "Updated" },
+                    null
+                );
             });
 
             test("should upload new image and update postImgUrl", async () => {
@@ -235,7 +243,11 @@ describe("PostService", () => {
 
                 expect(mockImgRepo.saveImage).toHaveBeenCalledWith("newImgFile.jpg");
                 expect(mockPost.postImgUrl).toBe("newImage.jpg");
-                expect(mockPostRepo.updateData).toHaveBeenCalledWith("MyPost", "New description", "newImage.jpg");
+                expect(mockPostRepo.updateData).toHaveBeenCalledWith(
+                    "MyPost",
+                    { "deleteImg": "false", "postDesc": "New description" },
+                    "newImage.jpg"
+                );
             });
 
             test("should do nothing if no posts found", async () => {

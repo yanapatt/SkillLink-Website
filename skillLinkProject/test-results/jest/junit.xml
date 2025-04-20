@@ -1,67 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="80" failures="0" errors="0" time="2.388">
-  <testsuite name="PostRepository - Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-19T03:15:22" time="1.489" tests="26">
-    <testcase classname="PostRepository - Basic Operations should create the directory if it does not exist" name="PostRepository - Basic Operations should create the directory if it does not exist" time="0.039">
+<testsuites name="jest tests" tests="80" failures="0" errors="0" time="1.296">
+  <testsuite name="PostService" errors="0" failures="0" skipped="0" timestamp="2025-04-20T03:14:20" time="0.759" tests="33">
+    <testcase classname="PostService PostService - CREATE createPost should create post with image" name="PostService PostService - CREATE createPost should create post with image" time="0.021">
     </testcase>
-    <testcase classname="PostRepository - Basic Operations should save posts to a file" name="PostRepository - Basic Operations should save posts to a file" time="0.002">
+    <testcase classname="PostService PostService - CREATE createPost should create post without image" name="PostService PostService - CREATE createPost should create post without image" time="0.002">
     </testcase>
-    <testcase classname="PostRepository - Basic Operations should handle error when saving to file" name="PostRepository - Basic Operations should handle error when saving to file" time="0.001">
+    <testcase classname="PostService PostService - CREATE createPost should log an error if image saving fails" name="PostService PostService - CREATE createPost should log an error if image saving fails" time="0.002">
     </testcase>
-    <testcase classname="PostRepository - Basic Operations should load posts from a file" name="PostRepository - Basic Operations should load posts from a file" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Basic Operations should handle error when loading from file" name="PostRepository - Basic Operations should handle error when loading from file" time="0.006">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve all posts" name="PostRepository - Post Retrieval should retrieve all posts" time="0.003">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve posts by title" name="PostRepository - Post Retrieval should retrieve posts by title" time="0.004">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve posts by author" name="PostRepository - Post Retrieval should retrieve posts by author" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should sort posts by rating descending" name="PostRepository - Post Retrieval should sort posts by rating descending" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" name="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" name="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve posts by exact rating" name="PostRepository - Post Retrieval should retrieve posts by exact rating" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should log an error when rating is not a number" name="PostRepository - Post Retrieval should log an error when rating is not a number" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" name="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" name="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Retrieval should log an error for invalid action" name="PostRepository - Post Retrieval should log an error for invalid action" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" name="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" name="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" time="0.001">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation updateData should update post data successfully" name="PostRepository - Post Manipulation updateData should update post data successfully" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" name="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" name="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" name="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation removeFirstPost should remove the first post" name="PostRepository - Post Manipulation removeFirstPost should remove the first post" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation insertLastPost should insert post at the end" name="PostRepository - Post Manipulation insertLastPost should insert post at the end" time="0.002">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation removeLastPost should remove the last post" name="PostRepository - Post Manipulation removeLastPost should remove the last post" time="0.003">
-    </testcase>
-    <testcase classname="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" name="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="PostService" errors="0" failures="0" skipped="0" timestamp="2025-04-19T03:15:24" time="0.31" tests="33">
-    <testcase classname="PostService PostService - CREATE createPost should create post with image" name="PostService PostService - CREATE createPost should create post with image" time="0.026">
-    </testcase>
-    <testcase classname="PostService PostService - CREATE createPost should create post without image" name="PostService PostService - CREATE createPost should create post without image" time="0.001">
-    </testcase>
-    <testcase classname="PostService PostService - CREATE createPost should log an error if image saving fails" name="PostService PostService - CREATE createPost should log an error if image saving fails" time="0.001">
-    </testcase>
-    <testcase classname="PostService PostService - CREATE createPost should log an error if creating post fails" name="PostService PostService - CREATE createPost should log an error if creating post fails" time="0.002">
+    <testcase classname="PostService PostService - CREATE createPost should log an error if creating post fails" name="PostService PostService - CREATE createPost should log an error if creating post fails" time="0.001">
     </testcase>
     <testcase classname="PostService PostService - READ calculateAverageRating should return 0 for no posts" name="PostService PostService - READ calculateAverageRating should return 0 for no posts" time="0.001">
     </testcase>
@@ -71,71 +17,125 @@
     </testcase>
     <testcase classname="PostService PostService - UPDATE ratingPost should add a new rating" name="PostService PostService - UPDATE ratingPost should add a new rating" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE ratingPost should update an existing rating" name="PostService PostService - UPDATE ratingPost should update an existing rating" time="0">
+    <testcase classname="PostService PostService - UPDATE ratingPost should update an existing rating" name="PostService PostService - UPDATE ratingPost should update an existing rating" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE ratingPost should log an error if updateData throws" name="PostService PostService - UPDATE ratingPost should log an error if updateData throws" time="0.001">
+    <testcase classname="PostService PostService - UPDATE ratingPost should log an error if updateData throws" name="PostService PostService - UPDATE ratingPost should log an error if updateData throws" time="0.002">
     </testcase>
     <testcase classname="PostService PostService - UPDATE ratingPost should return early if no matching posts" name="PostService PostService - UPDATE ratingPost should return early if no matching posts" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE updateDataInPost should update post description" name="PostService PostService - UPDATE updateDataInPost should update post description" time="0.001">
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should update post description" name="PostService PostService - UPDATE updateDataInPost should update post description" time="0.002">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" name="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" time="0.001">
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" name="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" time="0.006">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" name="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" time="0">
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" name="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" time="0.002">
     </testcase>
-    <testcase classname="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" name="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" time="0">
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" name="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" time="0.001">
     </testcase>
     <testcase classname="PostService PostService - UPDATE updateDataInPost should catch and log error during update" name="PostService PostService - UPDATE updateDataInPost should catch and log error during update" time="0.001">
     </testcase>
     <testcase classname="PostService PostService - UPDATE updateDataInPost should catch and log error when saving image" name="PostService PostService - UPDATE updateDataInPost should catch and log error when saving image" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" name="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" time="0.002">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" name="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by rating" name="PostService PostService - DELETE removePostsByAction should remove posts by rating" time="0.002">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by rating" name="PostService PostService - DELETE removePostsByAction should remove posts by rating" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" name="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" time="0.001">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" name="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" name="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" time="0.001">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" name="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" name="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" time="0.001">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" name="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removePostsByAction should handle and log errors" name="PostService PostService - DELETE removePostsByAction should handle and log errors" time="0.001">
+    <testcase classname="PostService PostService - DELETE removePostsByAction should handle and log errors" name="PostService PostService - DELETE removePostsByAction should handle and log errors" time="0.003">
     </testcase>
     <testcase classname="PostService PostService - DELETE removePostsByAction should not remove anything if action is unknown" name="PostService PostService - DELETE removePostsByAction should not remove anything if action is unknown" time="0">
     </testcase>
     <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should not attempt to remove image if first post is null" name="PostService PostService - DELETE removeFirstPostWithImage should not attempt to remove image if first post is null" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" name="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" time="0">
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" name="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" time="0.001">
     </testcase>
     <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should remove first post without image" name="PostService PostService - DELETE removeFirstPostWithImage should remove first post without image" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" name="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" time="0.001">
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" name="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" name="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" time="0.001">
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" name="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" time="0">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" name="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" time="0.001">
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" name="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" time="0">
     </testcase>
     <testcase classname="PostService PostService - DELETE removeLastPostWithImage should remove last post without image" name="PostService PostService - DELETE removeLastPostWithImage should remove last post without image" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" name="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" time="0">
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" name="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" time="0.001">
     </testcase>
-    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should catch and log error" name="PostService PostService - DELETE removeLastPostWithImage should catch and log error" time="0">
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should catch and log error" name="PostService PostService - DELETE removeLastPostWithImage should catch and log error" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="LinkedList Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-19T03:15:24" time="0.133" tests="21">
-    <testcase classname="LinkedList Basic Operations should initialize an empty LinkedList" name="LinkedList Basic Operations should initialize an empty LinkedList" time="0.001">
+  <testsuite name="PostRepository - Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-20T03:14:21" time="0.165" tests="26">
+    <testcase classname="PostRepository - Basic Operations should create the directory if it does not exist" name="PostRepository - Basic Operations should create the directory if it does not exist" time="0.006">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should save posts to a file" name="PostRepository - Basic Operations should save posts to a file" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should handle error when saving to file" name="PostRepository - Basic Operations should handle error when saving to file" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should load posts from a file" name="PostRepository - Basic Operations should load posts from a file" time="0">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should handle error when loading from file" name="PostRepository - Basic Operations should handle error when loading from file" time="0">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve all posts" name="PostRepository - Post Retrieval should retrieve all posts" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by title" name="PostRepository - Post Retrieval should retrieve posts by title" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by author" name="PostRepository - Post Retrieval should retrieve posts by author" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should sort posts by rating descending" name="PostRepository - Post Retrieval should sort posts by rating descending" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" name="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" name="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by exact rating" name="PostRepository - Post Retrieval should retrieve posts by exact rating" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log an error when rating is not a number" name="PostRepository - Post Retrieval should log an error when rating is not a number" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" name="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" name="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log an error for invalid action" name="PostRepository - Post Retrieval should log an error for invalid action" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" name="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" name="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should update post data successfully" name="PostRepository - Post Manipulation updateData should update post data successfully" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" name="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" name="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" name="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removeFirstPost should remove the first post" name="PostRepository - Post Manipulation removeFirstPost should remove the first post" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation insertLastPost should insert post at the end" name="PostRepository - Post Manipulation insertLastPost should insert post at the end" time="0.003">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removeLastPost should remove the last post" name="PostRepository - Post Manipulation removeLastPost should remove the last post" time="0.004">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" name="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="LinkedList Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-20T03:14:22" time="0.104" tests="21">
+    <testcase classname="LinkedList Basic Operations should initialize an empty LinkedList" name="LinkedList Basic Operations should initialize an empty LinkedList" time="0.004">
     </testcase>
     <testcase classname="LinkedList Basic Operations insertFirst should add a node at the beginning" name="LinkedList Basic Operations insertFirst should add a node at the beginning" time="0.001">
     </testcase>
     <testcase classname="LinkedList Basic Operations insertLast should add a node at the end" name="LinkedList Basic Operations insertLast should add a node at the end" time="0.001">
     </testcase>
-    <testcase classname="LinkedList Basic Operations removeFirst should remove the first node" name="LinkedList Basic Operations removeFirst should remove the first node" time="0.001">
+    <testcase classname="LinkedList Basic Operations removeFirst should remove the first node" name="LinkedList Basic Operations removeFirst should remove the first node" time="0">
     </testcase>
-    <testcase classname="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" name="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" time="0.001">
+    <testcase classname="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" name="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" time="0">
     </testcase>
-    <testcase classname="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" name="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" time="0.001">
+    <testcase classname="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" name="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" time="0">
     </testcase>
-    <testcase classname="LinkedList Basic Operations removeLast should remove the last node" name="LinkedList Basic Operations removeLast should remove the last node" time="0">
+    <testcase classname="LinkedList Basic Operations removeLast should remove the last node" name="LinkedList Basic Operations removeLast should remove the last node" time="0.001">
     </testcase>
     <testcase classname="LinkedList Basic Operations removeLast should set head and tail to null when the last node is removed" name="LinkedList Basic Operations removeLast should set head and tail to null when the last node is removed" time="0.001">
     </testcase>
@@ -143,23 +143,23 @@
     </testcase>
     <testcase classname="LinkedList Basic Operations removeLast should do nothing if the LinkedList is empty" name="LinkedList Basic Operations removeLast should do nothing if the LinkedList is empty" time="0.001">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" name="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" time="0.001">
+    <testcase classname="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" name="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" time="0">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" name="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" time="0.001">
+    <testcase classname="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" name="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" time="0">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods find should return the first node that matches the condition" name="LinkedList Higher-Order Methods find should return the first node that matches the condition" time="0">
+    <testcase classname="LinkedList Higher-Order Methods find should return the first node that matches the condition" name="LinkedList Higher-Order Methods find should return the first node that matches the condition" time="0.001">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" name="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" time="0.001">
+    <testcase classname="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" name="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" time="0">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" name="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" time="0.001">
+    <testcase classname="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" name="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" time="0">
     </testcase>
-    <testcase classname="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" name="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" time="0">
+    <testcase classname="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" name="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" time="0.001">
     </testcase>
     <testcase classname="LinkedList Utility Methods should not sort if the LinkedList has less than 2 nodes" name="LinkedList Utility Methods should not sort if the LinkedList has less than 2 nodes" time="0">
     </testcase>
-    <testcase classname="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" name="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" time="0.001">
+    <testcase classname="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" name="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" time="0">
     </testcase>
-    <testcase classname="LinkedList Utility Methods getNodeValue should return the value at the specified index" name="LinkedList Utility Methods getNodeValue should return the value at the specified index" time="0.017">
+    <testcase classname="LinkedList Utility Methods getNodeValue should return the value at the specified index" name="LinkedList Utility Methods getNodeValue should return the value at the specified index" time="0.005">
     </testcase>
     <testcase classname="LinkedList Utility Methods removeAllNodes should remove all nodes that match the condition" name="LinkedList Utility Methods removeAllNodes should remove all nodes that match the condition" time="0">
     </testcase>
