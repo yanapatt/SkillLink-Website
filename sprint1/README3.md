@@ -40,7 +40,7 @@ graph LR;
 3.  โพสต์รูปภาพและเขียนรายละเอียดเกี่ยวกับโพสต์ของตนเองได้
 4.  แก้ไขได้เฉพาะโพสต์ตัวเองเท่านั้น
 
-**อาสาสมัค จะสามารถ**
+**แอดมิน จะสามารถ**
 1.  ล็อคอินเข้าสู่ระบบ ในฐานะ Admin
 2.  จ้ดการโพสต์ทั้งหมดในเว๊ปไซต์ได้
 
@@ -61,8 +61,38 @@ graph LR;
 2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
 3.  เว๊บไซต์ต้องมีความเสถียร ตอบสนองได้อย่างรวดเร็ว
 
-## **Design and Architecture**
-//TODO
+## **อธิบายการทำงานของ Data Structure**
+
+:::mermaid
+classDiagram
+    class Node {
+        -value
+        -next
+        +constructor(value)
+    }
+
+    class LinkedList {
+        -head
+        -tail
+        -size
+        +constructor()
+        +getSize() int
+        +isEmpty() boolean
+        +toArray() Array
+        +map(callback) Array
+        +insertFirst(value) void
+        +insertLast(value) void
+        +removeFirst() void
+        +removeLast() void
+        +removeByPostTitle(postTitle) void
+        +forEachNode(callback) void
+    }
+
+    LinkedList --> Node : uses
+
+:::
+
+เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
 
 ## **Unit Test**
 
@@ -226,6 +256,21 @@ graph LR;
 | accountService.test.js| `accountService- authenticateAccount`                  | `should return null if account does not exist`|ควรส่งคืนค่า null ถ้าบัญชีไม่มีอยู่|
 | accountService.test.js| `accountService-getAllEncryptAccounts`                  | `should return all accounts with masked passwords`|ควรคืนบัญชีทั้งหมดที่มีรหัสผ่านที่ถูกปกปิด|
 
+## **Test coverage**
+รายงานผลการทดสอบที่ได้ ภาพบางส่วน
+ 
+![image.png](/.attachments/image-f8d393ce-9673-4cc5-bc75-92df1d306044.png)
+
+![image.png](/.attachments/image-3baeab8a-98a6-4730-9fe1-19affaa71db4.png)
+
+![image.png](/.attachments/image-1ac89adf-134d-49b4-894e-1309c99b3a09.png)
+
+## **Grunt Test**
+
+![image.png](/.attachments/image-12ba3b6a-a7f1-46fc-b4e1-146a8647356d.png)
+
+![image.png](/.attachments/image-576ad9ef-a40d-4def-ab32-e441604e69b1.png)
+
 ## **ตัวอย่าง Test Case Code**                                     
 
 ### **linkedList.test.js**
@@ -258,25 +303,158 @@ graph LR;
 ![image.png](/.attachments/image-e40c83d9-f9b6-46f6-9c20-c0acfb88e86c.png)
 ![image.png](/.attachments/image-d54209cd-80f2-40a9-bf5a-7e06c0d5bc1c.png)
 
-### *accountService.test.js*
+### **accountService.test.js**
 ![image.png](/.attachments/image-f28342e8-db38-4678-9384-058012ad1bc8.png)
 ![image.png](/.attachments/image-66b32ea7-d373-41f1-9f15-db08b670bde8.png)
 ![image.png](/.attachments/image-349db7ad-5baa-4d8a-9fff-0e0445c188f6.png)
 
 
-
-
 ## **Static profiling**
+**Screenshort**
+
+![image.png](/.attachments/image-955830b3-88f6-4b53-952e-758c6234d50f.png)
+
+![image.png](/.attachments/image-31a46d18-b55e-4c71-9abd-ef512decde6e.png)
+
+**ข้อสรุปโดยภาพรวม**
+
+![image.png](/.attachments/image-b59bb16f-14e5-44da-a9c3-65e8fb67e365.png)
+
+- จำหวนโค๊ดในโฟล์เดอร์ Models มีทั้งสิ้น 906 บรรทัด และมีจำนวนบรรทัดโดยเฉลี่ย 151 บรรทัด
+- มีค่าการบำรุงรักษาโดยเฉลี่ย 70.41 ถือว่าอยู่ในระดับปานกลาง
+
+**ค่าการบำรุงรักษา**
+
+![image.png](/.attachments/image-17288b5e-fadd-414d-b1df-41bc876bc371.png)
+
+จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 75.93 ลองลงมาคือ accountRepository, accountService, linkedList, postRepository และ postService โดยมีค่า 74.62, 68.83, 68.73, 68.6 และ 65.78 ตามลำดับ
+
+**จำนวนบรรทัดของโค๊ด**
+![image.png](/.attachments/image-f18a0a2b-0daf-46fe-bba3-7721284ca8bd.png)
+
+จะเห็นได้ว่า postService มีจำนวนบรรทัดสูงที่สุดอยู่ที่ 359 บรรทัด ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 166, 137, 93, 92 และ 59 ตามลำดับ
+
+**การประเมิณข้อผิดพลาดโดยประมาณจากการใช้งาน**
+
+![image.png](/.attachments/image-d2cfd445-e091-40ac-b5b3-ebcf473445bd.png)
+
+จะเห็นได้ว่า postService มีข้อผิดพลาดโดยประมาณจากการใช้งานสูงที่สุดอยู่ที่ 3.43 ลองลงมาคือ postRepository, linkedList, accountRepository, accountService และ imageRepository โดยมีค่า 1.23, 0.8, 0.63, 0.48 และ 0.45 ตามลำดับ
+
+**การประเมิณโอกาสเกิดข้อผิดพลาด**
+
+![image.png](/.attachments/image-a4e2f9fb-d8aa-4365-a333-5e4c8d6ba8f4.png)
+
+จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, accountService  imageRepository, accountRepository และ linkedList โดยมีค่า 24, 21, 18, 15 และ 14 ตามลำดับ
+
+**สรุปในรูปแบบตาราง**
 
 | **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
 |---------------|---------------------|-------------------|----------------|----------------------|
-
+| **accountRepository.js** | **74.62** | **93** | **22.71** | **0.63** |
+| **accountService.js** | **68.83** | **92** | **22.43** | **0.48** |
+| **imageRepository.js** | **75.93** | **59** | **15.61** | **0.45** |
+| **linkedList.js** | **68.73** | **137** | **61.20** | **0.80** |
+| **postRepository.js** | **68.60** | **166** | **31.95** | **1.23** |
+| **postService.js** | **65.78** | **359** | **64.64** | **3.43** |
 
 ## **Dynamic profiling**
-//TODO
+
+![image.png](/.attachments/image-8bfe9b67-0561-4722-8226-8768a2edaed7.png)
+
+แสดงให้เห็นว่าต้องใช้เวลาประมาณเท่าใดสำหรับแสดงผลหน้า Website ในแต่ละหน้า โดยเราได้มีการบันทึกผลดังนี้
+- Loading 37 ms
+- Rendering 41 ms
+- Painting 7 ms
+- Scripting 538 ms
+- System 82 ms
+- Total 727 ms
+
+![image.png](/.attachments/image-edc0f7c8-ef85-4c45-8582-5e7fe7ed4ac6.png)
+
+จากการ Audits ได้ผลดังนี้
+เว็ปไซต์ SkillLink มีค่า Performance อยู๋ 81 ค่า Accessibility อยู่ท 79 Best Practices อยู่ 100 และ SEO อยู่ที่ 91 ตามลำดับ
 
 ## **สิ่งที่ยังไม่สมบูรณ์ใน Sprint ที่ 3**
-//TODO
+สามารถแยกเป็น 2 หัวข้อใหญ่ ๆ ได้ดังนี้
+
+ระบบ User Interface
+1. หน้า User Interface ยังตอบสนองความต้องการได้ไม่ครบถ้วน ยังคงแสดงผลได้ไม่ถูกต้อง
+2. การจัดระเบียบโค๊ดยังไม่ดีพอ
+
+ระบบ Backend
+1. ยังไม่สามารถรับมือกับ Error ที่อาจจะเกิดขึ้นได้ดีพอส่งผลให้ทำงานผิดพลาดถึงขั้นที่เว๊ปไซต์หยุดทำงานได้
+2. โค๊ดมีความซับซ้อนสูง แก้ไขยาก ขยายต่อไปได้ยาก มีโอกาสเจอ Error จากโค๊ดสูง
+3. บาง Method ไม่สามารถดึงประสิทธิภาพของ LinkedList ได้ไม่ดีพอ เนื่องจากต้องมีการใช้ toArray อยู่บ่อยครั้ง
+
+## **Website Screenshorts**
+- หน้า login
+เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/5803b1f8-d714-432a-a172-343c2d394dd7?fileName=image.png)
+
+- หน้า Register
+เป็นการสมัครบัญชีเริ่มแรกเมื่อเข้าใช้ โดยเมื่อลงทะเบียนเสร็จจะกลับไปยังหน้า Login
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/fec04bde-f5bf-44b9-8465-446775f2dbba?fileName=image.png)
+
+- หน้า edit post
+เป็นการ edit post เฉพาะเจ้าของ ของpostนั้นๆ และเมื่อเสร็จจะกลับไปยังหน้าหลัก
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/c7c7ff97-735e-47ef-ab96-9ecd804e3229?fileName=image.png)
+
+- หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Postนั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Postจะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/6e78ed92-f421-4a52-b03a-4d397d8da7b0?fileName=image.png)
+
+-หน้า Home โดยหน้านี้จะแบ่งออกเป็น 2 หน้า โดยจะมีของ Admin และ User
+ -หน้า Home สำหรับ Admin จะสามารถลบ Post หรือ ลบRating ของ Post นั้นได้และยังลบ NewPost กับ OldPost ได้อีกด้วย
+
+  ![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/8a1fbdd6-4002-49ad-82d9-8cd0feee95c3?fileName=image.png)
+
+ -หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้วย
+
+![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/23159ab7-0738-4386-9e19-ce6200c5f768?fileName=image.png)
 
 ## **สรุปการประชุมและคลิปวีดีโอ Retrospective ใน Sprint ที่ 3**
-//TODO
+   จากที่กลุ่มของเราได้มีการประชุมผ่าน google meet ระบบออนไลน์ได้มีการพูดคุยเกี่ยวกับสิ่งที่ทุกคนได้ไปทำแล้วที่ทำได้ดี และคิดวา่าสามารุปรับปรุงอะไรที่จะมาทำในPhase ถัดไปเป็นการทำให้รับรู้ถึงปัญหาที่แต่ละคนกำลังเจอทุกคนจะได้สามารถช่วยเหลือกันแก้ไขให้ดีขึ้นได้ โดยใน Phaseนี้ ทุกคนมีความเห็นว่าทุกคนสามารถรับผิดชอบงานที่ได้รับมอบหมายให้เสร็จได้ทันเวลาครับ
+### ปัญหาที่เจอระหว่างการทำงานใน Phase 3
+การสื่อสารเกี่ยวกับ Commit Message ไม่ชัดเจน:
+ทำให้เกิดความสับสนในการรับผิดชอบ Issue และล่าช้าในการ merge code  
+
+**แนวทางแก้ไข:** กำหนดมาตรฐานการตั้งชื่อ Commit ที่ชัดเจน และตรวจสอบซึ่งกันและกันก่อน push
+
+**การบริหารเวลาไม่ดีพอ:**  สมาชิกบางคนมีเวลาว่างไม่ตรงกัน ส่งผลให้งานบางส่วนล่าช้า  
+
+**แนวทางแก้ไข:** วางแผนและแบ่งงานให้เหมาะสมกับตารางเวลาของแต่ละคน รวมถึงเริ่มงานให้เร็วขึ้นและปัญหาเกี่ยวกับ UI:เวลาที่มีน้อยทำให้ UI ยังไม่สมบูรณ์ มีบัคเล็กน้อย และบางส่วนไม่ตรงกับ Figma  
+
+**แนวทางแก้ไข:** ปรับปรุง UI ให้ตรงกับ Figma และเพิ่มรอบตรวจสอบก่อนส่งงาน
+
+### สิ่งที่ดำเนินการได้ดี
+
+**การส่งมอบงานตามเวลาที่กำหนด:**  สมาชิกในทีมรับผิดชอบงานของตนเองได้ดี และส่งงานได้ตรงเวลา
+
+**การทดสอบระบบ (Testing):** 
+
+1. ทดสอบครอบคลุมทุกกรณี ทั้งปกติและกรณีผิดพลาด
+
+2. Test ทั้งหมดผ่านครบ 100%
+
+3. Coverage สูงกว่า 90% ทุกหมวดหมู่
+    
+**การทำงานร่วมกัน:** 
+
+1. แบ่งงานตามความถนัดของแต่ละคน 
+
+2. มีการช่วยเหลือกันเมื่อพบปัญหา
+
+
+### สิ่งที่ต้องปรับปรุง
+
+**การจัดสรรเวลาสำหรับ UI:**  
+ใช้เวลาน้อยเกินไป ทำให้คุณภาพ UI ยังไม่ดีพอ  
+**แนวทางแก้ไข:** จัดเวลาเฉพาะสำหรับ UI และทดสอบก่อนส่ง
+**การสื่อสารไม่ต่อเนื่อง:**  
+แม้จะมีการประชุมออนไลน์ แต่บางช่วงยังขาดการติดตามงาน  
+
+**สิ่งที่จะนำไปปรับปรุงใน Phase 4 :** เพิ่มความถี่ในการประชุมผ่าน Discord เพื่อประสานงานและอัปเดตสถานะงาน วางแผน Scrum Meeting อย่างน้อย 2 ครั้งต่อสัปดาห์และแบ่งเวลาให้กับ UI อย่างเหมาะสม และทบทวนงานให้ตรงกับ Figma มากขึ้น แล้วเพิ่ม edge case และ integration test ใน Sprint ถัดไป
+
+**Link การประชุม Retrospective ใน Sprint ที่ 3**
+https://www.youtube.com/watch?v=1RbFEtS06U0
