@@ -143,7 +143,7 @@ class PostService {
                 } else if (action === "byRating") {
                     const ratingThreshold = parseFloat(value);
                     if (isNaN(ratingThreshold)) return false;
-                    return post.postRating >= ratingThreshold;
+                    return post.postRating === ratingThreshold;
                 }
                 return false;
             });

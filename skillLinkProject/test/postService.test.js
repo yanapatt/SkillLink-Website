@@ -329,7 +329,7 @@ describe("PostService", () => {
                 await postService.removePostsByAction("4.0", "byRating");
 
                 const filterFn = mockPostRepo.removePostsByFilter.mock.calls[0][0];
-                expect(filterFn({ postRating: 4.5 })).toBe(true);
+                expect(filterFn({ postRating: 4.0 })).toBe(true);
                 expect(filterFn({ postRating: 3.5 })).toBe(false);
             });
 
