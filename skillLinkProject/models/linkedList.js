@@ -20,6 +20,16 @@ class LinkedList {
         return this.size === 0;
     }
 
+    forEachNode(callback) {
+        let current = this.head;
+        while (current) {
+            if (current.value !== null && current.value !== undefined) {
+                callback(current.value);
+            }
+            current = current.next;
+        }
+    }
+
     toArray() {
         const result = [];
         this.forEachNode((value) => result.push(value));
@@ -36,32 +46,74 @@ class LinkedList {
         return result;
     }
 
-    removeByPostTitle(postTitle) {
+    find(callback) {
         let current = this.head;
-        let prev = null;
-
         while (current) {
-            if (current.value && current.value.postTitle === postTitle) {
-                if (prev) {
-                    prev.next = current.next;
-                } else {
-                    this.head = current.next;
-                }
-
-                if (current === this.tail) {
-                    this.tail = prev;
-                }
-
-                this.size--;
-                console.log(`Post with title "${postTitle}" removed.`);
-                return;
+            if (callback(current.value)) {
+                return current.value;
             }
-            prev = current;
             current = current.next;
         }
-        console.log(`Post with title "${postTitle}" not found.`);
     }
 
+    filter(callback) {
+        const filteredList = new LinkedList();
+        let current = this.head;
+        while (current) {
+            if (callback(current.value)) {
+                filteredList.insertLast(current.value);
+            }
+            current = current.next;
+        }
+        return filteredList;
+    }
+
+    slice(start, end) {
+        const resultList = new LinkedList();
+        let current = this.head;
+        let index = 0;
+
+        while (current && index < end) {
+            if (index >= start) {
+                resultList.insertLast(current.value);
+            }
+            current = current.next;
+            index++;
+        }
+
+        return resultList;
+    }
+
+    sort(compareFn) {
+        if (this.size < 2) return;
+
+        const values = this.toArray();
+        values.sort(compareFn);
+
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+
+        for (const value of values) {
+            this.insertLast(value);
+        }
+    }
+
+    getNodeValue(index) {
+        if (index < 0 || index >= this.size) {
+            console.log("Invalid index.");
+            return null;
+        }
+        let current = this.head;
+        let count = 0;
+        while (current) {
+            if (count === index) {
+                return current.value;
+            }
+            count++;
+            current = current.next;
+        }
+    }
 
     insertFirst(value) {
         const newNode = new Node(value);
@@ -74,11 +126,7 @@ class LinkedList {
     }
 
     removeFirst() {
-        if (!this.head) {
-            // หาก LinkedList ว่างเปล่า ให้หยุดการทำงาน
-            return;
-        }
-
+        if (!this.head) return;
         this.head = this.head.next;
         if (!this.head) {
             this.tail = null;
@@ -117,19 +165,31 @@ class LinkedList {
         this.size--;
     }
 
-    forEachNode(callback) {
+    removeAllNodes(callback) {
         let current = this.head;
+        let prev = null;
+
         while (current) {
-            if (current.value !== null && current.value !== undefined) {
-                try {
-                    callback(current.value);
-                } catch (error) {
-                    console.error("Error in callback function:", error);
+            if (callback(current.value)) {
+                if (prev) {
+                    prev.next = current.next;
+                } else {
+                    this.head = current.next;
                 }
+
+                if (current === this.tail) {
+                    this.tail = prev;
+                }
+
+                this.size--;
             } else {
-                console.log("Skipping node with null or undefined value");
+                prev = current;
             }
             current = current.next;
+        }
+
+        if (this.size === 0) {
+            this.tail = null;
         }
     }
 }
