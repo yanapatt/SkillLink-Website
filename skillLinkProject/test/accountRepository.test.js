@@ -1,83 +1,107 @@
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-const AccountRepository = require('./AccountRepository');
-const LinkedList = require('./linkedList');
+const fs = require("fs");
+const path = require("path");
+const AccountRepository = require("../models/accountRepository");
 
-// Mock LinkedList ด้วย class จำลองง่ายๆ
-jest.mock('./linkedList');
+jest.mock("fs");
+beforeEach(() => {
+    accountRepo = new AccountRepository();
+    jest.clearAllMocks();
 
-describe('AccountRepository', () => {
-    let accountRepo;
-    let tempDir;
-    let testFilePath;
+    // Mock console.error
+    jest.spyOn(console, "error").mockImplementation(() => { });
+});
 
-    beforeEach(() => {
-        // สร้าง temp directory จำลอง
-        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'acctest-'));
-        testFilePath = path.join(tempDir, 'accounts.json');
+afterEach(() => {
+    // Restore console.error
+    jest.restoreAllMocks();
+});
 
-        // Mock method ที่จำเป็นใน LinkedList
-        LinkedList.mockImplementation(() => {
-            return {
-                head: null,
-                insertLast: jest.fn(),
-                toArray: jest.fn(() => []),
-                forEachNode: jest.fn((cb) => { })
-            };
-        });
+test("should create directory if it does not exist", () => {
+    fs.existsSync.mockReturnValue(false);
+    fs.mkdirSync.mockImplementation(() => { });
 
-        // ใช้ spy แทนที่ path.join ให้ชี้ไปยัง temp
-        jest.spyOn(path, 'join').mockImplementation((...args) => {
-            if (args.includes('accounts.json')) {
-                return testFilePath;
-            }
-            return path.posix.join(...args);
-        });
+    accountRepo.alreadyExistence();
 
-        accountRepo = new AccountRepository();
+    expect(fs.existsSync).toHaveBeenCalledWith(path.dirname(accountRepo.filePath));
+    expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(accountRepo.filePath), { recursive: true });
+});
+
+test("should not create directory if it already exists", () => {
+    fs.existsSync.mockReturnValue(true);
+
+    accountRepo.alreadyExistence();
+
+    expect(fs.existsSync).toHaveBeenCalledWith(path.dirname(accountRepo.filePath));
+    expect(fs.mkdirSync).not.toHaveBeenCalled();
+});
+
+test("should save accounts to file", () => {
+    accountRepo.accounts.toArray = jest.fn(() => [{ accId: "1", accUsername: "testuser" }]);
+    fs.writeFileSync.mockImplementation(() => { });
+    fs.renameSync.mockImplementation(() => { });
+
+    accountRepo.saveToFile();
+
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+        `${accountRepo.filePath}.tmp`,
+        JSON.stringify([{ accId: "1", accUsername: "testuser" }], null, 2)
+    );
+    expect(fs.renameSync).toHaveBeenCalledWith(`${accountRepo.filePath}.tmp`, accountRepo.filePath);
+});
+
+test("should load accounts from file", () => {
+    const mockData = JSON.stringify([{ accId: "1", accUsername: "testuser" }]);
+    fs.existsSync.mockReturnValue(true);
+    fs.readFileSync.mockReturnValue(mockData);
+    accountRepo.accounts.insertLast = jest.fn();
+
+    accountRepo.loadFromFile();
+
+    expect(fs.readFileSync).toHaveBeenCalledWith(accountRepo.filePath, "utf8");
+    expect(accountRepo.accounts.insertLast).toHaveBeenCalledWith({ accId: "1", accUsername: "testuser" });
+});
+
+test("should not load accounts if file does not exist", () => {
+    fs.existsSync.mockReturnValue(false);
+    accountRepo.accounts.insertLast = jest.fn();
+
+    accountRepo.loadFromFile();
+
+    expect(fs.readFileSync).not.toHaveBeenCalled();
+    expect(accountRepo.accounts.insertLast).not.toHaveBeenCalled();
+});
+test("should handle empty or invalid JSON file gracefully", () => {
+    fs.existsSync.mockReturnValue(true);
+    fs.readFileSync.mockReturnValue(""); // ไฟล์ว่างเปล่า
+    accountRepo.accounts.insertLast = jest.fn();
+
+    accountRepo.loadFromFile();
+
+    expect(fs.readFileSync).toHaveBeenCalledWith(accountRepo.filePath, "utf8");
+    expect(accountRepo.accounts.insertLast).not.toHaveBeenCalled();
+});
+test("should retrieve all accounts", () => {
+    const testAccount1 = { accId: "1", accUsername: "user1" };
+    const testAccount2 = { accId: "2", accUsername: "user2" };
+
+    accountRepo.accounts.head = {
+        value: testAccount1,
+        next: { value: testAccount2, next: null }
+    };
+
+    const allAccounts = accountRepo.retrieveAllAccounts().toArray();
+    expect(allAccounts).toEqual([testAccount1, testAccount2]);
+});
+test("should handle error when creating directory", () => {
+    fs.existsSync.mockReturnValue(false);
+    fs.mkdirSync.mockImplementation(() => {
+        throw new Error("Permission denied");
     });
 
-    afterEach(() => {
-        jest.restoreAllMocks();
-        fs.rmSync(tempDir, { recursive: true, force: true });
-    });
+    accountRepo.alreadyExistence();
 
-    test('should create directory and file path correctly', () => {
-        expect(fs.existsSync(path.dirname(testFilePath))).toBe(true);
-    });
-
-    test('should call insertLast when loading from file with data', () => {
-        const testAccount = {
-            accId: "1",
-            accUsername: "testuser",
-            accEmail: "test@example.com"
-        };
-
-        fs.writeFileSync(testFilePath, JSON.stringify([testAccount]));
-
-        // Recreate to trigger loadFromFile
-        accountRepo = new AccountRepository();
-        expect(accountRepo.accounts.insertLast).toHaveBeenCalledWith(testAccount);
-    });
-
-    test('should save account to file', () => {
-        const fakeData = [{ accId: '1', accUsername: 'user', accEmail: 'a@a.com' }];
-        accountRepo.accounts.toArray.mockReturnValue(fakeData);
-
-        accountRepo.saveToFile();
-
-        const saved = JSON.parse(fs.readFileSync(testFilePath, 'utf8'));
-        expect(saved).toEqual(fakeData);
-    });
-
-    test('should insert account and call saveToFile', () => {
-        const acc = { accId: '2', accUsername: 'newuser', accEmail: 'b@b.com' };
-        const saveSpy = jest.spyOn(accountRepo, 'saveToFile');
-
-        accountRepo.insertAccounts(acc);
-
-        expect(accountRepo.accounts.insertLast).toHaveBeenCalledWith(acc);
-        expect(saveSpy).toHaveBeenCalled();
-    });
+    expect(console.error).toHaveBeenCalledWith(
+        "Error creating directory:",
+        expect.stringContaining("Permission denied")
+    );
 });
