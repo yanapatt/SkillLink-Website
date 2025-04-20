@@ -1,61 +1,72 @@
 const fs = require("fs");
-const multer = require('multer');
-const path = require('path');
+const path = require("path");
+const multer = require("multer");
+const ImageRepository = require("../models/imageRepository");
 
-class ImageRepository {
-    constructor(multerFileName) {
-        // กำหนดการตั้งค่าของ multer ภายใน ImageRepository
-        this.storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                const uploadsDir = path.resolve(__dirname, '../uploads');
-                // ตรวจสอบและสร้างโฟลเดอร์ uploads หากยังไม่มี
-                if (!fs.existsSync(uploadsDir)) {
-                    fs.mkdirSync(uploadsDir, { recursive: true });
-                }
-                cb(null, uploadsDir);
-            },
-            filename: (req, file, cb) => {
-                // ตั้งชื่อไฟล์ให้เป็นเวลาแบบ Unix timestamp เพื่อป้องกันการซ้ำ
-                cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-            }
+jest.mock("fs");
+jest.mock("multer");
+
+describe("ImageRepository", () => {
+    let imageRepo;
+
+    beforeEach(() => {
+        imageRepo = new ImageRepository("postImgUrl");
+        jest.clearAllMocks();
+    });
+
+    describe("uploadImage", () => {
+        test("should configure multer with correct storage settings", () => {
+            const mockSingle = jest.fn();
+            multer.mockReturnValue({ single: mockSingle });
+
+            const uploadMiddleware = imageRepo.uploadImage();
+
+            expect(multer).toHaveBeenCalledWith({ storage: expect.any(Object) });
+            expect(uploadMiddleware).toBe(mockSingle());
         });
-        // กำหนดให้ multer ใช้งาน storage ที่กำหนด
-        this.upload = multer({ storage: this.storage });
-        this.multerFileName = multerFileName;
-    }
+    });
 
-    // ฟังก์ชันที่ใช้ในการอัพโหลดภาพ
-    uploadImage() {
-        return this.upload.single('postImgUrl'); // ฟังก์ชันนี้จะให้ multer จัดการไฟล์อัพโหลด
-    }
+    describe("saveImageToFolder", () => {
+        test("should return the correct image URL when valid file is provided", () => {
+            const mockFile = { path: "/uploads/test.jpg", filename: "test.jpg" };
 
-    // ฟังก์ชันบันทึกภาพลงโฟลเดอร์
-    saveImageToFolder(imgFile) {
-        if (!imgFile || !imgFile.path) {
-            throw new Error("Invalid image file");
-        }
+            const result = imageRepo.saveImageToFolder(mockFile);
 
-        // ใช้ path ของไฟล์ที่ multer สร้างขึ้น
-        const imageUrl = `/uploads/${imgFile.filename}`;
-        console.log("Image URL:", imageUrl);
-        return imageUrl;
-    }
-
-    // ฟังก์ชันลบภาพออกจากโฟลเดอร์
-    removeImageFromFolder(imgUrl) {
-        const imgPath = path.join(__dirname, '..', imgUrl); // สร้าง path ของไฟล์ภาพ
-        return new Promise((resolve, reject) => {
-            fs.unlink(imgPath, (err) => {
-                if (err) {
-                    console.error(`Error deleting image at ${imgPath}:`, err);
-                    reject(`Error deleting image: ${err.message}`);
-                } else {
-                    console.log(`Image at ${imgPath} deleted successfully`);
-                    resolve(`Image at ${imgPath} deleted successfully`);
-                }
-            });
+            expect(result).toBe("/uploads/test.jpg");
         });
-    }
-}
 
-module.exports = ImageRepository;
+        test("should throw an error when invalid file is provided", () => {
+            expect(() => imageRepo.saveImageToFolder(null)).toThrow("Invalid image file");
+            expect(() => imageRepo.saveImageToFolder({})).toThrow("Invalid image file");
+        });
+    });
+
+    describe("removeImageFromFolder", () => {
+        test("should resolve when image is successfully deleted", async () => {
+            fs.unlink.mockImplementation((filePath, callback) => callback(null));
+
+            const result = await imageRepo.removeImageFromFolder("/uploads/test.jpg");
+
+            expect(fs.unlink).toHaveBeenCalledWith(
+                path.join(__dirname, "..", "/uploads/test.jpg"),
+                expect.any(Function)
+            );
+            expect(result).toBe("Image at " + path.join(__dirname, "..", "/uploads/test.jpg") + " deleted successfully");
+        });
+
+        test("should reject when there is an error deleting the image", async () => {
+            fs.unlink.mockImplementation((filePath, callback) =>
+                callback(new Error("File not found"))
+            );
+
+            await expect(
+                imageRepo.removeImageFromFolder("/uploads/test.jpg")
+            ).rejects.toBe("Error deleting image: File not found");
+
+            expect(fs.unlink).toHaveBeenCalledWith(
+                path.join(__dirname, "..", "/uploads/test.jpg"),
+                expect.any(Function)
+            );
+        });
+    });
+});

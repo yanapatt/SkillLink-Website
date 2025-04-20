@@ -1,7 +1,18 @@
 [
   {
-    "accId": "123",
-    "accUsername": "testuser",
-    "accEmail": "test@example.com"
+    "accId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+    "accRole": "Admin",
+    "accUsername": "admin",
+    "accEmail": "admin@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0972988499"
+  },
+  {
+    "accId": "1eb7598a-308a-4105-a6f5-3648f3e748f9",
+    "accRole": "User",
+    "accUsername": "yanapatt",
+    "accEmail": "yanapatt@gmail.com",
+    "accPassword": "6002968392b901e9305d87e3",
+    "accPhone": "0972988499"
   }
 ]

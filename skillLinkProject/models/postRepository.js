@@ -35,132 +35,151 @@ class PostRepository {
         if (!fs.existsSync(this.filePath)) return;
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
-            if (!data.trim()) return;
+            if (!data || !data.trim()) return;
             JSON.parse(data).forEach(post => this.posts.insertLast(post));
         } catch (err) {
             console.error("Error loading posts from file:", err.message);
         }
     }
 
-    // ดึงข้อมูล Post ทีมีทั้งหมด
+    // ดึงข้อมูลโพสต์ทั้งหมดจาก LinkedList
     retrieveAllPosts() {
-        // ในอนาคตอาจจะปรับให้เป็น LinkedList โดยสมบูรณ์
-        return this.posts.toArray();
-    }
-
-    // อัปเดตข้อมูลโพสต์
-    updatePost(title, updatedData) {
-        try {
-            // ดึงข้อมูลโพสต์ทั้งหมด
-            const allPosts = this.retrieveAllPosts();
-
-            // ค้นหาโพสต์ที่ต้องการอัปเดต
-            const targetPost = allPosts.find(post => post.postTitle.toLowerCase() === title.toLowerCase());
-
-            if (!targetPost) {
-                console.log(`Post with title "${title}" not found.`);
-                return { success: false, message: `Post with title "${title}" not found.` };
-            }
-
-            // อัปเดตคำอธิบายโพสต์ (ถ้ามีการแก้ไข)
-            if (updatedData.postDesc !== undefined) {
-                targetPost.postDesc = updatedData.postDesc;
-            }
-
-            // อัปเดต URL ของรูป (รองรับการลบหรืออัปโหลดใหม่)
-            if (updatedData.postImgUrl !== undefined) {
-                targetPost.postImgUrl = updatedData.postImgUrl;
-            }
-
-            // บันทึกกลับไปที่ไฟล์
-            this.saveToFile();
-
-            console.log(`Post "${title}" updated successfully!`);
-            return { success: true, message: `Post "${title}" updated successfully!`, updatedPost: targetPost };
-
-        } catch (err) {
-            console.error("Error updating post:", err.message);
-            return { success: false, message: "Failed to update post." };
+        const result = new LinkedList();
+        let current = this.posts.head;
+        while (current) {
+            result.insertLast(current.value);
+            current = current.next;
         }
+        return result;
     }
 
-    // ดึงข้อมูล Post โดยค้นหาจากชื่อ Post มีปัญหาอยู่
-    retrieveByPostTitle(title) {
-        let foundNode = null;
+    // ดึงข้อมูลโพสต์ตาม Action ที่กำหนด
+    retrievePostsByAction(value, action) {
+        const allPosts = this.retrieveAllPosts();
+        const results = new LinkedList();
 
-        this.posts.forEachNode((node) => {
-            // Trim ชื่อโพสต์เพื่อหลีกเลี่ยงช่องว่างที่ไม่ต้องการ
-            if (node.value && node.value.postTitle.toLowerCase() === title.toLowerCase()) {
-                foundNode = node; // คืนค่าเป็นโหนดจริง
+        switch (action) {
+            case 'byTitle':
+                allPosts.forEachNode((post) => {
+                    if (post.postTitle.toLowerCase().includes(value.toLowerCase())) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
+            case 'byAuthor':
+                allPosts.forEachNode((post) => {
+                    if (post.authorName && post.authorName.toLowerCase().includes(value.toLowerCase())) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
+            case 'sortByRating':
+                const sortedByRating = allPosts.toArray()
+                    .sort((a, b) => b.postRating - a.postRating);
+                sortedByRating.forEach(post => results.insertLast(post));
+                break;
+
+            case 'topRated':
+                const limit = value || 5;
+                const sorted = allPosts.toArray()
+                    .sort((a, b) => b.postRating - a.postRating)
+                    .slice(0, limit);
+                sorted.forEach(post => results.insertLast(post));
+                break;
+
+            case 'byRating':
+                const ratingThreshold = parseFloat(value);
+                if (isNaN(ratingThreshold)) {
+                    console.error("Invalid rating value");
+                    break;
+                }
+
+                allPosts.forEachNode((post) => {
+                    if (post.postRating === ratingThreshold) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
+            case 'myPosts':
+                if (!value) break;
+                allPosts.forEachNode((post) => {
+                    if (post.authorId === value) {
+                        results.insertLast(post);
+                    }
+                });
+                break;
+
+            default:
+                console.error("Invalid action");
+        }
+        return results;
+    }
+
+    // ตรวจสอบว่า Post ชื่อเดียวกันมีอยู่แล้วหรือไม่
+    checkPostTitleExistence(value) {
+        let current = this.posts.head;
+        while (current) {
+            const post = current.value;
+            if (post.postTitle === value) {
+                return true;
             }
-        });
-
-        return foundNode;
+            current = current.next;
+        }
+        return false;
     }
 
-    // เพิ่ม Post ลงบน LinkedList
-    insertPosts(post) {
-        if (!this.retrieveByPostTitle(post.postTitle)) {
-            this.posts.insertLast(post);
-            this.saveToFile();
-        } else {
-            console.error(`Post with name "${post.postTitle}" already exists.`);
+    // อัปเดตข้อมูลโพสต์ตามชื่อ
+    updateData(postTitle, newData, newImgUrl) {
+        let current = this.posts.head;
+        while (current) {
+            const post = current.value;
+            if (post.postTitle === postTitle) {
+                post.postDesc = newData.postDesc ?? post.postDesc;
+                post.postRating = newData.postRating ?? post.postRating;
+                post.postImgUrl = newImgUrl ?? post.postImgUrl;
+                post.ratingsCount = newData.ratingsCount ?? post.ratingsCount;
+                this.saveToFile();
+                return true;
+            }
+            current = current.next;
         }
+        return false;
     }
 
-    // ลบ Post เดี่ยวโดยชื่อหัวข้อ Post
-    removePosts(title) {
-        if (this.posts.isEmpty()) {
-            console.log("No posts available to remove.");
-            return; // ถ้าไม่มีโพสต์ให้ลบ ให้หยุดการทำงาน
-        }
-        /*const targetNode = this.retrieveByPostTitle(title);
-
-        if (!targetNode) {
-            console.log(`Post with title "${title}" not found.`);
-            return; // ถ้าไม่พบโพสต์ที่ต้องการลบ ให้หยุดการทำงาน
-        }*/
-
-        // ลบโพสต์ออกจาก LinkedList
-        this.posts.removeByPostTitle(title);  // เปลี่ยนจาก removeByName เป็น removeByPostTitle
-        console.log(`Post with title "${title}" has been deleted successfully!`);
-
-        // บันทึกการเปลี่ยนแปลงลงไฟล์
+    // เพิ่มโพสต์ใหม่ที่ตำแหน่งแรก
+    insertFirstPost(post) {
+        this.posts.insertFirst(post);
         this.saveToFile();
     }
 
-    // ลบโพสต์แรกสุดใน LinkedList
-    removeFirst() {
-        if (this.posts.isEmpty()) {
-            console.log("No posts available to remove.");
-            return { success: false, message: "No posts available." };
-        }
-
-        const firstPost = this.posts.head.value;
-
+    // ลบโพสต์ที่เก่าที่สุดที่ตำแหน่งแรก
+    removeFirstPost() {
         this.posts.removeFirst();
         this.saveToFile();
-
-        // ส่งคืนผลลัพธ์
-        return { success: true, message: `First post "${firstPost.postTitle}" has been deleted successfully!` };
+        console.log("First post removed.");
     }
 
-    // ลบโพสต์ล่าสุดใน LinkedList
-    removeLast() {
-        if (this.posts.isEmpty()) {
-            console.log("No posts available to remove.");
-            return { success: false, message: "No posts available." };
-        }
+    // เพิ่มโพสต์ใหม่ที่ตำแหน่งสุดท้าย
+    insertLastPost(post) {
+        this.posts.insertLast(post);
+        this.saveToFile();
+    }
 
-        const lastPost = this.posts.tail.value;
-
+    // ลบโพสต์ที่ใหม่ที่สุดที่ตำแหน่งสุดท้าย
+    removeLastPost() {
         this.posts.removeLast();
         this.saveToFile();
+        console.log("Last post removed.");
+    }
 
-        // ส่งคืนผลลัพธ์
-        return { success: true, message: `Last post "${lastPost.postTitle}" has been deleted successfully!` };
+    // ลบโพสต์ทั้งหมด
+    removePostsByFilter(filterCallback) {
+        this.posts.removeAllNodes(filterCallback);
+        this.saveToFile();
     }
 }
-
 
 module.exports = PostRepository;

@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "postTitle": "SawadeeKub ",
+    "authorName": "admin",
+    "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+    "postDesc": "555",
+    "postRating": 3,
+    "postImgUrl": "/uploads/1745079228158.png",
+    "ratingsCount": {
+      "head": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 3
+        },
+        "next": null
+      },
+      "tail": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 3
+        },
+        "next": null
+      },
+      "size": 1
+    }
+  }
+]

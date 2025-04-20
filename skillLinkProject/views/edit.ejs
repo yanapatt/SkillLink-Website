@@ -1,52 +1,64 @@
-<h1>Edit Post</h1>
-<form action="/update/<%= post.postTitle %>" method="POST" enctype="multipart/form-data" id="edit-post-form">
-    <label>Name:</label>
-    <input type="text" name="postTitle" value="<%= post.postTitle %>" readonly>
+<!DOCTYPE html>
+<html lang="en">
 
-    <label>Description:</label>
-    <textarea name="postDesc" required><%= post.postDesc %></textarea>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
 
-    <label>Current Image:</label>
-    <% if (post.postImgUrl) { %>
-        <div id="image-container">
-            <img src="<%= post.postImgUrl %>" alt="Post Image" width="150" id="post-image">
-            <button type="button" id="delete-image-btn" onclick="removeImage('<%= post.postTitle %>')">
-                Delete Image
-            </button>
+<body>
+    <div class="navbar-container">
+        <div class="navbar-left">
+            <a href="/" style="font-size: 20px">Skillink</a>
+            <a href="#">Welcome <%= accUsername %>, Your Role is: <%= accRole %></a>
         </div>
-        <% } else { %>
-            <input type="file" name="postImgUrl" accept="image/*" id="image-upload">
-            <% } %>
+        <a href="/logout">
+            <button class="primary-outline-btn">Logout</button></a>
+    </div>
 
-                <br><br>
-                <button type="submit">Update Post</button>
-</form>
+    <div class="center-content">
+        <h2>แก้ไขโพสต์</h2>
 
+        <% if (post && post.length> 0) { %>
+            <% post.forEach(p=> { %>
+                <form action="/update/<%= p.postTitle %>" method="POST" enctype="multipart/form-data"
+                    id="edit-post-form">
+                    <label>Name:</label>
+                    <input type="text" name="postTitle" value="<%= p.postTitle %>" readonly>
 
-<script>
-    async function removeImage(postTitle) {
-        try {
-            const response = await fetch(`/remove-image/${postTitle}`, { method: "POST" });
-            const result = await response.json();
+                    <label>Description:</label>
+                    <textarea name="postDesc" required><%= p.postDesc %></textarea>
 
-            if (result.success) {
-                document.getElementById("image-container").remove();
+                    <input type="hidden" name="deleteImg" id="deleteImg" value="false" />
 
-                // สร้าง input file ใหม่แล้วแทรกลงในฟอร์ม
-                const imageUploadInput = document.createElement("input");
-                imageUploadInput.type = "file";
-                imageUploadInput.name = "postImgUrl";
-                imageUploadInput.accept = "image/*";
-                imageUploadInput.id = "image-upload";
+                    <label>Current Image:</label>
+                    <% if (p.postImgUrl) { %>
+                        <div id="image-container">
+                            <img src="<%= p.postImgUrl %>" alt="Post Image" width="150" id="post-image">
+                            <button class="primary-btn" type="button" id="delete-image-btn" onclick="handleDeleteImage()">Delete
+                                Image</button>
+                        </div>
+                        <% } else { %>
+                            <input type="file" name="postImgUrl" accept="image/*" id="image-upload">
+                            <% } %>
 
-                const form = document.getElementById("edit-post-form");
-                form.insertBefore(imageUploadInput, form.children[form.children.length - 2]);
-            } else {
-                alert("Failed to remove image.");
-            }
-        } catch (error) {
-            console.error("Error removing image:", error);
-        }
-    }
+                                <br><br>
+                                <button class="secondary-btn" type="submit">Update Post</button>
+                </form>
+                <br><a href="/">Back to Post List</a>
+                <hr />
+                <% }) %>
+                    <% } else { %>
+                        <h1>Post Not Found</h1>
+                        <a href="/">Back to Post List</a>
+                        <% } %>
+    </div>
+</body>
 
-</script>
+</html>
+
+<script src="/js/main.js"></script>
