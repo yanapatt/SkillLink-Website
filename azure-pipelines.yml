@@ -6,16 +6,73 @@
 trigger:
 - main
 
-pool:
+variables:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImage)
 
-- script: |
-    npm install
-    npm test
-  displayName: 'npm install and test'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+        npm run lint --if-present
+        npm run test --if-present
+      displayName: 'npm install, build and test'
+
+    - task: PublishTestResults@2
+      condition: always()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-results/jest/*.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+
+    - task: PublishTestResults@2
+      condition: always()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/eslint-results.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+
+    - task: PublishCodeCoverageResults@1
+      condition: always()
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '**/coverage/cobertura-coverage.xml'
+
+    - task: CmdLine@2
+      condition: always()
+      inputs:
+        script: |
+          echo "Clean folder"
+          rm -rfv package-lock.json
+          rm -rfv .git
+          rm -rfv test-results
+          rm -rfv coverage
+          ls -l 
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      condition: always()
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      displayName: 'Upload zip'
+      condition: always()
+      artifact: drop
+
