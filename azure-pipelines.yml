@@ -1,13 +1,9 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - main
 
 variables:
   vmImage: ubuntu-latest
+  projectFolder: 'skilllinkedProject'  # Set the project folder as a variable
 
 stages:
 - stage: Build
@@ -25,6 +21,7 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
+        cd $(projectFolder)  # Navigate to the skilllinkedProject folder
         npm install
         npm run test --if-present
         npm run lint --if-present
@@ -75,4 +72,3 @@ stages:
       displayName: 'Upload zip'
       condition: always()
       artifact: drop
-
