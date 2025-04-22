@@ -26,8 +26,8 @@ stages:
 
     - script: |
         npm install
-        npm run lint --if-present
         npm run test --if-present
+        npm run lint --if-present
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
