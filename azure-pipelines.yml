@@ -1,9 +1,14 @@
+# Node.js Express Web App to Linux on Azure
+# Build a Node.js Express app and deploy it to Azure as a Linux web app.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
 trigger:
 - main
 
 variables:
-  vmImage: ubuntu-latest
-  projectFolder: 'skillLinkProject'  # Set the project folder as a variable
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
@@ -12,7 +17,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImage)
+      vmImage: $(vmImageName)
 
     steps:
     - task: NodeTool@0
@@ -21,10 +26,10 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        cd $(projectFolder)  # Navigate to the skilllinkedProject folder
         npm install
-        npm run test --if-present
         npm run lint --if-present
+        npm run test --if-present
+        ls -l
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
