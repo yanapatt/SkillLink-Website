@@ -26,10 +26,10 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
+        cd skillLinkProject
         npm install
         npm run lint --if-present
         npm run test --if-present
-        ls -l
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
