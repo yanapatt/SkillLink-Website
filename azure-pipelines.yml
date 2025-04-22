@@ -48,7 +48,7 @@ stages:
       condition: always()
       inputs:
         codeCoverageTool: 'Cobertura'
-        summaryFileLocation: '**/**/coverage/cobertura-coverage.xml'
+        summaryFileLocation: '**/coverage/cobertura-coverage.xml'
 
     - task: CmdLine@2
       condition: always()
