@@ -3,7 +3,7 @@ trigger:
 
 variables:
   vmImage: ubuntu-latest
-  projectFolder: 'skilllinkedProject'  # Set the project folder as a variable
+  projectFolder: 'skillLinkProject'  # Set the project folder as a variable
 
 stages:
 - stage: Build
