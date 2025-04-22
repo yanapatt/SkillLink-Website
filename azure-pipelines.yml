@@ -28,6 +28,7 @@ stages:
     - script: |
         cd skillLinkProject
         npm install
+        npm install jest
         npm run lint --if-present
         npm run test --if-present
       displayName: 'npm install, build and test'
