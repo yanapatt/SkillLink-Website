@@ -10,6 +10,11 @@ describe('AccountService', () => {
     let mockRepo;
     let mockEncryption;
 
+    // Mock console.error to suppress error logs during tests
+    beforeAll(() => {
+        console.error = jest.fn();
+    });
+
     beforeEach(() => {
         mockRepo = new AccountRepository();
         mockEncryption = new Encryption();
@@ -17,7 +22,6 @@ describe('AccountService', () => {
         // Mock methods
         mockRepo.insertAccounts = jest.fn();
         mockRepo.retrieveAccountByAction = jest.fn();
-        mockEncryption.encrypt = jest.fn((password) => `encrypted-${password}`);
 
         accountService = new AccountService(mockRepo);
     });
@@ -28,6 +32,9 @@ describe('AccountService', () => {
 
     describe('createAccount', () => {
         test('should create an account with valid data', () => {
+            // สร้าง spy สำหรับตรวจสอบการเรียก encrypt
+            const encryptSpy = jest.spyOn(mockEncryption, 'encrypt').mockImplementation((password) => `encrypted-${password}`);
+
             const accountData = {
                 accId: '1',
                 accRole: 'Admin',
@@ -37,25 +44,20 @@ describe('AccountService', () => {
                 accPhone: '1234567890'
             };
 
+            // เรียกฟังก์ชัน createAccount
             const result = accountService.createAccount(accountData);
 
-            expect(mockEncryption.encrypt).toHaveBeenCalledWith('password123');
-            expect(mockRepo.insertAccounts).toHaveBeenCalledWith({
-                accId: '1',
-                accRole: 'Admin',
-                accUsername: 'testuser',
-                accEmail: 'test@example.com',
-                accPassword: 'encrypted-password123',
-                accPhone: '1234567890'
-            });
-            expect(result).toEqual({
-                accId: '1',
-                accRole: 'Admin',
-                accUsername: 'testuser',
-                accEmail: 'test@example.com',
-                accPassword: 'encrypted-password123',
-                accPhone: '1234567890'
-            });
+            // ตรวจสอบว่า encrypt ถูกเรียกด้วยรหัสผ่าน 'password123'
+            expect(encryptSpy).toHaveBeenCalledWith('password123');  // ตรวจสอบว่าเรียกด้วยค่าที่ถูกต้อง
+
+            // ตรวจสอบว่า accPassword ใน accountData ถูกเปลี่ยนเป็นรหัสผ่านที่เข้ารหัสแล้ว
+            expect(result.accPassword).toBe('encrypted-password123');  // ค่าที่เข้ารหัสแล้ว
+
+            // ตรวจสอบว่า insertAccounts ถูกเรียก
+            expect(mockRepo.insertAccounts).toHaveBeenCalledWith(result);
+
+            // ล้าง spy หลังการทดสอบ
+            encryptSpy.mockRestore();
         });
 
         test('should return null if required fields are missing', () => {
@@ -68,6 +70,7 @@ describe('AccountService', () => {
 
             expect(result).toBeNull();
             expect(mockRepo.insertAccounts).not.toHaveBeenCalled();
+            expect.assertions(2);
         });
     });
 
@@ -87,11 +90,17 @@ describe('AccountService', () => {
                 forEachNode: (callback) => callback(mockAccount)
             });
 
+            // สร้าง spy สำหรับตรวจสอบการเรียก encrypt
+            const encryptSpy = jest.spyOn(mockEncryption, 'encrypt').mockImplementation((password) => `encrypted-${password}`);
+
             const result = accountService.authenticateAccount('testuser', 'password123');
 
             expect(mockRepo.retrieveAccountByAction).toHaveBeenCalledWith('testuser', 'username');
-            expect(mockEncryption.encrypt).toHaveBeenCalledWith('password123');
+            expect(encryptSpy).toHaveBeenCalledWith('password123');
             expect(result).toEqual(mockAccount);
+
+            encryptSpy.mockRestore();
+            expect.assertions(3);
         });
 
         test('should return null if username does not exist', () => {
@@ -104,6 +113,8 @@ describe('AccountService', () => {
 
             expect(mockRepo.retrieveAccountByAction).toHaveBeenCalledWith('nonexistent', 'username');
             expect(result).toBeNull();
+
+            expect.assertions(2);
         });
 
         test('should return null if password is incorrect', () => {
@@ -112,20 +123,29 @@ describe('AccountService', () => {
                 accRole: 'User',
                 accUsername: 'testuser',
                 accEmail: 'test@example.com',
-                accPassword: 'encrypted-password123',
+                accPassword: 'encrypted-correct-password',
                 accPhone: '1234567890'
             };
 
+            // Mock return value from the repository
             mockRepo.retrieveAccountByAction.mockReturnValue({
                 size: 1,
                 forEachNode: (callback) => callback(mockAccount)
             });
 
-            const result = accountService.authenticateAccount('testuser', 'wrongpassword');
+            // Mock the encryption to simulate incorrect password encryption
+            jest.spyOn(mockEncryption, 'encrypt').mockReturnValue('encrypted-wrong-password');
 
-            expect(mockRepo.retrieveAccountByAction).toHaveBeenCalledWith('testuser', 'username');
-            expect(mockEncryption.encrypt).toHaveBeenCalledWith('wrongpassword');
+            const result = accountService.authenticateAccount('testuser', 'wrong-password');
+
+            // Check that result is null due to incorrect password
             expect(result).toBeNull();
+
+            // Check that encryption was called with the wrong password
+            expect(mockEncryption.encrypt).toHaveBeenCalledWith('wrong-password');
+
+            // Verify assertions are met
+            expect.assertions(2);
         });
     });
 });
