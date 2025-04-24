@@ -9,6 +9,10 @@ class ImageRepository {
         this.storage = this.configureStorage(); // ตั้งค่าการจัดเก็บของ multer
         this.upload = multer({ storage: this.storage }); // กำหนดการตั้งค่า multer
     }
+    generateFilename(originalname) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        return `${uniqueSuffix}-${originalname}`;
+    }
 
     // ฟังก์ชันเพื่อให้แน่ใจว่า uploadsDir มีอยู่
     ensureUploadsDirExists() {
@@ -18,21 +22,46 @@ class ImageRepository {
     }
 
     // ฟังก์ชันสำหรับกำหนดการตั้งค่าของ multer
+    getDestinationCallback() {
+        return (req, file, cb) => {
+            cb(null, this.uploadsDir);
+        };
+    }
+
+    getFilenameCallback() {
+        return (req, file, cb) => {
+            const filename = this.generateFilename(file.originalname);
+            cb(null, filename);
+        };
+    }
+
+
     configureStorage() {
         return multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, this.uploadsDir); // ใช้ uploadsDir ที่ได้กำหนดไว้
-            },
-            filename: (req, file, cb) => {
-                cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-            }
+            destination: this.getDestinationCallback(),
+            filename: this.getFilenameCallback()
         });
     }
 
     // ฟังก์ชันที่ใช้ในการอัพโหลดภาพ
     uploadImage() {
-        return this.upload.single('postImgUrl');
+        return (req, res, next) => {
+            if (!req.file) {
+                return res.status(400).send('No file uploaded');
+            }
+
+            // ส่วนที่เหลือของการอัปโหลดไฟล์
+            const validTypes = ['image/jpeg', 'image/png'];
+            if (!validTypes.includes(req.file.mimetype)) {
+                return res.status(400).send('Invalid file type');
+            }
+
+            // หากทุกอย่างปกติ ให้เรียก next()
+            next();
+        };
     }
+
+
 
     // ฟังก์ชันบันทึกภาพลงโฟลเดอร์
     saveImage(imgUrl) {
@@ -45,17 +74,16 @@ class ImageRepository {
     }
 
     // ฟังก์ชันลบภาพจากโฟลเดอร์
-    async removeImage(imgUrl) {
-        if (!imgUrl) return;
-        const imgPath = path.join(__dirname, '..', imgUrl);
-
-        fs.promises.unlink(imgPath).catch(err => {
-            if (err.code !== 'ENOENT') {
-                console.error(`Error deleting image at ${imgPath}: ${err.message}`);
-            }
-        });
+    async removeImage(imageUrl) {
+        const imagePath = path.join(__dirname, '..', imageUrl);
+        try {
+            await fs.promises.unlink(imagePath);
+        } catch (err) {
+            console.error('Error deleting image:', err.message);
+            throw new Error('File not found'); // เพิ่มการ throw ใหม่
+        }
     }
 
 }
 
-module.exports = ImageRepository;
+module.exports = ImageRepository; 
