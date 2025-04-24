@@ -1,21 +1,241 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="8" failures="0" errors="0" time="0.738">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2025-04-20T12:58:52" time="0.664" tests="8">
-    <testcase classname=" should create directory if it does not exist" name=" should create directory if it does not exist" time="0.028">
+<testsuites name="jest tests" tests="85" failures="3" errors="0" time="0.934">
+  <testsuite name="AccountService" errors="0" failures="3" skipped="0" timestamp="2025-04-24T08:31:30" time="0.378" tests="5">
+    <testcase classname="AccountService createAccount should create an account with valid data" name="AccountService createAccount should create an account with valid data" time="0.005">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;password123&quot;
+
+Number of calls: 0
+    at Object.toHaveBeenCalledWith (C:\cygwin64\home\andy_king\hanza\skillLinkProject\test\accountService.test.js:42:44)
+    at Promise.then.completed (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
     </testcase>
-    <testcase classname=" should not create directory if it already exists" name=" should not create directory if it already exists" time="0.006">
+    <testcase classname="AccountService createAccount should return null if required fields are missing" name="AccountService createAccount should return null if required fields are missing" time="0.012">
     </testcase>
-    <testcase classname=" should save accounts to file" name=" should save accounts to file" time="0.001">
+    <testcase classname="AccountService authenticateAccount should return account if username and password are correct" name="AccountService authenticateAccount should return account if username and password are correct" time="0.004">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;password123&quot;
+
+Number of calls: 0
+    at Object.toHaveBeenCalledWith (C:\cygwin64\home\andy_king\hanza\skillLinkProject\test\accountService.test.js:93:44)
+    at Promise.then.completed (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
     </testcase>
-    <testcase classname=" should load accounts from file" name=" should load accounts from file" time="0">
+    <testcase classname="AccountService authenticateAccount should return null if username does not exist" name="AccountService authenticateAccount should return null if username does not exist" time="0.002">
     </testcase>
-    <testcase classname=" should not load accounts if file does not exist" name=" should not load accounts if file does not exist" time="0.001">
+    <testcase classname="AccountService authenticateAccount should return null if password is incorrect" name="AccountService authenticateAccount should return null if password is incorrect" time="0.005">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;wrongpassword&quot;
+
+Number of calls: 0
+    at Object.toHaveBeenCalledWith (C:\cygwin64\home\andy_king\hanza\skillLinkProject\test\accountService.test.js:127:44)
+    at Promise.then.completed (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\andy_king\AppData\Roaming\npm\node_modules\jest\node_modules\jest-runner\build\runTest.js:444:34)</failure>
     </testcase>
-    <testcase classname=" should handle empty or invalid JSON file gracefully" name=" should handle empty or invalid JSON file gracefully" time="0.003">
+  </testsuite>
+  <testsuite name="PostRepository - Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-24T08:31:31" time="0.129" tests="26">
+    <testcase classname="PostRepository - Basic Operations should create the directory if it does not exist" name="PostRepository - Basic Operations should create the directory if it does not exist" time="0.01">
     </testcase>
-    <testcase classname=" should retrieve all accounts" name=" should retrieve all accounts" time="0.001">
+    <testcase classname="PostRepository - Basic Operations should save posts to a file" name="PostRepository - Basic Operations should save posts to a file" time="0.002">
     </testcase>
-    <testcase classname=" should handle error when creating directory" name=" should handle error when creating directory" time="0.003">
+    <testcase classname="PostRepository - Basic Operations should handle error when saving to file" name="PostRepository - Basic Operations should handle error when saving to file" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should load posts from a file" name="PostRepository - Basic Operations should load posts from a file" time="0">
+    </testcase>
+    <testcase classname="PostRepository - Basic Operations should handle error when loading from file" name="PostRepository - Basic Operations should handle error when loading from file" time="0">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve all posts" name="PostRepository - Post Retrieval should retrieve all posts" time="0">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by title" name="PostRepository - Post Retrieval should retrieve posts by title" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by author" name="PostRepository - Post Retrieval should retrieve posts by author" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should sort posts by rating descending" name="PostRepository - Post Retrieval should sort posts by rating descending" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" name="PostRepository - Post Retrieval should retrieve top-rated posts (limit = 1)" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" name="PostRepository - Post Retrieval should retrieve top 5 rated posts by default" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by exact rating" name="PostRepository - Post Retrieval should retrieve posts by exact rating" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log an error when rating is not a number" name="PostRepository - Post Retrieval should log an error when rating is not a number" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" name="PostRepository - Post Retrieval should retrieve posts by authorId (myPosts)" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" name="PostRepository - Post Retrieval should log error when authorId (value) is missing in &apos;myPosts&apos;" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Retrieval should log an error for invalid action" name="PostRepository - Post Retrieval should log an error for invalid action" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" name="PostRepository - Post Manipulation checkPostTitleExistence should return true if post title exists" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" name="PostRepository - Post Manipulation checkPostTitleExistence should return false if post title does not exist" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should update post data successfully" name="PostRepository - Post Manipulation updateData should update post data successfully" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" name="PostRepository - Post Manipulation updateData should not update anything if postTitle is not found" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" name="PostRepository - Post Manipulation updateData should allow falsy values like 0 or empty string" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" name="PostRepository - Post Manipulation insertFirstPost should insert post at the beginning" time="0.005">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removeFirstPost should remove the first post" name="PostRepository - Post Manipulation removeFirstPost should remove the first post" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation insertLastPost should insert post at the end" name="PostRepository - Post Manipulation insertLastPost should insert post at the end" time="0.001">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removeLastPost should remove the last post" name="PostRepository - Post Manipulation removeLastPost should remove the last post" time="0.002">
+    </testcase>
+    <testcase classname="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" name="PostRepository - Post Manipulation removePostsByFilter should remove posts based on the provided filter" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PostService" errors="0" failures="0" skipped="0" timestamp="2025-04-24T08:31:31" time="0.109" tests="33">
+    <testcase classname="PostService PostService - CREATE createPost should create post with image" name="PostService PostService - CREATE createPost should create post with image" time="0.006">
+    </testcase>
+    <testcase classname="PostService PostService - CREATE createPost should create post without image" name="PostService PostService - CREATE createPost should create post without image" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - CREATE createPost should log an error if image saving fails" name="PostService PostService - CREATE createPost should log an error if image saving fails" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - CREATE createPost should log an error if creating post fails" name="PostService PostService - CREATE createPost should log an error if creating post fails" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - READ calculateAverageRating should return 0 for no posts" name="PostService PostService - READ calculateAverageRating should return 0 for no posts" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - READ calculateAverageRating should calculate average rating" name="PostService PostService - READ calculateAverageRating should calculate average rating" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - READ calculateAverageRating should return 0 when posts have no ratings" name="PostService PostService - READ calculateAverageRating should return 0 when posts have no ratings" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE ratingPost should add a new rating" name="PostService PostService - UPDATE ratingPost should add a new rating" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE ratingPost should update an existing rating" name="PostService PostService - UPDATE ratingPost should update an existing rating" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE ratingPost should log an error if updateData throws" name="PostService PostService - UPDATE ratingPost should log an error if updateData throws" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE ratingPost should return early if no matching posts" name="PostService PostService - UPDATE ratingPost should return early if no matching posts" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should update post description" name="PostService PostService - UPDATE updateDataInPost should update post description" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" name="PostService PostService - UPDATE updateDataInPost should delete image when deleteImg is true" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" name="PostService PostService - UPDATE updateDataInPost should upload new image and update postImgUrl" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" name="PostService PostService - UPDATE updateDataInPost should do nothing if no posts found" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should catch and log error during update" name="PostService PostService - UPDATE updateDataInPost should catch and log error during update" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - UPDATE updateDataInPost should catch and log error when saving image" name="PostService PostService - UPDATE updateDataInPost should catch and log error when saving image" time="0.004">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" name="PostService PostService - DELETE removePostsByAction should remove posts by title and delete images if present" time="0.002">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should remove posts by rating" name="PostService PostService - DELETE removePostsByAction should remove posts by rating" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" name="PostService PostService - DELETE removePostsByAction should not remove anything if rating is not a number" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" name="PostService PostService - DELETE removePostsByAction should not proceed if repo is empty" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" name="PostService PostService - DELETE removePostsByAction should not remove if no matched posts found" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should handle and log errors" name="PostService PostService - DELETE removePostsByAction should handle and log errors" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removePostsByAction should not remove anything if action is unknown" name="PostService PostService - DELETE removePostsByAction should not remove anything if action is unknown" time="0">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should not attempt to remove image if first post is null" name="PostService PostService - DELETE removeFirstPostWithImage should not attempt to remove image if first post is null" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" name="PostService PostService - DELETE removeFirstPostWithImage should remove first post and delete image if present" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should remove first post without image" name="PostService PostService - DELETE removeFirstPostWithImage should remove first post without image" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" name="PostService PostService - DELETE removeFirstPostWithImage should do nothing if post list is empty" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" name="PostService PostService - DELETE removeFirstPostWithImage should handle errors and log them" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" name="PostService PostService - DELETE removeLastPostWithImage should remove last post with image" time="0.002">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should remove last post without image" name="PostService PostService - DELETE removeLastPostWithImage should remove last post without image" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" name="PostService PostService - DELETE removeLastPostWithImage should do nothing if list is empty" time="0.001">
+    </testcase>
+    <testcase classname="PostService PostService - DELETE removeLastPostWithImage should catch and log error" name="PostService PostService - DELETE removeLastPostWithImage should catch and log error" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="LinkedList Basic Operations" errors="0" failures="0" skipped="0" timestamp="2025-04-24T08:31:31" time="0.086" tests="21">
+    <testcase classname="LinkedList Basic Operations should initialize an empty LinkedList" name="LinkedList Basic Operations should initialize an empty LinkedList" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations insertFirst should add a node at the beginning" name="LinkedList Basic Operations insertFirst should add a node at the beginning" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations insertLast should add a node at the end" name="LinkedList Basic Operations insertLast should add a node at the end" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeFirst should remove the first node" name="LinkedList Basic Operations removeFirst should remove the first node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" name="LinkedList Basic Operations removeFirst should set tail to null when the last node is removed" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" name="LinkedList Basic Operations removeFirst should do nothing if the LinkedList is empty" time="0.002">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeLast should remove the last node" name="LinkedList Basic Operations removeLast should remove the last node" time="0">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeLast should set head and tail to null when the last node is removed" name="LinkedList Basic Operations removeLast should set head and tail to null when the last node is removed" time="0">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeLast should traverse the list to find the second-to-last node" name="LinkedList Basic Operations removeLast should traverse the list to find the second-to-last node" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Basic Operations removeLast should do nothing if the LinkedList is empty" name="LinkedList Basic Operations removeLast should do nothing if the LinkedList is empty" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" name="LinkedList Higher-Order Methods toArray should convert LinkedList to an array" time="0">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" name="LinkedList Higher-Order Methods map should apply a callback to each node and return a new array" time="0">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods find should return the first node that matches the condition" name="LinkedList Higher-Order Methods find should return the first node that matches the condition" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" name="LinkedList Higher-Order Methods filter should return a new LinkedList with nodes that match the condition" time="0">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" name="LinkedList Higher-Order Methods slice should return a new LinkedList with nodes in the specified range" time="0">
+    </testcase>
+    <testcase classname="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" name="LinkedList Higher-Order Methods forEachNode should skip nodes with null or undefined values" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Utility Methods should not sort if the LinkedList has less than 2 nodes" name="LinkedList Utility Methods should not sort if the LinkedList has less than 2 nodes" time="0">
+    </testcase>
+    <testcase classname="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" name="LinkedList Utility Methods should sort if the LinkedList has 2 or more nodes" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Utility Methods getNodeValue should return the value at the specified index" name="LinkedList Utility Methods getNodeValue should return the value at the specified index" time="0.004">
+    </testcase>
+    <testcase classname="LinkedList Utility Methods removeAllNodes should remove all nodes that match the condition" name="LinkedList Utility Methods removeAllNodes should remove all nodes that match the condition" time="0.001">
+    </testcase>
+    <testcase classname="LinkedList Utility Methods removeAllNodes should set tail to null when all nodes are removed" name="LinkedList Utility Methods removeAllNodes should set tail to null when all nodes are removed" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
