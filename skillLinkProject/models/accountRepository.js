@@ -14,11 +14,15 @@ class AccountRepository {
     alreadyExistence() {
         const dirname = path.dirname(this.filePath);
         if (!fs.existsSync(dirname)) {
-            console.log("Directory does not exist, creating it at:", dirname);
-            fs.mkdirSync(dirname, { recursive: true });
+            try {
+                console.log("Directory does not exist, creating it at:", dirname);
+                fs.mkdirSync(dirname, { recursive: true });
+            } catch (error) {
+                console.error("Error creating directory:", error.message);
+            }
         }
-
     }
+
 
     // บันทึกข้อมูล JSON ลงไฟล์
     saveToFile() {
@@ -36,7 +40,7 @@ class AccountRepository {
         if (!fs.existsSync(this.filePath)) return;
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
-            if (!data.trim()) return;
+            if (!data || !data.trim()) return; // ตรวจสอบว่า data มีค่าและไม่ว่างเปล่า
             const accounts = JSON.parse(data);
             accounts.forEach(acc => this.accounts.insertLast(acc));
         } catch (error) {
@@ -105,5 +109,6 @@ class AccountRepository {
         this.saveToFile();
     }
 }
+
 
 module.exports = AccountRepository;
