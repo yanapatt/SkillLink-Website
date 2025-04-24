@@ -9,6 +9,10 @@
   },
   "jest": {
     "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "skillLinkProject/util\\.js"
+    ],
     "coverageReporters": [
       "html",
       "text",

@@ -32,8 +32,9 @@ describe('AccountService', () => {
 
     describe('createAccount', () => {
         test('should create an account with valid data', () => {
-            // สร้าง spy สำหรับตรวจสอบการเรียก encrypt
-            const encryptSpy = jest.spyOn(mockEncryption, 'encrypt').mockImplementation((password) => `encrypted-${password}`);
+            const encryptSpy = jest
+                .spyOn(mockEncryption, 'encrypt')
+                .mockImplementation((password) => `encrypted-${password}`);
 
             const accountData = {
                 accId: '1',
@@ -44,19 +45,19 @@ describe('AccountService', () => {
                 accPhone: '1234567890'
             };
 
-            // เรียกฟังก์ชัน createAccount
+            // สร้าง instance ปกติ (ไม่ต้อง inject mockEncryption)
+            const accountService = new AccountService(mockRepo);
+
+            accountService.util = mockEncryption;
+
+            // เรียกฟังก์ชัน
             const result = accountService.createAccount(accountData);
 
-            // ตรวจสอบว่า encrypt ถูกเรียกด้วยรหัสผ่าน 'password123'
-            expect(encryptSpy).toHaveBeenCalledWith('password123');  // ตรวจสอบว่าเรียกด้วยค่าที่ถูกต้อง
-
-            // ตรวจสอบว่า accPassword ใน accountData ถูกเปลี่ยนเป็นรหัสผ่านที่เข้ารหัสแล้ว
-            expect(result.accPassword).toBe('encrypted-password123');  // ค่าที่เข้ารหัสแล้ว
-
-            // ตรวจสอบว่า insertAccounts ถูกเรียก
+            // ตรวจสอบว่าถูกเรียกด้วย password เดิม
+            expect(encryptSpy).toHaveBeenCalledWith('password123');
+            expect(result.accPassword).toBe('encrypted-password123');
             expect(mockRepo.insertAccounts).toHaveBeenCalledWith(result);
 
-            // ล้าง spy หลังการทดสอบ
             encryptSpy.mockRestore();
         });
 
@@ -72,6 +73,30 @@ describe('AccountService', () => {
             expect(mockRepo.insertAccounts).not.toHaveBeenCalled();
             expect.assertions(2);
         });
+
+        test('should default accRole to "User" if not provided', () => {
+            const mockAccountData = {
+                accId: '1',
+                accUsername: 'testuser',
+                accEmail: 'test@example.com',
+                accPassword: 'password123',
+                accPhone: '1234567890'
+            };
+
+            // Mock ของ repo
+            const mockRepo = {
+                insertAccounts: jest.fn()
+            };
+
+            const accountService = new AccountService(mockRepo);
+
+            // ทดสอบการสร้างบัญชี
+            const result = accountService.createAccount(mockAccountData);
+
+            // ตรวจสอบว่า accRole ถูกตั้งค่าเป็น 'User' หากไม่กำหนด
+            expect(result.accRole).toBe('User');
+        });
+
     });
 
     describe('authenticateAccount', () => {
@@ -85,22 +110,43 @@ describe('AccountService', () => {
                 accPhone: '1234567890'
             };
 
+            // Mock repo result
             mockRepo.retrieveAccountByAction.mockReturnValue({
                 size: 1,
-                forEachNode: (callback) => callback(mockAccount)
+                forEachNode: jest.fn((callback) => callback(mockAccount))  // Mock forEachNode
             });
 
-            // สร้าง spy สำหรับตรวจสอบการเรียก encrypt
-            const encryptSpy = jest.spyOn(mockEncryption, 'encrypt').mockImplementation((password) => `encrypted-${password}`);
+            // สร้าง spy บน mockEncryption
+            const encryptSpy = jest
+                .spyOn(mockEncryption, 'encrypt')
+                .mockImplementation((password) => `encrypted-${password}`);
 
+            // ตั้งค่า accountService.util เป็น mockEncryption
+            accountService.util = mockEncryption;
+
+            // เรียกฟังก์ชันที่ต้องการทดสอบ
             const result = accountService.authenticateAccount('testuser', 'password123');
 
+            // ตรวจสอบว่า retrieveAccountByAction ถูกเรียกด้วย username ที่ถูกต้อง
             expect(mockRepo.retrieveAccountByAction).toHaveBeenCalledWith('testuser', 'username');
+
+            // ตรวจสอบว่า encrypt ถูกเรียกด้วย password ที่ส่งเข้าไป
             expect(encryptSpy).toHaveBeenCalledWith('password123');
+
+            // ตรวจสอบว่าผลลัพธ์เป็น mockAccount
             expect(result).toEqual(mockAccount);
 
+            // ตรวจสอบว่า accountFound ถูกตั้งค่าตาม username
+            expect(result.accUsername).toBe('testuser');  // ตรวจสอบว่า username ตรงกับ mockAccount
+
+            // ตรวจสอบว่า forEachNode ถูกเรียก 1 ครั้ง
+            expect(mockRepo.retrieveAccountByAction().forEachNode).toHaveBeenCalledTimes(1);
+
+            // ล้าง spy
             encryptSpy.mockRestore();
-            expect.assertions(3);
+
+            // ตรวจว่ามี assertion ทั้งหมด 5 อัน
+            expect.assertions(5);
         });
 
         test('should return null if username does not exist', () => {
@@ -136,6 +182,8 @@ describe('AccountService', () => {
             // Mock the encryption to simulate incorrect password encryption
             jest.spyOn(mockEncryption, 'encrypt').mockReturnValue('encrypted-wrong-password');
 
+            accountService.util = mockEncryption;
+
             const result = accountService.authenticateAccount('testuser', 'wrong-password');
 
             // Check that result is null due to incorrect password
@@ -146,6 +194,36 @@ describe('AccountService', () => {
 
             // Verify assertions are met
             expect.assertions(2);
+        });
+
+        test('should return null and log error if account not found', () => {
+            const username = 'nonexistentuser';
+            const password = 'password123';
+
+            // Mock repo return value as empty (ไม่มีข้อมูลใน forEachNode)
+            mockRepo.retrieveAccountByAction.mockReturnValue({
+                size: 1,
+                forEachNode: jest.fn() // ไม่มีการทำอะไรเมื่อมีการเรียก
+            });
+
+            // สร้าง spy สำหรับตรวจสอบการเรียก console.error
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
+            // เรียกฟังก์ชัน authenticateAccount
+            const result = accountService.authenticateAccount(username, password);
+
+            // ตรวจสอบว่า retrieveAccountByAction ถูกเรียกด้วย username ที่ถูกต้อง
+            expect(mockRepo.retrieveAccountByAction).toHaveBeenCalledWith(username, 'username');
+            // ตรวจสอบว่า console.error ถูกเรียกเมื่อไม่พบบัญชี
+            expect(consoleErrorSpy).toHaveBeenCalledWith(`No account found with username: ${username}`);
+            // ตรวจสอบว่า result เป็น null
+            expect(result).toBeNull();
+
+            // ล้าง spy
+            consoleErrorSpy.mockRestore();
+
+            // ตรวจว่ามี assertion ทั้งหมด 3 อัน
+            expect.assertions(3);
         });
     });
 });
