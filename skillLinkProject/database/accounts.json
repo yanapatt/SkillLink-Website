@@ -14,5 +14,29 @@
     "accEmail": "yanapatt@gmail.com",
     "accPassword": "6002968392b901e9305d87e3",
     "accPhone": "0972988499"
+  },
+  {
+    "accId": "a4382f77-b913-4b3e-9b76-924652c37826",
+    "accRole": "User",
+    "accUsername": "Andy",
+    "accEmail": "andy.thongkipt@g.swu.ac.th",
+    "accPassword": "1f7bf337557e1c54ec3a949f",
+    "accPhone": "0993425507"
+  },
+  {
+    "accId": "74edab49-90c7-4fa3-a50c-614ed40cb5cd",
+    "accRole": "Admin",
+    "accUsername": "pp",
+    "accEmail": "thongkiptandy@gmail.com",
+    "accPassword": "dae27fabd54a56ee4ca7a222",
+    "accPhone": "0993425507"
+  },
+  {
+    "accId": "3bec4c9f-b32c-4bcc-bbf1-6e8513576bb6",
+    "accRole": "Admin",
+    "accUsername": "Jane",
+    "accEmail": "andythongkipt26@gmail.com",
+    "accPassword": "1f7bf337557e1c54ec3a949f",
+    "accPhone": "0869951444"
   }
 ]

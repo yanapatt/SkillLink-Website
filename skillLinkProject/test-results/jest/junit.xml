@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="20" failures="0" errors="0" time="0.766">
-  <testsuite name="ImageRepository" errors="0" failures="0" skipped="0" timestamp="2025-04-24T16:34:10" time="0.696" tests="20">
+<testsuites name="jest tests" tests="20" failures="0" errors="0" time="0.611">
+  <testsuite name="ImageRepository" errors="0" failures="0" skipped="0" timestamp="2025-04-24T16:39:28" time="0.532" tests="20">
     <testcase classname="ImageRepository ensureUploadsDirExists should create uploads directory if it does not exist" name="ImageRepository ensureUploadsDirExists should create uploads directory if it does not exist" time="0.004">
     </testcase>
-    <testcase classname="ImageRepository ensureUploadsDirExists should not create uploads directory if it exists" name="ImageRepository ensureUploadsDirExists should not create uploads directory if it exists" time="0.002">
+    <testcase classname="ImageRepository ensureUploadsDirExists should not create uploads directory if it exists" name="ImageRepository ensureUploadsDirExists should not create uploads directory if it exists" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository should configure storage correctly" name="ImageRepository should configure storage correctly" time="0">
+    <testcase classname="ImageRepository should configure storage correctly" name="ImageRepository should configure storage correctly" time="0.001">
     </testcase>
     <testcase classname="ImageRepository uploadImage should upload an image" name="ImageRepository uploadImage should upload an image" time="0.001">
     </testcase>
     <testcase classname="ImageRepository uploadImage should handle invalid file type with wrong mimetype" name="ImageRepository uploadImage should handle invalid file type with wrong mimetype" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository uploadImage should handle missing file in request" name="ImageRepository uploadImage should handle missing file in request" time="0.001">
+    <testcase classname="ImageRepository uploadImage should handle missing file in request" name="ImageRepository uploadImage should handle missing file in request" time="0">
     </testcase>
-    <testcase classname="ImageRepository saveImage should save image URL correctly" name="ImageRepository saveImage should save image URL correctly" time="0.021">
+    <testcase classname="ImageRepository saveImage should save image URL correctly" name="ImageRepository saveImage should save image URL correctly" time="0.027">
     </testcase>
-    <testcase classname="ImageRepository saveImage should throw error when saving image with invalid data" name="ImageRepository saveImage should throw error when saving image with invalid data" time="0.015">
+    <testcase classname="ImageRepository saveImage should throw error when saving image with invalid data" name="ImageRepository saveImage should throw error when saving image with invalid data" time="0.016">
     </testcase>
     <testcase classname="ImageRepository removeImage should remove image from filesystem" name="ImageRepository removeImage should remove image from filesystem" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository removeImage should handle error when removing image" name="ImageRepository removeImage should handle error when removing image" time="0.006">
+    <testcase classname="ImageRepository removeImage should handle error when removing image" name="ImageRepository removeImage should handle error when removing image" time="0.008">
     </testcase>
-    <testcase classname="ImageRepository removeImage should handle error when removing image with invalid path" name="ImageRepository removeImage should handle error when removing image with invalid path" time="0.004">
+    <testcase classname="ImageRepository removeImage should handle error when removing image with invalid path" name="ImageRepository removeImage should handle error when removing image with invalid path" time="0.005">
     </testcase>
-    <testcase classname="ImageRepository generateFilename should return a filename with timestamp and original name" name="ImageRepository generateFilename should return a filename with timestamp and original name" time="0">
+    <testcase classname="ImageRepository generateFilename should return a filename with timestamp and original name" name="ImageRepository generateFilename should return a filename with timestamp and original name" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository configureStorage should return diskStorage with destination and filename functions" name="ImageRepository configureStorage should return diskStorage with destination and filename functions" time="0">
+    <testcase classname="ImageRepository configureStorage should return diskStorage with destination and filename functions" name="ImageRepository configureStorage should return diskStorage with destination and filename functions" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository should call destination callback with correct path" name="ImageRepository should call destination callback with correct path" time="0">
+    <testcase classname="ImageRepository should call destination callback with correct path" name="ImageRepository should call destination callback with correct path" time="0.001">
     </testcase>
     <testcase classname="ImageRepository should call filename callback with generated filename" name="ImageRepository should call filename callback with generated filename" time="0.001">
     </testcase>
@@ -37,7 +37,7 @@
     </testcase>
     <testcase classname="multer should call multer with diskStorage" name="multer should call multer with diskStorage" time="0.001">
     </testcase>
-    <testcase classname="ImageRepository mockSingle should call mockSingle and set req.file" name="ImageRepository mockSingle should call mockSingle and set req.file" time="0">
+    <testcase classname="ImageRepository mockSingle should call mockSingle and set req.file" name="ImageRepository mockSingle should call mockSingle and set req.file" time="0.001">
     </testcase>
     <testcase classname="ImageRepository mockSingle should handle error when removing image" name="ImageRepository mockSingle should handle error when removing image" time="0.001">
     </testcase>
