@@ -49,5 +49,30 @@
       },
       "size": 1
     }
+  },
+  {
+    "postTitle": "Angie",
+    "authorName": "admin",
+    "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+    "postDesc": "Love ",
+    "postRating": 5,
+    "postImgUrl": "/uploads/1745593233269.jpg",
+    "ratingsCount": {
+      "head": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "tail": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "size": 1
+    }
   }
 ]
