@@ -144,9 +144,20 @@ graph LR;
 2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
 3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
 
+**Show screenshot and explanation of the following page ไว้ใน report**
 
+Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
 
-* วิเคราะห์ข้อผิดพลาดที่เกิดขึ้นใน Sprint ที่ 3  และปรับโครงสร้างของ test suite ตามความเหมาะสมปรับปรุงให้ coverage ครบและรองรับ edge cases
+![Product Backlogs.png](/.attachments/Product%20Backlogs-ead2e072-28dd-42b0-99a9-d327563532aa.png)
 
-- Method
-1.   **การบริหารโปรเจค**
+Sprint backlog: มีการกำหนดเวลาและวางแผน work item สำหรับ Sprint1 (Sprint 1 อาจเป็นแค่งานการเขียน report และการกำหนด requirement)
+
+![SprintBacklog.png](/.attachments/SprintBacklog-5821d898-1762-46a2-ae5c-6dfbcb5ad88d.png)
+
+ต้วอย่าง detail ของ work item ชนิด user story
+
+![WorkItem.png](/.attachments/WorkItem-c1723c84-cec3-40a6-99cf-0063ac7c5c7c.png)
+
+ต้วอย่าง detail ของ work item ชนิด Epic (optional)
+
+![Epic.png](/.attachments/Epic-6b0ec150-90e8-4c4c-9795-5f26c0502649.png)
