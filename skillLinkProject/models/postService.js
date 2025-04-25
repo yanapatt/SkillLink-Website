@@ -113,7 +113,7 @@ class PostService {
                 post.postImgUrl = savedImgUrl;
             }
 
-            await this.postRepo.updateData(postTitle, newData.postDesc, post.postImgUrl);
+            await this.postRepo.updateData(postTitle, newData, post.postImgUrl);
         } catch (error) {
             console.error("Error updating post:", error.message);
         }
@@ -143,7 +143,7 @@ class PostService {
                 } else if (action === "byRating") {
                     const ratingThreshold = parseFloat(value);
                     if (isNaN(ratingThreshold)) return false;
-                    return post.postRating >= ratingThreshold;
+                    return post.postRating === ratingThreshold;
                 }
                 return false;
             });
