@@ -1,7 +1,7 @@
 const PostService = require("../models/postService");
 const PostRepository = require("../models/postRepository");
 const AccountRepository = require("../models/accountRepository");
-const ImageRepository = require("../models/imageRepository");
+const ImageRepository = require("../models/ImageRepository");
 
 const postRepo = new PostRepository();
 const accRepo = new AccountRepository();
