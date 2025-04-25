@@ -24,5 +24,30 @@
       "tail": null,
       "size": 0
     }
+  },
+  {
+    "postTitle": "Andy",
+    "authorName": "admin",
+    "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+    "postDesc": "pp",
+    "postRating": 5,
+    "postImgUrl": "/uploads/1745577217842.jpg",
+    "ratingsCount": {
+      "head": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "tail": {
+        "value": {
+          "authorId": "efd09183-0c48-472b-96bf-cb9ddeaf4527",
+          "ratingScore": 5
+        },
+        "next": null
+      },
+      "size": 1
+    }
   }
 ]
