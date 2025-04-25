@@ -47,28 +47,6 @@ hunza
 - ระบบจับคู่ เพราะใช่ในการจับคู่ระหว่างอาสากับผู้ที่ต้องการความช่วยเหลือ
 - ระบบสะสมคะแนน เพราะคะแนนมีเพิ่มมีลดตลอด
 
-
-**Functional Requirement and Non-Functional Requirement**
-
-- Functional Requirement
-1.  ระบบของเว๊บไซต์ต้องสามารถเลือกจับคู่ผู้ที่ต้องการความช่วยเหลือกับอาสาสมัครได้
-2.  เว็บไซต์ต้องมีระบบสะสมแต้ม
-3.  ผู้ใช้ทั่วไปต้องสามารถรีวิวและให้คะแนนความพึงพอใจสำหรับอาสาสมัครได้
-4.  ผู้ใช้ทั่วไปต้องสามารถโพสต์รูปผู้ที่ต้องการความช่วยเหลือเพื่อให้อาสาสมัครมาอ่านรายละเอียดได้
-5.  ปรับแต่ง UI หรือแก้ไขเว็บไซต์เพื่อวัตถุประสงค์อื่นโดยใช้โครงสร้างเดิม ของ taskdemo
-6.  เพิ่ม function search: สำหรับค้นหา by "title" โดยต้องใช้การค้นหาเชิงเส้น (Linear Search) โดยทำการวนลูปผ่านโครงสร้างข้อมูล
-7.  เพิ่ม function คำนวณค่าต่อไปนี้ของ Priority (หรือค่าที่คุณใช้ เช่น rating) และ แสดงผล
-8.  Improve the performance of the website
-9.  Create button to remove the task with a given priority
-10.  Create button to remove the oldest task (first task in the linkedlist)
-11.  Create button to remove the newest task (last task in the linkedlist)
-
-- Non Functional Requirement
-1.  ผู้ใช้ต้องการเห็นหน้าตา UI ของเว๊ปไซต์ที่สวยงาม และมีประสบการณ์ใช้งานเว๊บไซต์ที่ดี UX
-2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
-3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
-## **Update Requirement**
-
 **Use Case Diagram**
 
 :::mermaid
@@ -99,6 +77,27 @@ graph LR;
 1.   **การบริหารโปรเจค** 
  *   สมาชิกกลุ่มแต่ละคนร่วมกันวางแผนการทำงานใน Sprint ที่ 4 โดยกำหนดหน้าที่ของแต่ละคน และลงมือทำงานตามระยะเวลาที่กำหนด
 2.  **การจัดการ Bug**
+**Functional Requirement and Non-Functional Requirement**
+
+- Functional Requirement
+1.  ระบบของเว๊บไซต์ต้องสามารถเลือกจับคู่ผู้ที่ต้องการความช่วยเหลือกับอาสาสมัครได้
+2.  เว็บไซต์ต้องมีระบบสะสมแต้ม
+3.  ผู้ใช้ทั่วไปต้องสามารถรีวิวและให้คะแนนความพึงพอใจสำหรับอาสาสมัครได้
+4.  ผู้ใช้ทั่วไปต้องสามารถโพสต์รูปผู้ที่ต้องการความช่วยเหลือเพื่อให้อาสาสมัครมาอ่านรายละเอียดได้
+5.  ปรับแต่ง UI หรือแก้ไขเว็บไซต์เพื่อวัตถุประสงค์อื่นโดยใช้โครงสร้างเดิม ของ taskdemo
+6.  เพิ่ม function search: สำหรับค้นหา by "title" โดยต้องใช้การค้นหาเชิงเส้น (Linear Search) โดยทำการวนลูปผ่านโครงสร้างข้อมูล
+7.  เพิ่ม function คำนวณค่าต่อไปนี้ของ Priority (หรือค่าที่คุณใช้ เช่น rating) และ แสดงผล
+8.  Improve the performance of the website
+9.  Create button to remove the task with a given priority
+10.  Create button to remove the oldest task (first task in the linkedlist)
+11.  Create button to remove the newest task (last task in the linkedlist)
+
+- Non Functional Requirement
+1.  ผู้ใช้ต้องการเห็นหน้าตา UI ของเว๊ปไซต์ที่สวยงาม และมีประสบการณ์ใช้งานเว๊บไซต์ที่ดี UX
+2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
+3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
+
+
 
 * วิเคราะห์ข้อผิดพลาดที่เกิดขึ้นใน Sprint ที่ 3  และปรับโครงสร้างของ test suite ตามความเหมาะสมปรับปรุงให้ coverage ครบและรองรับ edge cases
 
