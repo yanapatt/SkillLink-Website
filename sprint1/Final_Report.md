@@ -210,3 +210,33 @@ Sprint backlog: มีการกำหนดเวลาและวางแ�
 
 
 
+
+**Unit Test**
+----------------------------------------------------------------------------------------------------------------
+
+**Test Case Table Description**
+
+**Account Repository**
+| **Test Suite** | **Describe** | **Test Unit** | **Description (อธิบายภาษาไทย)** |
+| --- | --- | --- | --- |
+| AccountRepository | AccountRepository | should create directory if it does not exist | ทดสอบการสร้างโฟลเดอร์ใหม่หากยังไม่มีอยู่ |
+| AccountRepository | AccountRepository | should not create directory if it already exists | ทดสอบไม่สร้างโฟลเดอร์ใหม่ถ้ามีอยู่แล้ว |
+| AccountRepository | AccountRepository | should handle error when renaming file in saveToFile | ทดสอบจัดการ error เมื่อ rename ไฟล์ล้มเหลว (ครั้งที่ 1) |
+| AccountRepository | AccountRepository | should handle error when renaming file in saveToFile | ทดสอบจัดการ error เมื่อ rename ไฟล์ล้มเหลว (ครั้งที่ 2) |
+| AccountRepository | AccountRepository | should load accounts from file | ทดสอบโหลดข้อมูลบัญชีจากไฟล์เข้า LinkedList |
+| AccountRepository | AccountRepository | should handle empty JSON file gracefully | ทดสอบการโหลดไฟล์ JSON ที่ว่างเปล่าแบบไม่ error |
+| AccountRepository | AccountRepository | should retrieve all accounts | ทดสอบดึงข้อมูลบัญชีทั้งหมดจาก LinkedList |
+| AccountRepository | AccountRepository | should retrieve account by username | ทดสอบค้นหาบัญชีด้วย username |
+| AccountRepository | AccountRepository | should return empty list if action is invalid in retrieveAccountByAction | ทดสอบกรณีส่ง action ผิด จะได้ลิสต์ว่าง |
+| AccountRepository | AccountRepository | should check if account exists by username | ทดสอบเช็คว่ามีบัญชีด้วย username หรือไม่ |
+| AccountRepository | AccountRepository | should return false if action is invalid in checkAccountExistence | ทดสอบเช็ค action ผิด จะได้ false |
+| AccountRepository | AccountRepository | should insert account and save to file | ทดสอบการเพิ่มบัญชีใหม่และบันทึกไฟล์ |
+| AccountRepository | AccountRepository | should not insert account if accId is missing | ทดสอบการเพิ่มบัญชีที่ไม่มี accId จะไม่เพิ่มและแจ้ง error |
+| AccountRepository | AccountRepository | should handle error when mkdirSync fails | ทดสอบ error ตอน mkdirSync ล้มเหลว |
+| AccountRepository | AccountRepository | should handle JSON parse error in loadFromFile | ทดสอบ error ตอน parse JSON พัง |
+| AccountRepository | AccountRepository | should retrieve account by accId and email | ทดสอบค้นหาบัญชีด้วย accId และ email |
+| AccountRepository | AccountRepository | should check if account exists by accId and email | ทดสอบเช็คว่ามีบัญชีด้วย accId หรือ email |
+| AccountRepository | AccountRepository | should not insert to result if email does not match | ทดสอบหา email ไม่เจอแล้วได้ลิสต์ว่าง |
+
+
+
