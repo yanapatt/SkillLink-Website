@@ -29,20 +29,21 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-results/jest/*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
+        searchFolder: '$(System.DefaultWorkingDirectory)/skillLinkProject'
 
     - task: PublishCodeCoverageResults@1
       condition: always()
       inputs:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '**/coverage/cobertura-coverage.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
+        searchFolder: '$(System.DefaultWorkingDirectory)/skillLinkProject'
 
     - task: CmdLine@2
       condition: always()
       inputs:
         script: |
           echo "Clean folder"
+          cd $(System.DefaultWorkingDirectory)/skillLinkProject
           rm -rfv package-lock.json
           rm -rfv .git
           rm -rfv test-results
