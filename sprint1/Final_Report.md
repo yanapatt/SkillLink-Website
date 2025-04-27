@@ -334,6 +334,8 @@ Screenshot
 *   System 471 ms
 *   Total 2,707 ms
 
+![image.png](/.attachments/image-04bebe8d-d3db-44aa-ba01-bc8914b24abc.png)
+
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
