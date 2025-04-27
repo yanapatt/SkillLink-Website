@@ -29,7 +29,7 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-results/jest/*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)t'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
 
     - task: PublishCodeCoverageResults@1
       condition: always()
