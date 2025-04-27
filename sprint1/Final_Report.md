@@ -38,49 +38,112 @@ hunza
 3.  มีระบบในการขอสิทธิการเข้าถึงตำแหน่งของผู้ใช้งาน เพื่อเข้าถึงตำแหน่ง ณ ขณะนั้น
 4.  สำหรับระบบบัญชีผู้ใช้ทั่วไปและบัญชีของอาสาสมัคร จะมีวิธีการล็อคอินและฟังก์ชันการใช้งานเว๊ปไซต์ที่แตกต่างกัน
 
-**ประโยชน์ที่คาดว่าจะได้รับ**
-1. ผู้ใช้งานสามารถโพสต์ขอความช่วยเหลือได้ภายในเว็ปไซต์
-2. ผู้ใช้งานสามารถให้คะแนนความนิยมสำหรับโพสต์คนอื่นได้
-
-## **อธิบายการทำงานของ Data Structure**
+**Design and Prototype**
+:::mermaid
+classDiagram
+    class ImageRepository {
+        +String uploadsDir
+        +Storage storage
+        +multer upload
+        +void ensureUploadsDirExists()
+        +Storage configureStorage()
+        +multer uploadImage()
+        +String saveImage(imgUrl)
+        +void removeImage(imgUrl)
+    }
+:::
 
 :::mermaid
 classDiagram
-    class Node {
-        -value
-        -next
-        +constructor(value)
+    class AccountRepository {
+        +String filePath
+        +LinkedList accounts
+        +void alreadyExistence()
+        +void saveToFile()
+        +void loadFromFile()
+        +LinkedList retrieveAllAccounts()
+        +LinkedList retrieveAccountByAction(value, action)
+        +boolean checkAccountExistence(value, action)
+        +void insertAccounts(acc)
     }
-
-    class LinkedList {
-        -head
-        -tail
-        -size
-        +constructor()
-        +getSize() int
-        +isEmpty() boolean
-        +toArray() Array
-        +map(callback) Array
-        +insertFirst(value) void
-        +insertLast(value) void
-        +removeFirst() void
-        +removeLast() void
-        +removeByPostTitle(postTitle) void
-        +forEachNode(callback) void
-    }
-
-    LinkedList --> Node : uses
-
 :::
 
-เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
+:::mermaid
+classDiagram
+    class AccountService {
+        +AccountRepo accountRepo
+        +Encryption util
+        +Object formatAccountDoc(acc)
+        +Object createAccount(accData)
+        +Object authenticateAccount(username, password)
+    }
+:::
 
+:::mermaid
+classDiagram
+    class LinkedList {
+        +Node head
+        +Node tail
+        +int size
+        +int getSize()
+        +bool isEmpty()
+        +void forEachNode(callback)
+        +Array toArray()
+        +Array map(callback)
+        +Object find(callback)
+        +LinkedList filter(callback)
+        +LinkedList slice(start, end)
+        +void sort(compareFn)
+        +Object getNodeValue(index)
+        +void insertFirst(value)
+        +void removeFirst()
+        +void insertLast(value)
+        +void removeLast()
+        +void removeAllNodes(callback)
+    }
 
-**Design and Prototype**
+    class Node {
+        +Object value
+        +Node next
+        +Node(value)
+    }
+:::
+:::mermaid
+    class PostRepository {
+        +string filePath
+        +LinkedList posts
+        +void alreadyExistence()
+        +void saveToFile()
+        +void loadFromFile()
+        +LinkedList retrieveAllPosts()
+        +LinkedList retrievePostsByAction(value, action)
+        +bool checkPostTitleExistence(value)
+        +bool updateData(postTitle, newData, newImgUrl)
+        +void insertFirstPost(post)
+        +void removeFirstPost()
+        +void insertLastPost(post)
+        +void removeLastPost()
+        +void removePostsByFilter(filterCallback)
+    }
+:::
+:::mermaid
+classDiagram
+    class PostService {
+        +PostRepository postRepo
+        +AccountRepository accountRepo
+        +ImgRepository imgRepo
+        +Object formatPostDoc(postData, authorName, authorId, imageUrl)
+        +float calculateAverageRating(postTitle)
+        +async ratingPost(postTitle, ratingScore, authorId)
+        +async createPost(postData, authorName, authorId, imageUrl)
+        +async updateDataInPost(postTitle, newData, newImgFile)
+        +async removePostsByAction(value, action)
+        +async removeFirstPostWithImage()
+        +async removeLastPostWithImage()
+    }
+:::
 
 **Architectural design**
-![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/b8dd2702-f20b-4bf0-9c2e-7af9801c8057?fileName=image.png)
-Class Diagram ที่แสดงโครงสร้างของระบบที่ใช้ Linked List ในการจัดการข้อมูลเกี่ยวกับ User และ Volunteer
 
 **Use Case Diagram**
 :::mermaid
@@ -178,7 +241,42 @@ graph LR;
 2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
 3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
 
+**ประโยชน์ที่คาดว่าจะได้รับ**
+1. ผู้ใช้งานสามารถโพสต์ขอความช่วยเหลือได้ภายในเว็ปไซต์
+2. ผู้ใช้งานสามารถให้คะแนนความนิยมสำหรับโพสต์คนอื่นได้
 
+## **อธิบายการทำงานของ Data Structure**
+
+:::mermaid
+classDiagram
+    class Node {
+        -value
+        -next
+        +constructor(value)
+    }
+
+    class LinkedList {
+        -head
+        -tail
+        -size
+        +constructor()
+        +getSize() int
+        +isEmpty() boolean
+        +toArray() Array
+        +map(callback) Array
+        +insertFirst(value) void
+        +insertLast(value) void
+        +removeFirst() void
+        +removeLast() void
+        +removeByPostTitle(postTitle) void
+        +forEachNode(callback) void
+    }
+
+    LinkedList --> Node : uses
+
+:::
+
+เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
