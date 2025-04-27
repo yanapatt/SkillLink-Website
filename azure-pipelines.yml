@@ -1,5 +1,6 @@
 variables:
   vmImageName: 'ubuntu-latest'
+  seleniumUserDataDir: '/tmp/selenium_user_data_$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -18,11 +19,10 @@ stages:
 
     - script: |
         cd $(System.DefaultWorkingDirectory)/skillLinkProject
-        export SELENIUM_USER_DATA_DIR="/tmp/selenium_user_data_$(Build.BuildId)"
         npm install
         npm install jest
         npm run lint --if-present
-        npm run test --if-present
+        npm run test -- --user-data-dir=$(seleniumUserDataDir)
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
