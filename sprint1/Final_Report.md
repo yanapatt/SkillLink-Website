@@ -53,6 +53,8 @@ classDiagram
     }
 :::
 
+ใช้สำหรับการจัดการกับรูปภาพโดยเฉพาะ โดยจะเป็นการรับภาพจากผู้ใช้เพื่อบันทึกลงบน Database ในรูปแบบ JSON File ทำงานร่วมกับ Multer
+
 :::mermaid
 classDiagram
     class AccountRepository {
@@ -68,6 +70,8 @@ classDiagram
     }
 :::
 
+ใช้สำหรับบันทึกข้อมูลผู้ใช้ลง Database ในรูปแบบ JSON File
+
 :::mermaid
 classDiagram
     class AccountService {
@@ -78,6 +82,8 @@ classDiagram
         +Object authenticateAccount(username, password)
     }
 :::
+
+ใช้สำหรับกำหนด Format ของ Account JSON File สร้าง Account และ ตรวจสอบสิทธิ์การใช้งาน Website
 
 :::mermaid
 classDiagram
@@ -99,6 +105,8 @@ classDiagram
     }
 :::
 
+ใช้สำหรับจัดการข้อมูลต่าง ๆ บน Post 
+
 :::mermaid
 classDiagram
     class PostService {
@@ -115,6 +123,8 @@ classDiagram
         +async removeLastPostWithImage()
     }
 :::
+
+ใช้สำหรับเป็นบริการต่าง ๆ ให้ User เรียกใช้งานในการสร้าง Post หรือแก้ไข Post
 
 **Architectural design**
 
