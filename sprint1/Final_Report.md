@@ -322,6 +322,18 @@ Screenshot
 
 สรุปการเปลี่ยนแปลงที่เห็นได้ชัดเจนทีสุดนั่นคือ postService ที่เปลี่ยนแปลงไปในทิศทางที่ดียิ่งขึ้น แต่ในทางกลับกันโค้ดส่วนมีการเปลี่ยนแปลงเล็กน้อยเท่านั้น และบางส่วนแย่ลงเล็กน้อยเมื่อเทียบกับ Phase 3
 
+**Dynamic profiling**
+
+![image.png](/.attachments/image-d241538b-2d49-4612-8d68-939ef8130bfa.png)
+
+แสดงให้เห็นว่าต้องใช้เวลาประมาณเท่าใดสำหรับแสดงผลหน้า Website ในแต่ละหน้า โดยเราได้มีการบันทึกผลดังนี้
+*   Loading 38 ms
+*   Rendering 26 ms
+*   Painting 4 ms
+*   Scripting 1,174 ms
+*   System 471 ms
+*   Total 2,707 ms
+
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
