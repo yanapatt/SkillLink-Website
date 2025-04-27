@@ -366,6 +366,20 @@ Sprint backlog: มีการกำหนดเวลาและวางแ�
 
 - หน้า edit post
 เป็นการ edit post เฉพาะเจ้าของ ของpostนั้นๆ และเมื่อเสร็จจะกลับไปยังหน้าหลัก
+![image.png](/.attachments/image-c6dd49da-97fe-4786-94b0-018abfbf5a99.png)
+
+- หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Postนั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Postจะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
+![image.png](/.attachments/image-1cccfcd1-1a02-4d47-965e-e16609fa25f1.png)
+
+-หน้า Home โดยหน้านี้จะแบ่งออกเป็น 2 หน้า โดยจะมีของ Admin และ User
+ -หน้า Home สำหรับ Admin จะสามารถลบ Post หรือ ลบRating ของ Post นั้นได้และยังลบ NewPost กับ OldPost ได้อีกด้วย!
+
+![image.png](/.attachments/image-e43a2739-aece-4bde-aab3-b41e23fd569d.png)
+
+-หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้วย
+
+![image.png](/.attachments/image-bdfb7124-0434-49cc-91aa-f46114ccfbd1.png)
+
 
 
 
