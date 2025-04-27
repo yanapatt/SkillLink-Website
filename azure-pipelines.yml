@@ -1,6 +1,7 @@
 variables:
   vmImageName: 'ubuntu-latest'
-  seleniumUserDataDir: '/tmp/selenium_user_data_$(Build.BuildId)'
+
+trigger: none
 
 stages:
 - stage: Build
@@ -22,7 +23,7 @@ stages:
         npm install
         npm install jest
         npm run lint --if-present
-        npm run test -- --user-data-dir=$(seleniumUserDataDir)
+        npm run test --if-present
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
@@ -30,24 +31,26 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-results/jest/*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
+        searchFolder: '$(System.DefaultWorkingDirectory)/skillLinkProject'
 
     - task: PublishCodeCoverageResults@1
       condition: always()
       inputs:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '**/coverage/cobertura-coverage.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
+        searchFolder: '$(System.DefaultWorkingDirectory)/skillLinkProject'
 
     - task: CmdLine@2
       condition: always()
       inputs:
         script: |
           echo "Clean folder"
+          cd $(System.DefaultWorkingDirectory)/skillLinkProject
           rm -rfv package-lock.json
           rm -rfv .git
           rm -rfv test-results
           rm -rfv coverage
+          rm -rfv node_modules
           ls -l 
 
     - task: ArchiveFiles@2

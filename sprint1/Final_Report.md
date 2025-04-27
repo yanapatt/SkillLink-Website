@@ -22,9 +22,7 @@ hunza
 
 ในยุคปัจจุบันของประเทศไทยกำลัง ประสบปัญหาการดูแลรักษาผู้ที่ไม่สามารถช่วยเหลือตัวเองได้ที่ไม่ทั่วถึง ไม่ว่าจะเป็นเด็กที่ผู้ปกครองไม่สามารถมอบเวลาเลี้ยงดูให้ได้ทำให้คนรุ่นใหม่จึงมีความคิดที่อยากจะมีลูกน้อยลงทำให้ประเทศไทยเข้าสู้สถานการณ์ที่ผู้สูงอายุเพิ่มขึ้น โดยผู้สูงอายุไม่สามารถดูแลตัวเองได้ทำให้เกิดความยากลำบากในการใช้ชีวิตประจำวัน ดังนั้นโปรเจคนี้เกิดขึ้นเพิ่มตอบสนองต่อความต้องการของผู้คนที่ต้องการการความช่วยเหลือ รวมถึงการให้ความสะดวกในงานจิตอาสาที่สามารถหาคนที่ต้องการความช่วยเหลือได้สะดวกสบายและรวดเร็วมากขึ้น โปรเจคนี้จะช่วยให้ผู้ใช้งานเว็บไซต์สามารถเข้าถึงการช่วยเหลือได้อย่างรวดเร็วและสามารถเลือกคนได้ตามความต้องการ โดยเว็บไซต์นี้ไม่ได้มีประโยชน์แค่ผู้ที่ต้องการความช่วยเหลือ แต่ยังรวมถึงผู้คนที่เป็นจิตอาสาที่ต้องการเข้าไปช่วยเหลือที่จะสามารถใช้เว็บไซต์นี้ในการเช้าถึงผู้ที่ต้องการความช่วยเหลือได้อย่างรวดเร็วและตรงตามความต้องการ ดังนั้นโปรเจคนี้จึงมีการพัฒนาความสำคัญอย่างยิ่งในการสร้างประสบการณ์แก่ผู้ที่ต้องการช่วยเหลือผู้คนและผู้คนที่ต้องการความช่วยเหลือ เมื่อพิจารณาถึงความต้องการของผู้ใช้งานเว็บไซต์โปรเจคนี้จะมีการพัฒนาฟังก์ชันที่หลากหลาย เช่นระบบการจับคู่ผู้ดูแลกับผู้ที่ต้องการความดูแล ระบบสะสมคะแนนของจิตอาสา ดังนั้นโปรเจคนี้จึงเป็นการตอบสนองต่อความต้องการของผู้ใช้เว็บไซต์ที่ต้องการความดูแลในประเทศไทย และมีเป้าหมายเพื่อสร้างประสบการณ์ที่ยอมเยี่ยมสำหรับผู้ใช้งานเว็บไซต์
 
-**จุดประสงค์ของโครงงานและประโยชน์ที่คาดว่าจะได้รับ**
-
-วัตถุประสงค์ของโปรเจค 
+**จุดประสงค์ของโครงงาน**
 
 1. **เพื่อสร้างแพลตฟอร์มกลางที่เชื่อมโยงระหว่างผู้ที่ต้องการความช่วยเหลือ** เช่น ผู้สูงอายุหรือเด็กกับผู้ที่ต้องการเป็นอาสาสมัครหรือผู้ดูแล ทำให้การเข้าถึงความช่วยเหลือเป็นไปอย่างรวดเร็วและมีประสิทธิภาพ 
 
@@ -39,45 +37,86 @@ hunza
 2.  มีระบบแสดงความน่าเชื่อถือของบัญชีอาสาสมัคร โดยอ้างอิงจากคะแนนความพึงพอใจและการรีวิวจากผู้ใช้ทั่วไป
 3.  มีระบบในการขอสิทธิการเข้าถึงตำแหน่งของผู้ใช้งาน เพื่อเข้าถึงตำแหน่ง ณ ขณะนั้น
 4.  สำหรับระบบบัญชีผู้ใช้ทั่วไปและบัญชีของอาสาสมัคร จะมีวิธีการล็อคอินและฟังก์ชันการใช้งานเว๊ปไซต์ที่แตกต่างกัน
-## **อธิบายการทำงานของ Data Structure**
+
+**Design and Prototype**
+:::mermaid
+classDiagram
+    class ImageRepository {
+        +String uploadsDir
+        +Storage storage
+        +multer upload
+        +void ensureUploadsDirExists()
+        +Storage configureStorage()
+        +multer uploadImage()
+        +String saveImage(imgUrl)
+        +void removeImage(imgUrl)
+    }
+:::
 
 :::mermaid
 classDiagram
-    class Node {
-        -value
-        -next
-        +constructor(value)
+    class AccountRepository {
+        +String filePath
+        +LinkedList accounts
+        +void alreadyExistence()
+        +void saveToFile()
+        +void loadFromFile()
+        +LinkedList retrieveAllAccounts()
+        +LinkedList retrieveAccountByAction(value, action)
+        +boolean checkAccountExistence(value, action)
+        +void insertAccounts(acc)
     }
-
-    class LinkedList {
-        -head
-        -tail
-        -size
-        +constructor()
-        +getSize() int
-        +isEmpty() boolean
-        +toArray() Array
-        +map(callback) Array
-        +insertFirst(value) void
-        +insertLast(value) void
-        +removeFirst() void
-        +removeLast() void
-        +removeByPostTitle(postTitle) void
-        +forEachNode(callback) void
-    }
-
-    LinkedList --> Node : uses
-
 :::
 
-เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
+:::mermaid
+classDiagram
+    class AccountService {
+        +AccountRepo accountRepo
+        +Encryption util
+        +Object formatAccountDoc(acc)
+        +Object createAccount(accData)
+        +Object authenticateAccount(username, password)
+    }
+:::
 
+:::mermaid
+classDiagram
+    class PostRepository {
+        +string filePath
+        +LinkedList posts
+        +void alreadyExistence()
+        +void saveToFile()
+        +void loadFromFile()
+        +LinkedList retrieveAllPosts()
+        +LinkedList retrievePostsByAction(value, action)
+        +bool checkPostTitleExistence(value)
+        +bool updateData(postTitle, newData, newImgUrl)
+        +void insertFirstPost(post)
+        +void removeFirstPost()
+        +void insertLastPost(post)
+        +void removeLastPost()
+        +void removePostsByFilter(filterCallback)
+    }
+:::
 
-**Design and Prototype**
+:::mermaid
+classDiagram
+    class PostService {
+        +PostRepository postRepo
+        +AccountRepository accountRepo
+        +ImgRepository imgRepo
+        +Object formatPostDoc(postData, authorName, authorId, imageUrl)
+        +float calculateAverageRating(postTitle)
+        +async ratingPost(postTitle, ratingScore, authorId)
+        +async createPost(postData, authorName, authorId, imageUrl)
+        +async updateDataInPost(postTitle, newData, newImgFile)
+        +async removePostsByAction(value, action)
+        +async removeFirstPostWithImage()
+        +async removeLastPostWithImage()
+    }
+:::
 
 **Architectural design**
-![Image](https://dev.azure.com/yanapattpankaseam/51ab0631-0619-4c9d-960d-e98a46ec2fb6/_apis/wit/attachments/b8dd2702-f20b-4bf0-9c2e-7af9801c8057?fileName=image.png)
-Class Diagram ที่แสดงโครงสร้างของระบบที่ใช้ Linked List ในการจัดการข้อมูลเกี่ยวกับ User และ Volunteer
 
 **Use Case Diagram**
 :::mermaid
@@ -104,7 +143,7 @@ graph LR;
 2.  จ้ดการโพสต์ทั้งหมดในเว๊ปไซต์ได้
 
 **อธิบายกระบวนการทำงาน โดยใช้ Process, Methods, and Tools อย่างไร**
-- Process
+- **Process**
 
 1.   **การบริหารโปรเจค**
     *   สมาชิกกลุ่มแต่ละคนร่วมกันวางแผนการทำงานใน Sprint ที่ 3 โดยกำหนดหน้าที่ของแต่ละคน และลงมือทำงานตามระยะเวลาที่กำหนด
@@ -120,7 +159,7 @@ graph LR;
     *   สร้างเอกสารโครงการเพื่อบันทึกแนวคิด วิธีการพัฒนา และแนวทางการใช้งาน
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   บันทึกสรุปปัญหาและแนวทางแก้ไขของทีมในแต่ละสัปดาห์
-- Method
+- **Method**
 1.   **การบริหารโปรเจค**
     *   นำงานที่แจกแจงแล้ว ส่งต่อให้สมาชิกกลุ่มที่มีหน้าที่รับผิดชอบงานนั้น ๆ ดำเนินการและต้องสรุปผลทุก 1 สัปดาห์
 1.  **Requirements**
@@ -136,7 +175,7 @@ graph LR;
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   ใช้กล้องวิดีโอคุณภาพสูงและแพลตฟอร์มแชร์วิดีโอ
 
-- Tools
+- **Tools**
 1.   **การบริหารโปรเจค**
     *   ใช้ Microsoft Azure ร่วมกับ Discord ในการทำงานร่วมกัน
 
@@ -157,7 +196,7 @@ graph LR;
     *   ใช้ **YouTube หรือ Google Drive** ในการแชร์วิดีโอ
 
 **Functional Requirement and Non-Functional Requirement**
-- Functional Requirement
+- **Functional Requirement**
 1.  ระบบของเว๊บไซต์ต้องสามารถเลือกจับคู่ผู้ที่ต้องการความช่วยเหลือกับอาสาสมัครได้
 2.  เว็บไซต์ต้องมีระบบสะสมแต้ม
 3.  ผู้ใช้ทั่วไปต้องสามารถรีวิวและให้คะแนนความพึงพอใจสำหรับอาสาสมัครได้
@@ -170,12 +209,48 @@ graph LR;
 10.  Create button to remove the oldest task (first task in the linkedlist)
 11.  Create button to remove the newest task (last task in the linkedlist)
 
-- Non Functional Requirement
+- **Non Functional Requirement**
 1.  ผู้ใช้ต้องการเห็นหน้าตา UI ของเว๊ปไซต์ที่สวยงาม และมีประสบการณ์ใช้งานเว๊บไซต์ที่ดี UX
 2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
 3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
 
+**ประโยชน์ที่คาดว่าจะได้รับ**
+1. ผู้ใช้งานสามารถโพสต์ขอความช่วยเหลือได้ภายในเว็ปไซต์
+2. ผู้ใช้งานสามารถให้คะแนนความนิยมสำหรับโพสต์คนอื่นได้
 
+## **อธิบายการทำงานของ Data Structure**
+
+:::mermaid
+classDiagram
+    class LinkedList {
+        +Node head
+        +Node tail
+        +int size
+        +int getSize()
+        +bool isEmpty()
+        +void forEachNode(callback)
+        +Array toArray()
+        +Array map(callback)
+        +Object find(callback)
+        +LinkedList filter(callback)
+        +LinkedList slice(start, end)
+        +void sort(compareFn)
+        +Object getNodeValue(index)
+        +void insertFirst(value)
+        +void removeFirst()
+        +void insertLast(value)
+        +void removeLast()
+        +void removeAllNodes(callback)
+    }
+
+    class Node {
+        +Object value
+        +Node next
+        +Node(value)
+    }
+:::
+
+เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล find ในการค้นหา Node sort ในการจัดเรียงข้อมูล Node filter ในการค้นหา Node getNodeValue ในการเข้าถึงหรือดูค่าภายใน Node นั้น และ slice ในการกรองข้อมูลเพื่อมาแสดงบางส่วน
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
