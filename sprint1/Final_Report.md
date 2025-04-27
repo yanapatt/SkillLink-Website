@@ -272,8 +272,11 @@ Screenshot
 *   จำนวนบรรทัดโค้ดในโฟล์เดอร์ Models มีทั้งสิ้น 818 บรรทัด และมีจำนวนบรรทัดโดยเฉลี่ย 136 บรรทัด ซึ่งลดลงจาก Phase 3 ที่มี 906 บรรทัด/151 บรรทัด
 *   มีค่าการบำรุงรักษาโดยเฉลี่ย 70.13 ถือว่าอยู่ในระดับปานกลาง และลดลงจาก Phase 3 อยู่ 0.28
 
+**ค่าการบำรุงรักษา**
 
-![image.png](/.attachments/image-fb678455-c03d-432c-ac5b-830eef519034.png)
+![image.png](/.attachments/image-a70fa5c3-ccee-43db-8b80-298a5e574079.png)
+
+จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 78.75 ลองลงมาคือ postRepository, linkedList, accountService, accountRepository และ postService โดยมีค่า 71.11, 68.22, 67.67, 67.63 และ 67.42 ตามลำดับ
 
 ![image.png](/.attachments/image-269a4064-ea36-4a0f-815b-f3eb0415cbf7.png)
 
