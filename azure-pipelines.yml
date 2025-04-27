@@ -23,7 +23,6 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        cd $(System.DefaultWorkingDirectory)/skilllinkProject
         npm install
         npm install jest
         npm run lint --if-present
