@@ -108,6 +108,7 @@ classDiagram
         +Node(value)
     }
 :::
+
 :::mermaid
     class PostRepository {
         +string filePath
@@ -126,6 +127,7 @@ classDiagram
         +void removePostsByFilter(filterCallback)
     }
 :::
+
 :::mermaid
 classDiagram
     class PostService {
