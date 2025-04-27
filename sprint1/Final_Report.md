@@ -276,12 +276,25 @@ Screenshot
 
 ![image.png](/.attachments/image-a70fa5c3-ccee-43db-8b80-298a5e574079.png)
 
-จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 78.75 ลองลงมาคือ postRepository, linkedList, accountService, accountRepository และ postService โดยมีค่า 71.11, 68.22, 67.67, 67.63 และ 67.42 ตามลำดับ
+จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 78.75 ลองลงมาคือ postRepository, linkedList, accountService, accountRepository และ postService โดยมีค่า 71.11, 68.22, 67.67, 67.63 และ 67.42 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3
 
-![image.png](/.attachments/image-269a4064-ea36-4a0f-815b-f3eb0415cbf7.png)
+**จำนวนบรรทัดของโค้ด**
 
-![image.png](/.attachments/image-ab069874-7736-47e7-acbe-00cb49fadc20.png)
+![image.png](/.attachments/image-cd5f59e5-546c-4378-a5d5-a3117883ba4b.png)
 
+จะเห็นได้ว่า linkedList มีจำนวนบรรทัดสูงที่สุดอยู่ที่ 197 บรรทัด ลองลงมาคือ postService, postRepository, accountRepository, accountService และ imageRepository โดยมีค่า 194, 185, 114, 67 และ 61 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3 จากเดิมที่เน้นไปทาง postService 
+
+**การประเมิณข้อผิดพลาดโดยประมาณจากการใช้งาน**
+
+![image.png](/.attachments/image-cd4650fc-8c6a-4c8a-bda3-f7acf71c0038.png)
+
+จะเห็นได้ว่า postRepository มีข้อผิดพลาดโดยประมาณจากการใช้งานสูงที่สุดอยู่ที่ 1.62 ลองลงมาคือ postService, linkedList, accountRepository, imageRepository และ accountService โดยมีค่า 1.56, 1.19, 0.92, 0.44 และ 0.42 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3
+
+**การประเมิณโอกาสเกิดข้อผิดพลาด**
+
+![image.png](/.attachments/image-f39d6f9e-5bbe-477b-a331-a5591ed40f19.png)
+
+จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, linkedList, accountRepository, imageRepository และ accountService โดยมีค่า 29, 23, 18, 13 และ 11 ตามลำดับ โดยภาพรวมถือว่าแย่ลงจาก Phase 3
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
