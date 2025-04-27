@@ -110,7 +110,7 @@ exports.ratingPost = async (req, res) => {
     const postTitle = req.body.postTitle;
     const rating = parseInt(req.body.rating);
     const accId = req.session.accountSession.accId;
-    
+
     await postService.ratingPost(postTitle, rating, accId);
     res.render('post', {
         error: null,

@@ -80,7 +80,7 @@ exports.register = async (req, res) => {
         accPassword: password,
         accPhone: phone
     });
-    
+
     return res.redirect('/login');
 };
 
