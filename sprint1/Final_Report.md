@@ -81,36 +81,6 @@ classDiagram
 
 :::mermaid
 classDiagram
-    class LinkedList {
-        +Node head
-        +Node tail
-        +int size
-        +int getSize()
-        +bool isEmpty()
-        +void forEachNode(callback)
-        +Array toArray()
-        +Array map(callback)
-        +Object find(callback)
-        +LinkedList filter(callback)
-        +LinkedList slice(start, end)
-        +void sort(compareFn)
-        +Object getNodeValue(index)
-        +void insertFirst(value)
-        +void removeFirst()
-        +void insertLast(value)
-        +void removeLast()
-        +void removeAllNodes(callback)
-    }
-
-    class Node {
-        +Object value
-        +Node next
-        +Node(value)
-    }
-:::
-
-:::mermaid
-classDiagram
     class PostRepository {
         +string filePath
         +LinkedList posts
@@ -252,31 +222,32 @@ graph LR;
 
 :::mermaid
 classDiagram
-    class Node {
-        -value
-        -next
-        +constructor(value)
-    }
-
     class LinkedList {
-        -head
-        -tail
-        -size
-        +constructor()
-        +getSize() int
-        +isEmpty() boolean
-        +toArray() Array
-        +map(callback) Array
-        +insertFirst(value) void
-        +insertLast(value) void
-        +removeFirst() void
-        +removeLast() void
-        +removeByPostTitle(postTitle) void
-        +forEachNode(callback) void
+        +Node head
+        +Node tail
+        +int size
+        +int getSize()
+        +bool isEmpty()
+        +void forEachNode(callback)
+        +Array toArray()
+        +Array map(callback)
+        +Object find(callback)
+        +LinkedList filter(callback)
+        +LinkedList slice(start, end)
+        +void sort(compareFn)
+        +Object getNodeValue(index)
+        +void insertFirst(value)
+        +void removeFirst()
+        +void insertLast(value)
+        +void removeLast()
+        +void removeAllNodes(callback)
     }
 
-    LinkedList --> Node : uses
-
+    class Node {
+        +Object value
+        +Node next
+        +Node(value)
+    }
 :::
 
 เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
