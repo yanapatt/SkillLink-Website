@@ -1,16 +1,26 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+const path = require('path');
+const fs = require('fs');
 
 jest.setTimeout(10000);
 
 describe('Register Page Test', () => {
     let driver;
+    let userDataDir;
 
     beforeAll(async () => {
         const serviceBuilder = new chrome.ServiceBuilder(require('chromedriver').path);
+
+        // กำหนด user-data-dir ที่ไม่ซ้ำกัน
+        userDataDir = path.join(__dirname, 'userDataDir_' + Date.now());
+        const chromeOptions = new chrome.Options();
+        chromeOptions.addArguments(`--user-data-dir=${userDataDir}`);
+
         driver = await new Builder()
             .forBrowser('chrome')
             .setChromeService(serviceBuilder)
+            .setChromeOptions(chromeOptions) // เพิ่ม Chrome options
             .build();
 
         await driver.get('http://localhost:3000/register');
@@ -19,6 +29,11 @@ describe('Register Page Test', () => {
     afterAll(async () => {
         if (driver) {
             await driver.quit();
+        }
+
+        // ลบ user-data-dir หลังการทดสอบ
+        if (fs.existsSync(userDataDir)) {
+            fs.rmdirSync(userDataDir, { recursive: true });
         }
     });
 
@@ -69,12 +84,20 @@ describe('Register Page Test', () => {
 
 describe('Login Page Test', () => {
     let driver;
+    let userDataDir;
 
     beforeAll(async () => {
         const serviceBuilder = new chrome.ServiceBuilder(require('chromedriver').path);
+
+        // กำหนด user-data-dir ที่ไม่ซ้ำกัน
+        userDataDir = path.join(__dirname, 'userDataDir_' + Date.now());
+        const chromeOptions = new chrome.Options();
+        chromeOptions.addArguments(`--user-data-dir=${userDataDir}`);
+
         driver = await new Builder()
             .forBrowser('chrome')
             .setChromeService(serviceBuilder)
+            .setChromeOptions(chromeOptions) // เพิ่ม Chrome options
             .build();
 
         await driver.get('http://localhost:3000/login');
@@ -83,6 +106,11 @@ describe('Login Page Test', () => {
     afterAll(async () => {
         if (driver) {
             await driver.quit();
+        }
+
+        // ลบ user-data-dir หลังการทดสอบ
+        if (fs.existsSync(userDataDir)) {
+            fs.rmdirSync(userDataDir, { recursive: true });
         }
     });
 
@@ -120,12 +148,20 @@ describe('Login Page Test', () => {
 
 describe('Index page for user test', () => {
     let driver;
+    let userDataDir;
 
     beforeAll(async () => {
         const serviceBuilder = new chrome.ServiceBuilder(require('chromedriver').path);
+
+        // กำหนด user-data-dir ที่ไม่ซ้ำกัน
+        userDataDir = path.join(__dirname, 'userDataDir_' + Date.now());
+        const chromeOptions = new chrome.Options();
+        chromeOptions.addArguments(`--user-data-dir=${userDataDir}`);
+
         driver = await new Builder()
             .forBrowser('chrome')
             .setChromeService(serviceBuilder)
+            .setChromeOptions(chromeOptions) // เพิ่ม Chrome options
             .build();
 
         // ไปที่หน้า Login ก่อน
@@ -147,6 +183,11 @@ describe('Index page for user test', () => {
     afterAll(async () => {
         if (driver) {
             await driver.quit();
+        }
+
+        // ลบ user-data-dir หลังการทดสอบ
+        if (fs.existsSync(userDataDir)) {
+            fs.rmdirSync(userDataDir, { recursive: true });
         }
     });
 
