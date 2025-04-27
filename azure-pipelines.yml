@@ -1,6 +1,5 @@
 variables:
   vmImageName: 'ubuntu-latest'
-  seleniumUserDataDir: '/tmp/selenium_user_data_$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -22,7 +21,7 @@ stages:
         npm install
         npm install jest
         npm run lint --if-present
-        npm run test -- --user-data-dir=$(seleniumUserDataDir)
+        npm run test --if-present
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
@@ -48,6 +47,7 @@ stages:
           rm -rfv .git
           rm -rfv test-results
           rm -rfv coverage
+          rm -rfv node_modules
           ls -l 
 
     - task: ArchiveFiles@2
