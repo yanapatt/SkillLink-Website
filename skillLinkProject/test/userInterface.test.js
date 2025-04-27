@@ -65,30 +65,6 @@ describe('Register Page Test', () => {
         const errorText = await emailErrorMessage.getText();
         expect(errorText).toContain('Email already exists');
     });
-
-    // ทดสอบการรีไดเร็กต์ไปหน้า Login หลังจากสมัครสมาชิกสำเร็จ
-    /*it('should redirect to login page after successful registration', async () => {
-        const email = 'testuser@example.com';
-        const username = 'newUser123';
-        const password = 'password123';
-        const phone = '0123456789';
-
-        // กรอกข้อมูลให้ครบ
-        await driver.findElement(By.name('username')).sendKeys(username);
-        await driver.findElement(By.name('email')).sendKeys(email);
-        await driver.findElement(By.name('password')).sendKeys(password);
-        await driver.findElement(By.name('phone')).sendKeys(phone);
-        await driver.findElement(By.name('accountRole')).sendKeys('User');
-
-        // คลิกปุ่มสมัคร
-        await driver.findElement(By.css('button.secondary-btn')).click();
-
-        // รอให้ URL เปลี่ยนไปที่หน้า login
-        await driver.wait(until.urlContains('/login'), 5000);
-
-        const currentUrl = await driver.getCurrentUrl();
-        expect(currentUrl).toContain('/login');
-    });*/
 });
 
 describe('Login Page Test', () => {
@@ -142,7 +118,7 @@ describe('Login Page Test', () => {
     });
 });
 
-describe('Index Page Test', () => {
+describe('Index page for user test', () => {
     let driver;
 
     beforeAll(async () => {
@@ -174,6 +150,7 @@ describe('Index Page Test', () => {
         }
     });
 
+    // ถ้า Post ซ้ำให้แสดงข้อความว่าซ้ำ
     it('should show error message if post title already exists', async () => {
         const existingPostTitle = 'Help Me'; // ชื่อโพสต์ที่ซ้ำ
 
@@ -192,31 +169,6 @@ describe('Index Page Test', () => {
         const errorText = await errorMessage.getText();
         expect(errorText).toContain(`Post title "${existingPostTitle}" already exists.`);
     });
-
-    /*it('should add new post successfully if title is unique', async () => {
-        const newPostTitle = 'New Post'; 
-        const postDescription = 'This is a unique post description.'; 
-
-        // กรอกข้อมูลโพสต์ใหม่
-        await driver.findElement(By.name('postTitle')).sendKeys(newPostTitle);
-        await driver.findElement(By.name('postDesc')).sendKeys(postDescription);
-
-        // คลิกปุ่ม Add Post
-        await driver.findElement(By.css('div.right-content button.primary-outline-btn')).click();
-
-        // รอให้หน้ารีเฟรชหรือโพสต์ถูกเพิ่ม
-        await driver.wait(until.elementLocated(By.css('.sub-content ul')), 5000); // รอให้โพสต์ใหม่แสดงในรายการ
-
-        // ตรวจสอบว่าโพสต์ใหม่ถูกเพิ่มหรือไม่
-        const postList = await driver.findElements(By.css('.sub-content ul li'));
-        const postTitles = [];
-        for (let post of postList) {
-            const title = await post.findElement(By.css('strong')).getText();
-            postTitles.push(title);
-        }
-
-        expect(postTitles).toContain(newPostTitle); 
-    });*/
 
     // ทดสอบการค้นหาที่มีผลลัพธ์
     it('should display search results when searching for an existing post title', async () => {
@@ -250,9 +202,25 @@ describe('Index Page Test', () => {
 
         // รอให้ผลลัพธ์การค้นหาปรากฏ
         await driver.wait(until.elementLocated(By.css('.sub-content')), 5000);
+        await driver.sleep(1000);
 
         // ตรวจสอบว่าผลลัพธ์การค้นหามีโพสต์ที่ตรงกับคำค้นหาหรือไม่
         const resultItems = await driver.findElements(By.css('.sub-content li'));
         expect(resultItems.length).toBeGreaterThan(0); // ควรมีโพสต์ที่ตรงกับคำค้นหาผู้โพสต์
+    });
+
+    it('should display "Not Found!" when no posts match the search query', async () => {
+        const searchQuery = 'NonExistentPost'; // คำค้นหาที่ไม่พบโพสต์ในระบบ
+
+        // กรอกคำค้นหาในฟิลด์ค้นหา
+        await driver.findElement(By.name('value')).sendKeys(searchQuery);
+        await driver.findElement(By.css('button.secondary-btn')).click();
+
+        // รอให้ผลลัพธ์การค้นหาปรากฏ
+        await driver.wait(until.elementLocated(By.css('.sub-content')), 5000);
+
+        // ตรวจสอบข้อความ "Not Found!" หากไม่พบโพสต์
+        const notFoundMessage = await driver.findElement(By.css('.sub-content p')).getText();
+        expect(notFoundMessage).toBe('Not Found!'); // ควรแสดงข้อความ "Not Found!" เมื่อไม่พบโพสต์
     });
 });
