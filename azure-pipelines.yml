@@ -1,14 +1,6 @@
-# Node.js Express Web App to Linux on Azure
-# Build a Node.js Express app and deploy it to Azure as a Linux web app.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
-trigger:
-- main
-
 variables:
-  # Agent VM image name
   vmImageName: 'ubuntu-latest'
+  seleniumUserDataDir: '/tmp/selenium_user_data_$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -26,11 +18,11 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        cd skillLinkProject
+        cd $(System.DefaultWorkingDirectory)/skillLinkProject
         npm install
         npm install jest
         npm run lint --if-present
-        npm run test --if-present
+        npm run test -- --user-data-dir=$(seleniumUserDataDir)
       displayName: 'npm install, build and test'
 
     - task: PublishTestResults@2
@@ -40,18 +32,12 @@ stages:
         testResultsFiles: '**/test-results/jest/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)'
 
-    - task: PublishTestResults@2
-      condition: always()
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/eslint-results.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-
     - task: PublishCodeCoverageResults@1
       condition: always()
       inputs:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '**/coverage/cobertura-coverage.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
 
     - task: CmdLine@2
       condition: always()
