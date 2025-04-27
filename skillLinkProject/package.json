@@ -32,15 +32,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chromedriver": "^135.0.4",
     "crypto": "^1.0.1",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
-    "multer": "^1.4.5-lts.2",
-    "uuidv4": "^6.2.13"
-  },
-  "devDependencies": {
     "jest-junit": "^16.0.0",
-    "node-mocks-http": "^1.16.2"
+    "multer": "^1.4.5-lts.2",
+    "selenium-webdriver": "^4.31.0",
+    "uuidv4": "^6.2.13"
   }
 }

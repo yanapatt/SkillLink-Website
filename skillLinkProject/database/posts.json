@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "postTitle": "Help Me",
+    "authorName": "yanapatt",
+    "authorId": "1eb7598a-308a-4105-a6f5-3648f3e748f9",
+    "postDesc": "ช่วยด้วย",
+    "postRating": 0,
+    "postImgUrl": null,
+    "ratingsCount": {
+      "head": null,
+      "tail": null,
+      "size": 0
+    }
+  },
+  {
+    "postTitle": "New Post",
+    "authorName": "yanapatt",
+    "authorId": "1eb7598a-308a-4105-a6f5-3648f3e748f9",
+    "postDesc": "This is a unique post description.",
+    "postRating": 0,
+    "postImgUrl": null,
+    "ratingsCount": {
+      "head": null,
+      "tail": null,
+      "size": 0
+    }
+  }
+]
