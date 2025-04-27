@@ -296,6 +296,32 @@ Screenshot
 
 จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, linkedList, accountRepository, imageRepository และ accountService โดยมีค่า 29, 23, 18, 13 และ 11 ตามลำดับ โดยภาพรวมถือว่าแย่ลงจาก Phase 3
 
+**สรุปในรูปแบบตาราง**
+
+**Phase 3**
+
+| **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
+|---------------|---------------------|-------------------|----------------|----------------------|
+| **accountRepository.js** | **74.62** | **93** | **22.71** | **0.63** |
+| **accountService.js** | **68.83** | **92** | **22.43** | **0.48** |
+| **imageRepository.js** | **75.93** | **59** | **15.61** | **0.45** |
+| **linkedList.js** | **68.73** | **137** | **61.20** | **0.80** |
+| **postRepository.js** | **68.60** | **166** | **31.95** | **1.23** |
+| **postService.js** | **65.78** | **359** | **64.64** | **3.43** |
+
+**Phase 4**
+
+| **File Name** | **Maintainability** | **Lines of Code** | **Difficulty** | **Estimated Errors** |
+|---------------|---------------------|-------------------|----------------|----------------------|
+| **accountRepository.js** | **67.63** | **114** | **32.70** | **0.92** |
+| **accountService.js** | **67.67** | **67** | **22.63** | **0.42** |
+| **imageRepository.js** | **78.75** | **61** | **16.01** | **0.44** |
+| **linkedList.js** | **68.22** | **197** | **78.89** | **1.19** |
+| **postRepository.js** | **71.11** | **185** | **44.22** | **1.62** |
+| **postService.js** | **67.42** | **194** | **48.40** | **1.56** |
+
+สรุปการเปลี่ยนแปลงที่เห็นได้ชัดเจนทีสุดนั่นคือ postService ที่เปลี่ยนแปลงไปในทิศทางที่ดียิ่งขึ้น แต่ในทางกลับกันโค้ดส่วนมีการเปลี่ยนแปลงเล็กน้อยเท่านั้น และบางส่วนแย่ลงเล็กน้อยเมื่อเทียบกับ Phase 3
+
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
