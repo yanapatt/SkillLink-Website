@@ -110,6 +110,7 @@ classDiagram
 :::
 
 :::mermaid
+classDiagram
     class PostRepository {
         +string filePath
         +LinkedList posts
