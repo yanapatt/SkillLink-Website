@@ -37,13 +37,6 @@ stages:
         testResultsFiles: '**/test-results/jest/*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)'
 
-    - task: PublishTestResults@2
-      condition: always()
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/eslint-results.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-
     - task: PublishCodeCoverageResults@1
       condition: always()
       inputs:
