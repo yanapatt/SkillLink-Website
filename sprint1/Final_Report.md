@@ -143,7 +143,7 @@ graph LR;
 2.  จ้ดการโพสต์ทั้งหมดในเว๊ปไซต์ได้
 
 **อธิบายกระบวนการทำงาน โดยใช้ Process, Methods, and Tools อย่างไร**
-- Process
+- **Process**
 
 1.   **การบริหารโปรเจค**
     *   สมาชิกกลุ่มแต่ละคนร่วมกันวางแผนการทำงานใน Sprint ที่ 3 โดยกำหนดหน้าที่ของแต่ละคน และลงมือทำงานตามระยะเวลาที่กำหนด
@@ -159,7 +159,7 @@ graph LR;
     *   สร้างเอกสารโครงการเพื่อบันทึกแนวคิด วิธีการพัฒนา และแนวทางการใช้งาน
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   บันทึกสรุปปัญหาและแนวทางแก้ไขของทีมในแต่ละสัปดาห์
-- Method
+- **Method**
 1.   **การบริหารโปรเจค**
     *   นำงานที่แจกแจงแล้ว ส่งต่อให้สมาชิกกลุ่มที่มีหน้าที่รับผิดชอบงานนั้น ๆ ดำเนินการและต้องสรุปผลทุก 1 สัปดาห์
 1.  **Requirements**
@@ -175,7 +175,7 @@ graph LR;
 5.  **บันทึกวิดีโอการประชุม Retrospective**
     *   ใช้กล้องวิดีโอคุณภาพสูงและแพลตฟอร์มแชร์วิดีโอ
 
-- Tools
+- **Tools**
 1.   **การบริหารโปรเจค**
     *   ใช้ Microsoft Azure ร่วมกับ Discord ในการทำงานร่วมกัน
 
@@ -196,7 +196,7 @@ graph LR;
     *   ใช้ **YouTube หรือ Google Drive** ในการแชร์วิดีโอ
 
 **Functional Requirement and Non-Functional Requirement**
-- Functional Requirement
+- **Functional Requirement**
 1.  ระบบของเว๊บไซต์ต้องสามารถเลือกจับคู่ผู้ที่ต้องการความช่วยเหลือกับอาสาสมัครได้
 2.  เว็บไซต์ต้องมีระบบสะสมแต้ม
 3.  ผู้ใช้ทั่วไปต้องสามารถรีวิวและให้คะแนนความพึงพอใจสำหรับอาสาสมัครได้
@@ -209,7 +209,7 @@ graph LR;
 10.  Create button to remove the oldest task (first task in the linkedlist)
 11.  Create button to remove the newest task (last task in the linkedlist)
 
-- Non Functional Requirement
+- **Non Functional Requirement**
 1.  ผู้ใช้ต้องการเห็นหน้าตา UI ของเว๊ปไซต์ที่สวยงาม และมีประสบการณ์ใช้งานเว๊บไซต์ที่ดี UX
 2.  เว๊บไซต์ต้องมีความใช้งานง่าย เหมาะสมกับทุกเพศทุกวัย
 3.  เว๊บไซต์ต้องมีความเสถียร ทนทานต่อจำนวนผู้ใช้ที่เยอะ
@@ -250,7 +250,7 @@ classDiagram
     }
 :::
 
-เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล และ forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล
+เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล find ในการค้นหา Node sort ในการจัดเรียงข้อมูล Node filter ในการค้นหา Node getNodeValue ในการเข้าถึงหรือดูค่าภายใน Node นั้น และ slice ในการกรองข้อมูลเพื่อมาแสดงบางส่วน
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
