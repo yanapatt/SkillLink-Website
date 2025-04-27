@@ -261,6 +261,19 @@ classDiagram
 
 เราได้ใช้ Linked List Data Structure เป็นระบบเบื้องหลังในการทำงานของฟังก์ชันต่าง ๆ บนเว๊ปไซต์ ประกอบไปด้วย Node ซึ่งทำหน้าที่เก็บค่าของข้อมูล และ Pointer ที่ชี้ไปยัง Node ถัดไป โดย Head จะชี้ไปที่ Node แรก Tail จะชี้ไปที่ Node สุดท้าย และ Size ที่บอกขนาดของ Linked List การเพิ่มข้อมูลจึงมี 2 รูปแบบ คือ insertFirst คือการเพิ่มข้อมูลที่ตำแหน่งแรกสุดของ LinkedList และ insertLast คือการเพิ่มข้อมูลที่ตำแหน่งท้ายสุดของ LinkedList ต่อมาคือการลบข้อมูลซึ่งมีอยู่ด้วยกัน 3 รูปแบบได้แก่ removeFirst ลบข้อมูลแรกสุด removeLast ลบข้อมูลตัวสุดท้าย และ removeByTitle ลบข้อมูลตามชื่อที่ระบุ นอกจากนี้ยังมี getSize ในการเข้าถึงขนาดของ LinkedList isEmpty ในการเช็คว่า LinkedList นั้นมีข้อมูลหรือไม่ toArray ในการแปลงข้อมูล LinkedList เป็น ArrayList map ในการ mapping ข้อมูล forEachNode ในการวนลูปผ่านโครงสร้างข้อมูล find ในการค้นหา Node sort ในการจัดเรียงข้อมูล Node filter ในการค้นหา Node getNodeValue ในการเข้าถึงหรือดูค่าภายใน Node นั้น และ slice ในการกรองข้อมูลเพื่อมาแสดงบางส่วน
 
+**Static profiling**
+
+Screenshot
+
+![image.png](/.attachments/image-68170332-baae-4760-8331-4793b3e2ff5e.png)
+
+![image.png](/.attachments/image-fb678455-c03d-432c-ac5b-830eef519034.png)
+
+![image.png](/.attachments/image-269a4064-ea36-4a0f-815b-f3eb0415cbf7.png)
+
+![image.png](/.attachments/image-ab069874-7736-47e7-acbe-00cb49fadc20.png)
+
+
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
