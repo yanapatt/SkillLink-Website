@@ -493,7 +493,17 @@ Screenshot
 | PostService | READ | calculateAverageRating | การทดสอบการคำนวณคะแนนเฉลี่ยของโพสต์จากคะแนนรีวิวทั้งหมด |
 | PostService | CREATE | createPost | การทดสอบการสร้างโพสต์ใหม่ รวมถึงการเพิ่มรูปภาพหรือไม่เพิ่มรูปภาพ |
 
-
+**User Interface**
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
+| --- | --- | --- | --- |
+| Register Page Test | should show error message if username already exists | กรอก username ที่ซ้ำแล้วตรวจสอบข้อความ error | เมื่อกรอกชื่อผู้ใช้ที่มีอยู่แล้ว ต้องแสดงข้อความ "Username already exists." |
+| Register Page Test | should show error message if email already exists | กรอก email ที่ซ้ำแล้วตรวจสอบข้อความ error | เมื่อกรอกอีเมลที่มีอยู่แล้ว ต้องแสดงข้อความ "Email already exists." |
+| Login Page Test | should show invalid username or password error | กรอก username และ password ผิดแล้วตรวจสอบข้อความ error | เมื่อกรอกชื่อผู้ใช้หรือรหัสผ่านผิด ต้องแสดงข้อความ "Invalid username or password" |
+| Login Page Test | should redirect to index page after successful login | ล็อกอินสำเร็จแล้วตรวจสอบการเปลี่ยนหน้า | เมื่อเข้าสู่ระบบสำเร็จ ต้องเปลี่ยนไปหน้า Index (`http://localhost:3000/`) |
+| Index page for user test | should show error message if post title already exists | สร้างโพสต์ชื่อซ้ำแล้วตรวจสอบข้อความ error | เมื่อโพสต์ชื่อซ้ำ ต้องแสดงข้อความ "Post title "..." already exists." |
+| Index page for user test | should display search results when searching for an existing post title | ค้นหาชื่อโพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
+| Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
+| Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
