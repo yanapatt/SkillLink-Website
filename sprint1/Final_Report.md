@@ -493,15 +493,52 @@ LinkedList Utility Methods | removeAllNodes should set tail to null when all nod
 |  |  | `should remove posts based on the provided filter` | ทดสอบการลบโพสต์ตามเงื่อนไขที่กำหนด |
 
 **Post Service**
+คำอธิบายตาราง Test Case สำหรับ `PostService`
+--------------------------------------------
+
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
-| PostService | DELETE | removeLastPostWithImage | การทดสอบฟังก์ชันการลบโพสต์ตัวสุดท้ายที่มีหรือไม่มีรูปภาพ |
-| PostService | DELETE | removeFirstPostWithImage | การทดสอบฟังก์ชันการลบโพสต์ตัวแรกที่มีหรือไม่มีรูปภาพ |
-| PostService | DELETE | removePostsByAction | การทดสอบการลบโพสต์โดยใช้ Action เช่น การลบตามชื่อโพสต์หรือคะแนนรีวิว |
-| PostService | UPDATE | updateDataInPost | การทดสอบการอัพเดตข้อมูลในโพสต์ เช่น การเปลี่ยนแปลงคำบรรยายหรืออัปโหลดรูปภาพใหม่ |
-| PostService | UPDATE | ratingPost | การทดสอบฟังก์ชันการให้คะแนนโพสต์ เช่น การเพิ่มหรืออัพเดตคะแนนรีวิวของโพสต์ |
-| PostService | READ | calculateAverageRating | การทดสอบการคำนวณคะแนนเฉลี่ยของโพสต์จากคะแนนรีวิวทั้งหมด |
-| PostService | CREATE | createPost | การทดสอบการสร้างโพสต์ใหม่ รวมถึงการเพิ่มรูปภาพหรือไม่เพิ่มรูปภาพ |
+| `PostService` | `PostService - CREATE` | `createPost` | ทดสอบการสร้างโพสต์ |
+|  |  | `should create post with image` | ควรสร้างโพสต์พร้อมกับบันทึกรูปภาพและตั้งค่า `postImgUrl` เป็น URL ที่บันทึกแล้ว |
+|  |  | `should create post without image` | ควรสร้างโพสต์โดยไม่มีรูปภาพและตั้งค่า `postImgUrl` เป็น `null` |
+|  |  | `should log an error if image saving fails` | ควรบันทึกข้อผิดพลาดในคอนโซลหากการบันทึกรูปภาพล้มเหลว |
+|  |  | `should log an error if creating post fails` | ควรบันทึกข้อผิดพลาดในคอนโซลหากการสร้างโพสต์ล้มเหลว |
+| `PostService` | `PostService - READ` | `calculateAverageRating` | ทดสอบการคำนวณคะแนนเฉลี่ยของโพสต์ |
+|  |  | `should return 0 for no posts` | ควรคืนค่า 0 หากไม่มีโพสต์ |
+|  |  | `should calculate average rating` | ควรคำนวณคะแนนเฉลี่ยอย่างถูกต้องจากโพสต์ที่มีการให้คะแนน |
+|  |  | `should return 0 when posts have no ratings` | ควรคืนค่า 0 หากโพสต์ไม่มีการให้คะแนน |
+| `PostService` | `PostService - UPDATE` | `ratingPost` | ทดสอบการให้คะแนนโพสต์ |
+|  |  | `should add a new rating` | ควรเพิ่มคะแนนใหม่ให้กับโพสต์ |
+|  |  | `should update an existing rating` | ควรปรับปรุงคะแนนที่มีอยู่แล้วสำหรับผู้ใช้คนเดิม |
+|  |  | `should log an error if updateData throws` | ควรบันทึกข้อผิดพลาดในคอนโซลหากฟังก์ชัน `updateData` เกิดข้อผิดพลาด |
+|  |  | `should return early if no matching posts` | ควรหยุดการทำงานทันทีหากไม่พบโพสต์ที่ตรงกัน |
+|  |  | `updateDataInPost` | ทดสอบการปรับปรุงข้อมูลในโพสต์ |
+|  |  | `should update post description` | ควรปรับปรุงคำอธิบายของโพสต์ |
+|  |  | `should delete image when deleteImg is true` | ควรลบรูปภาพของโพสต์เมื่อ `deleteImg` เป็น `true` |
+|  |  | `should upload new image and update postImgUrl` | ควรบันทึกรูปภาพใหม่และปรับปรุง `postImgUrl` ของโพสต์ |
+|  |  | `should do nothing if no posts found` | ควรไม่ดำเนินการใดๆ หากไม่พบโพสต์ |
+|  |  | `should catch and log error during update` | ควรจับและบันทึกข้อผิดพลาดที่เกิดขึ้นระหว่างการปรับปรุงข้อมูล |
+|  |  | `should catch and log error when saving image` | ควรจับและบันทึกข้อผิดพลาดที่เกิดขึ้นระหว่างการบันทึกรูปภาพ |
+| `PostService` | `PostService - DELETE` | `removePostsByAction` | ทดสอบการลบโพสต์ตามเงื่อนไข |
+|  |  | `should remove posts by title and delete images if present` | ควรลบโพสต์ตามชื่อและลบรูปภาพที่เกี่ยวข้องหากมี |
+|  |  | `should remove posts by rating` | ควรลบโพสต์ตามคะแนน |
+|  |  | `should not remove anything if rating is not a number` | ไม่ควรลบสิ่งใดหากค่าคะแนนที่ระบุไม่ใช่ตัวเลข |
+|  |  | `should not proceed if repo is empty` | ไม่ควรดำเนินการใดๆ หากที่เก็บข้อมูลโพสต์ว่างเปล่า |
+|  |  | `should not remove if no matched posts found` | ไม่ควรลบสิ่งใดหากไม่พบโพสต์ที่ตรงกัน |
+|  |  | `should handle and log errors` | ควรจัดการและบันทึกข้อผิดพลาดที่เกิดขึ้นระหว่างการลบโพสต์ |
+|  |  | `should not remove anything if action is unknown` | ไม่ควรลบสิ่งใดหากการดำเนินการที่ระบุไม่ถูกต้อง |
+|  |  | `removeFirstPostWithImage` | ทดสอบการลบโพสต์แรกที่มีรูปภาพ |
+|  |  | `should not attempt to remove image if first post is null` | ไม่ควรพยายามลบรูปภาพหากโพสต์แรกเป็น `null` |
+|  |  | `should remove first post and delete image if present` | ควรลบโพสต์แรกและลบรูปภาพที่เกี่ยวข้องหากมี |
+|  |  | `should remove first post without image` | ควรลบโพสต์แรกที่ไม่มีรูปภาพ |
+|  |  | `should do nothing if post list is empty` | ควรไม่ดำเนินการใดๆ หากรายการโพสต์ว่างเปล่า |
+|  |  | `should handle errors and log them` | ควรจัดการและบันทึกข้อผิดพลาดที่เกิดขึ้นระหว่างการลบโพสต์แรก |
+|  |  | `removeLastPostWithImage` | ทดสอบการลบโพสต์สุดท้ายที่มีรูปภาพ |
+|  |  | `should remove last post with image` | ควรลบโพสต์สุดท้ายและลบรูปภาพที่เกี่ยวข้องหากมี |
+|  |  | `should remove last post without image` | ควรลบโพสต์สุดท้ายที่ไม่มีรูปภาพ |
+|  |  | `should do nothing if list is empty` | ควรไม่ดำเนินการใดๆ หากรายการโพสต์ว่างเปล่า |
+|  |  | `should catch and log error` | ควรจับและบันทึกข้อผิดพลาดที่เกิดขึ้นระหว่างการลบโพสต์สุดท้าย |
+
 
 **User Interface Test**
 
