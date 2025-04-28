@@ -336,25 +336,6 @@ Screenshot
 
 ![image.png](/.attachments/image-04bebe8d-d3db-44aa-ba01-bc8914b24abc.png)
 
-**Show screenshot and explanation of the following page ไว้ใน report**
-
-Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
-
-![Product Backlogs.png](/.attachments/Product%20Backlogs-ead2e072-28dd-42b0-99a9-d327563532aa.png)
-
-Sprint backlog: มีการกำหนดเวลาและวางแผน work item สำหรับ Sprint (Sprint  อาจเป็นแค่งานการเขียน report และการกำหนด requirement)
-
-![SprintBacklog.png](/.attachments/SprintBacklog-5821d898-1762-46a2-ae5c-6dfbcb5ad88d.png)
-
-ต้วอย่าง detail ของ work item ชนิด user story
-
-![WorkItem.png](/.attachments/WorkItem-c1723c84-cec3-40a6-99cf-0063ac7c5c7c.png)
-
-ต้วอย่าง detail ของ work item ชนิด Epic (optional)
-
-![Epic.png](/.attachments/Epic-6b0ec150-90e8-4c4c-9795-5f26c0502649.png)
-
-
 ## ****Website screenshot****
 - หน้า login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
@@ -512,8 +493,28 @@ Sprint backlog: มีการกำหนดเวลาและวางแ�
 | PostService | READ | calculateAverageRating | การทดสอบการคำนวณคะแนนเฉลี่ยของโพสต์จากคะแนนรีวิวทั้งหมด |
 | PostService | CREATE | createPost | การทดสอบการสร้างโพสต์ใหม่ รวมถึงการเพิ่มรูปภาพหรือไม่เพิ่มรูปภาพ |
 
-**เขียนสรุปการประชุม Retrospective ใน Sprint ที่ 4**
 
+
+**Show screenshot and explanation of the following page ไว้ใน report**
+
+Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
+
+![Product Backlogs.png](/.attachments/Product%20Backlogs-ead2e072-28dd-42b0-99a9-d327563532aa.png)
+
+Sprint backlog: มีการกำหนดเวลาและวางแผน work item สำหรับ Sprint (Sprint  อาจเป็นแค่งานการเขียน report และการกำหนด requirement)
+
+![SprintBacklog.png](/.attachments/SprintBacklog-5821d898-1762-46a2-ae5c-6dfbcb5ad88d.png)
+
+ต้วอย่าง detail ของ work item ชนิด user story
+
+![WorkItem.png](/.attachments/WorkItem-c1723c84-cec3-40a6-99cf-0063ac7c5c7c.png)
+
+ต้วอย่าง detail ของ work item ชนิด Epic (optional)
+
+![Epic.png](/.attachments/Epic-6b0ec150-90e8-4c4c-9795-5f26c0502649.png)
+
+
+**เขียนสรุปการประชุม Retrospective ใน Sprint ที่ 4**
 
 **Link to Retrospectice YouTube Video Sprint 1**
 
