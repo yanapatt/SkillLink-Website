@@ -508,8 +508,9 @@ Screenshot
 
 **กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLinked**
 
-เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure 
+เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure Devops
 
+***หมายเหตุ*** เนื่องจากสมาชิกในกลุ่มทุกคน ไม่สามารถ Deploy โปรเจคขึ้นบน Server ได้ ดังนั้นเราจึงจะอธิบายเฉพาะการทำ Build โดยใช้ Free Tier Pararell Jobs เท่านั้น
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
