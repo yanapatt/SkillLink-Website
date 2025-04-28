@@ -514,9 +514,9 @@ Screenshot
 
 ![image.png](/.attachments/image-bc9c871a-b86a-4151-b833-ca9c5e337bb2.png)
 
+ในขั้นตอนนี้เราจะปิด Trigger เอาไว้เพื่อไม่ให้ Run Build ใหม่เมื่อเกิดการเปลี่ยนแปลงที่ main branch เนื่องจากใน main branch มีส่วนของ wiki report ที่จะมีการอัพเดทบ่อย ซึ่งไม่เกี่ยวกับโค๊ดดังนั้นเราจึงปิด Trigger เพื่อป้องกันการรัน Build ใหม่โดยไม่จำเป็น
 
-
-***หมายเหตุ*** เนื่องจากสมาชิกในกลุ่มทุกคน ไม่สามารถ Deploy โปรเจคขึ้นบน Server ได้ ดังนั้นเราจึงจะอธิบายเฉพาะการทำ Build โดยใช้ Free Tier Pararell Jobs เท่านั้น
+![image.png](/.attachments/image-686eae3f-6976-446f-bddd-b154c84b128c.png)
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
