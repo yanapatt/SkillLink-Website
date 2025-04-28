@@ -506,7 +506,7 @@ Screenshot
 | Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
 
-**กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLinked**
+**กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLink**
 
 เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure Devops
 
@@ -525,6 +525,8 @@ Screenshot
 ![image.png](/.attachments/image-5c8c0a06-f5f0-4b7e-a17e-5980ed1e9253.png)
 
 ![image.png](/.attachments/image-76490fa9-250c-4fdb-995a-4ad9f24267c1.png)
+
+
 
 
 **Show screenshot and explanation of the following page ไว้ใน report**
