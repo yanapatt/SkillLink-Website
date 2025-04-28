@@ -337,7 +337,7 @@ Screenshot
 ![image.png](/.attachments/image-04bebe8d-d3db-44aa-ba01-bc8914b24abc.png)
 
 ## ****Website screenshot****
-- หน้า login
+- หน้า Login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
 ![image.png](/.attachments/image-df90606e-a0c5-48e9-954f-838ca623bcec.png)
 
@@ -345,8 +345,10 @@ Screenshot
 เป็นการสมัครบัญชีเริ่มแรกเมื่อเข้าใช้ โดยเมื่อลงทะเบียนเสร็จจะกลับไปยังหน้า Login
 ![image.png](/.attachments/image-2cf57240-b407-43b2-8175-f5f46be3674c.png)
 
-- หน้า edit post
+- หน้า Edit Post
+
 เป็นการ edit post เฉพาะเจ้าของ ของpostนั้นๆ และเมื่อเสร็จจะกลับไปยังหน้าหลัก
+
 ![image.png](/.attachments/image-c6dd49da-97fe-4786-94b0-018abfbf5a99.png)
 
 - หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Postนั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Postจะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
@@ -504,7 +506,10 @@ Screenshot
 | Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
 
-**กระบวนการทำ CI/CD ที่ใช้ใ
+**กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLinked**
+
+
+
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
