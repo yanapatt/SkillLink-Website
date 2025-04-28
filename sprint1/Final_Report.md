@@ -489,7 +489,10 @@ Screenshot
 | PostService | READ | calculateAverageRating | การทดสอบการคำนวณคะแนนเฉลี่ยของโพสต์จากคะแนนรีวิวทั้งหมด |
 | PostService | CREATE | createPost | การทดสอบการสร้างโพสต์ใหม่ รวมถึงการเพิ่มรูปภาพหรือไม่เพิ่มรูปภาพ |
 
-**User Interface**
+**User Interface Test**
+
+เราได้มีการใช้ Selenium สำหรับการทดสอบ User Interface ของเว็บไซต์ผ่าน Google Chrome โดยจะมีทั้งหมด 8 Test Unit ทดสอบ 3 หน้าได้แก่ Login, Register และ Index สำหรับรายละเอียดของการทดสอบเราสรุปเป็นตารางด้านล่าง
+
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | Register Page Test | should show error message if username already exists | กรอก username ที่ซ้ำแล้วตรวจสอบข้อความ error | เมื่อกรอกชื่อผู้ใช้ที่มีอยู่แล้ว ต้องแสดงข้อความ "Username already exists." |
@@ -500,6 +503,15 @@ Screenshot
 | Index page for user test | should display search results when searching for an existing post title | ค้นหาชื่อโพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
+
+**Screenshort โค้ดสำหรับ User Interface Test**
+
+![image.png](/.attachments/image-8a0b546c-4216-49e5-a7e3-952517c144f1.png)
+
+![image.png](/.attachments/image-5c8c0a06-f5f0-4b7e-a17e-5980ed1e9253.png)
+
+![image.png](/.attachments/image-76490fa9-250c-4fdb-995a-4ad9f24267c1.png)
+
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
