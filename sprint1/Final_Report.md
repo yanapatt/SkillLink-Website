@@ -506,6 +506,14 @@ Screenshot
 | Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
 
+**Screenshort โค้ดสำหรับ User Interface Test**
+
+![image.png](/.attachments/image-8a0b546c-4216-49e5-a7e3-952517c144f1.png)
+
+![image.png](/.attachments/image-5c8c0a06-f5f0-4b7e-a17e-5980ed1e9253.png)
+
+![image.png](/.attachments/image-76490fa9-250c-4fdb-995a-4ad9f24267c1.png)
+
 **กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLink**
 
 เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure Devops
@@ -543,16 +551,6 @@ Screenshot
 ![image.png](/.attachments/image-863d7db7-00e2-478c-81e1-3e248f26e517.png)
 
 ![image.png](/.attachments/image-1d82911d-5485-47fb-a3c0-d2fe2e7548cd.png)
-
-**Screenshort โค้ดสำหรับ User Interface Test**
-
-![image.png](/.attachments/image-8a0b546c-4216-49e5-a7e3-952517c144f1.png)
-
-![image.png](/.attachments/image-5c8c0a06-f5f0-4b7e-a17e-5980ed1e9253.png)
-
-![image.png](/.attachments/image-76490fa9-250c-4fdb-995a-4ad9f24267c1.png)
-
-**Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
 
