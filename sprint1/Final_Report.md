@@ -538,7 +538,11 @@ Screenshot
 
 เราได้กำหนดค่า Script โดยให้ Change Directory เข้าไปที่ SkillLink Repository และสั่ง Remove ไฟล์ต่าง ๆ ที่มีขนาดใหญ่ และสามารถสร้างใหม่ได้ทุกครั้ง ก่อนที่จะ Zip เป็นไฟล์ และส่งออกไปที่ Artifact drop ใน Azure ซึ่งสามารถดาวน์โหลด Zip ไฟล์ได้ผ่าน Azure
 
+![image.png](/.attachments/image-bfebaff5-cf33-483b-802f-c63d42b40bf0.png)
 
+![image.png](/.attachments/image-863d7db7-00e2-478c-81e1-3e248f26e517.png)
+
+![image.png](/.attachments/image-1d82911d-5485-47fb-a3c0-d2fe2e7548cd.png)
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
