@@ -526,9 +526,17 @@ Screenshot
 
 ![image.png](/.attachments/image-0aba8852-370b-430e-b4ec-05e4c2c19328.png)
 
-![image.png](/.attachments/image-68d9bc79-b6fc-4672-b800-ce354ccd2130.png)
+**ผลลัพธ์**
 
 ![image.png](/.attachments/image-164ff488-1b64-4d6b-b656-370ac3722322.png)
+
+![image.png](/.attachments/image-68d9bc79-b6fc-4672-b800-ce354ccd2130.png)
+
+**การ Zip ไฟล์**
+
+![image.png](/.attachments/image-dfa76841-2444-4d20-bf33-5c24cf985622.png)
+
+เราได้กำหนดค่า Script โดยให้ Change Directory เข้าไปที่ SkillLink Repository และสั่ง Remove ไฟล์ต่าง ๆ ที่มีขนาดใหญ่ และสามารถสร้างใหม่ได้ทุกครั้ง ก่อนที่จะ Zip เป็นไฟล์
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
