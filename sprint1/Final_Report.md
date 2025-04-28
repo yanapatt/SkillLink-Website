@@ -338,7 +338,7 @@ Screenshot
 
 ## ****Website screenshot****
 - หน้า Login
-เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของLogin และเมื่อไม่มีบัญชีให้กดปุ่มRegister
+เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของ Login และเมื่อไม่มีบัญชีให้กดปุ่ม Register
 ![image.png](/.attachments/image-df90606e-a0c5-48e9-954f-838ca623bcec.png)
 
 - หน้า Register
@@ -352,6 +352,7 @@ Screenshot
 ![image.png](/.attachments/image-c6dd49da-97fe-4786-94b0-018abfbf5a99.png)
 
 - หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Postนั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Postจะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
+
 ![image.png](/.attachments/image-1cccfcd1-1a02-4d47-965e-e16609fa25f1.png)
 
 -หน้า Home โดยหน้านี้จะแบ่งออกเป็น 2 หน้า โดยจะมีของ Admin และ User
