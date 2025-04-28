@@ -536,7 +536,7 @@ Screenshot
 
 ![image.png](/.attachments/image-dfa76841-2444-4d20-bf33-5c24cf985622.png)
 
-เราได้กำหนดค่า Script โดยให้ Change Directory เข้าไปที่ SkillLink Repository และสั่ง Remove ไฟล์ต่าง ๆ ที่มีขนาดใหญ่ และสามารถสร้างใหม่ได้ทุกครั้ง ก่อนที่จะ Zip เป็นไฟล์
+เราได้กำหนดค่า Script โดยให้ Change Directory เข้าไปที่ SkillLink Repository และสั่ง Remove ไฟล์ต่าง ๆ ที่มีขนาดใหญ่ และสามารถสร้างใหม่ได้ทุกครั้ง ก่อนที่จะ Zip เป็นไฟล์ และส่งออกไปที่ Artifact drop 
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
