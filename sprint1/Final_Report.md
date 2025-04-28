@@ -526,6 +526,8 @@ Screenshot
 
 ![image.png](/.attachments/image-0aba8852-370b-430e-b4ec-05e4c2c19328.png)
 
+![image.png](/.attachments/image-68d9bc79-b6fc-4672-b800-ce354ccd2130.png)
+
 ![image.png](/.attachments/image-164ff488-1b64-4d6b-b656-370ac3722322.png)
 
 **Screenshort โค้ดสำหรับ User Interface Test**
