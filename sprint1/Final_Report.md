@@ -552,6 +552,8 @@ Screenshot
 
 ![image.png](/.attachments/image-1d82911d-5485-47fb-a3c0-d2fe2e7548cd.png)
 
+**Show screenshot and explanation of the following page ไว้ใน report**
+
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
 
 ![Product Backlogs.png](/.attachments/Product%20Backlogs-ead2e072-28dd-42b0-99a9-d327563532aa.png)
@@ -567,7 +569,6 @@ Sprint backlog: มีการกำหนดเวลาและวางแ�
 ต้วอย่าง detail ของ work item ชนิด Epic (optional)
 
 ![Epic.png](/.attachments/Epic-6b0ec150-90e8-4c4c-9795-5f26c0502649.png)
-
 
 **เขียนสรุปการประชุม Retrospective ใน Sprint ที่ 4**
 
