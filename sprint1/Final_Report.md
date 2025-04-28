@@ -504,6 +504,8 @@ Screenshot
 | Index page for user test | should display search results when searching for an existing post owner | ค้นหาจากชื่อผู้โพสต์ที่มีอยู่แล้ว | เมื่อค้นหาด้วยชื่อเจ้าของโพสต์ ต้องแสดงผลลัพธ์ที่พบ |
 | Index page for user test | should display "Not Found!" when no posts match the search query | ค้นหาโพสต์ที่ไม่มีในระบบ | เมื่อไม่พบโพสต์ ต้องแสดงข้อความ "Not Found!" |
 
+**กระบวนการทำ CI/CD ที่ใช้ใ
+
 **Screenshort โค้ดสำหรับ User Interface Test**
 
 ![image.png](/.attachments/image-8a0b546c-4216-49e5-a7e3-952517c144f1.png)
