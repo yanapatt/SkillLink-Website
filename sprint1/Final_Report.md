@@ -379,7 +379,7 @@ Screenshot
 **Test Case Table Description** 
 
 **Account Repository**
-| **Test Suite** | **Describe** | **Test Unit** | **Description (อธิบายภาษาไทย)** |
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | AccountRepository | AccountRepository | should create directory if it does not exist | ทดสอบการสร้างโฟลเดอร์ใหม่หากยังไม่มีอยู่ |
 | AccountRepository | AccountRepository | should not create directory if it already exists | ทดสอบไม่สร้างโฟลเดอร์ใหม่ถ้ามีอยู่แล้ว |
@@ -401,7 +401,7 @@ Screenshot
 | AccountRepository | AccountRepository | should not insert to result if email does not match | ทดสอบหา email ไม่เจอแล้วได้ลิสต์ว่าง |
 
 **Account Service**
-| **Test Suite** | **Describe** | **Test Unit** | **Description (อธิบายภาษาไทย)** |
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | AccountService | createAccount | should create an account with valid data | ทดสอบการสร้างบัญชีใหม่ด้วยข้อมูลครบถ้วน และเข้ารหัสรหัสผ่านก่อนบันทึกลงฐานข้อมูล |
 | AccountService | createAccount | should return null if required fields are missing | ทดสอบกรณีที่ข้อมูลจำเป็นไม่ครบ เช่นไม่มีรหัสผ่านหรืออีเมล ต้องคืนค่า `null` และไม่บันทึกบัญชี |
@@ -413,7 +413,7 @@ Screenshot
 
 
 **Image Repository**
-| **Test Suite** | **Describe** | **Test Unit** | **Description (อธิบายภาษาไทย)** |
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | ImageRepository | ensureUploadsDirExists | should create uploads directory if it does not exist | ทดสอบการสร้างโฟลเดอร์อัปโหลดขึ้นมาใหม่ ถ้าโฟลเดอร์ยังไม่มีอยู่จริง |
 | ImageRepository | ensureUploadsDirExists | should not create uploads directory if it exists | ทดสอบว่าไม่สร้างโฟลเดอร์ใหม่ ถ้าโฟลเดอร์อัปโหลดมีอยู่แล้ว |
@@ -434,7 +434,7 @@ Screenshot
 | multer | - | should call multer with diskStorage | ทดสอบว่า multer ถูกเรียกพร้อมตัวเลือก storage ที่ถูกต้อง |
 
 **Linked List**
-| **Test Suite** | **Describe** | **Test Unit** | **Description (คำอธิบายภาษาไทย)** |
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | LinkedList Basic Operations | should initialize an empty LinkedList | เช็กว่าลิสต์ถูกสร้างใหม่ว่างเปล่า (size = 0, head และ tail เป็น null) |  |
 | LinkedList Basic Operations | insertFirst should add a node at the beginning | เช็กว่า insertFirst เพิ่ม node ไปที่หัวลิสต์และอัปเดต head, tail ถูกต้อง |  |
@@ -461,7 +461,7 @@ Screenshot
 
 **Post Repository**
 
-| **Test Suite** | **Describe** | **Test Unit** | **Description (คำอธิบาย)** |
+| **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
 | PostRepository - Basic Operations | - | should create the directory if it does not exist | ทดสอบว่าเมื่อตรวจไม่พบโฟลเดอร์จะทำการสร้างโฟลเดอร์ใหม่ขึ้นมา |
 | PostRepository - Basic Operations | - | should save posts to a file | ทดสอบการบันทึกโพสต์ทั้งหมดลงไฟล์ (เขียนไฟล์สำรองแล้วเปลี่ยนชื่อเป็นไฟล์จริง) |
