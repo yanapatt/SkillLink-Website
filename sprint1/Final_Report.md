@@ -434,29 +434,19 @@ Screenshot
 | multer | - | should call multer with diskStorage | ทดสอบว่า multer ถูกเรียกพร้อมตัวเลือก storage ที่ถูกต้อง |
 
 **Linked List**
+
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
-| LinkedList Basic Operations | should initialize an empty LinkedList | เช็กว่าลิสต์ถูกสร้างใหม่ว่างเปล่า (size = 0, head และ tail เป็น null) |  |
-| LinkedList Basic Operations | insertFirst should add a node at the beginning | เช็กว่า insertFirst เพิ่ม node ไปที่หัวลิสต์และอัปเดต head, tail ถูกต้อง |  |
-| LinkedList Basic Operations | insertLast should add a node at the end | เช็กว่า insertLast เพิ่ม node ไปที่ท้ายลิสต์และอัปเดต head, tail ถูกต้อง |  |
-| LinkedList Basic Operations | removeFirst should remove the first node | เช็กว่า removeFirst ลบ node แรกและอัปเดต head ใหม่ถูกต้อง |  |
-| LinkedList Basic Operations | removeFirst should set tail to null when the last node is removed | เช็กว่าถ้าลบ node สุดท้ายแล้ว head และ tail กลับเป็น null |  |
-| LinkedList Basic Operations | removeFirst should do nothing if the LinkedList is empty | เช็กว่า removeFirst ทำงานปกติแม้ลิสต์ว่าง (ไม่มี error) |  |
-| LinkedList Basic Operations | removeLast should remove the last node | เช็กว่า removeLast ลบ node ท้ายและอัปเดต tail ใหม่ถูกต้อง |  |
-| LinkedList Basic Operations | removeLast should set head and tail to null when the last node is removed | เช็กว่า removeLast ทำให้ head, tail เป็น null เมื่อลบ node สุดท้ายแล้ว |  |
-| LinkedList Basic Operations | removeLast should traverse the list to find the second-to-last node | เช็กว่า removeLast วิ่งหาตำแหน่ง node ก่อนตัวท้ายและตั้ง tail ใหม่ถูกต้อง |  |
-| LinkedList Basic Operations | removeLast should do nothing if the LinkedList is empty | เช็กว่า removeLast ทำงานปกติแม้ลิสต์ว่าง (ไม่มี error) |  |
-| LinkedList Higher-Order Methods | toArray should convert LinkedList to an array | เช็กว่าฟังก์ชัน toArray เปลี่ยน LinkedList เป็น array ถูกต้อง |  |
-| LinkedList Higher-Order Methods | map should apply a callback to each node and return a new array | เช็กว่า map ประมวลผลค่าในลิสต์ด้วย callback และคืนค่า array ใหม่ถูกต้อง |  |
-| LinkedList Higher-Order Methods | find should return the first node that matches the condition | เช็กว่า find คืนค่าตัวแรกที่ตรงกับเงื่อนไขที่กำหนด |  |
-| LinkedList Higher-Order Methods | filter should return a new LinkedList with nodes that match the condition | เช็กว่า filter คืน LinkedList ใหม่ที่มีแต่ node ที่ผ่านเงื่อนไข |  |
-| LinkedList Higher-Order Methods | slice should return a new LinkedList with nodes in the specified range | เช็กว่า slice คืน LinkedList ใหม่ที่เป็นช่วง index ที่กำหนด |  |
-| LinkedList Higher-Order Methods | forEachNode should skip nodes with null or undefined values | เช็กว่า forEachNode ข้าม node ที่ value เป็น null หรือ undefined |  |
-| LinkedList Utility Methods | should not sort if the LinkedList has less than 2 nodes | เช็กว่า sort ไม่ทำอะไรถ้าจำนวน node น้อยกว่า 2 |  |
-| LinkedList Utility Methods | should sort if the LinkedList has 2 or more nodes | เช็กว่า sort ทำการจัดเรียงค่าถูกต้องเมื่อมี node ตั้งแต่ 2 ตัวขึ้นไป |  |
-| LinkedList Utility Methods | getNodeValue should return the value at the specified index | เช็กว่า getNodeValue คืนค่าตาม index ที่ขอ หรือคืน null ถ้าเกิน index |  |
-| LinkedList Utility Methods | removeAllNodes should remove all nodes that match the condition | เช็กว่า removeAllNodes ลบ node ตามเงื่อนไขได้ถูกต้อง |  |
-| LinkedList Utility Methods | removeAllNodes should set tail to null when all nodes are removed | เช็กว่า removeAllNodes ตั้ง head, tail เป็น null เมื่อไม่มี node เหลือแล้ว |  |
+| LinkedList Basic Operations | should initialize an empty LinkedList | ควรเริ่มต้นลิงก์ลิสต์ที่ว่างเปล่า | ตรวจสอบว่าลิงก์ลิสต์ถูกสร้างใหม่โดยไม่มีโหนดใด ๆ และขนาดเป็น 0 |
+| LinkedList Basic Operations | insertFirst should add a node at the beginning | insertFirst เพิ่มโหนดที่จุดเริ่มต้น | ทดสอบการเพิ่มโหนดใหม่ที่หัวของลิงก์ลิสต์และตรวจสอบการอัปเดตหัว-ท้าย |
+| LinkedList Basic Operations | insertLast should add a node at the end | insertLast เพิ่มโหนดที่ท้ายลิงก์ลิสต์ | ทดสอบการเพิ่มโหนดใหม่ที่ท้ายของลิงก์ลิสต์และตรวจสอบการอัปเดตหัว-ท้าย |
+| LinkedList Basic Operations | removeFirst should remove the first node | removeFirst ลบโหนดตัวแรก | ทดสอบการลบโหนดตัวแรกและตรวจสอบการอัปเดตหัวและขนาด |
+| LinkedList Basic Operations | removeFirst should set tail to null when the last node is removed | removeFirst ลบโหนดสุดท้าย | ตรวจสอบว่า tail ถูกตั้งค่าเป็น null เมื่อโหนดสุดท้ายถูกลบออก |
+| LinkedList Basic Operations | removeFirst should do nothing if the LinkedList is empty | removeFirst ไม่ทำงานเมื่อลิงก์ลิสต์ว่าง | ตรวจสอบว่าการลบในลิงก์ลิสต์ว่างไม่ทำให้เกิดข้อผิดพลาด |
+| LinkedList Basic Operations | removeLast should remove the last node | removeLast ลบโหนดสุดท้าย | ทดสอบการลบโหนดท้ายสุดและตรวจสอบการอัปเดตหัว-ท้าย |
+| LinkedList Basic Operations | removeLast should set head and tail to null when the last node is removed | removeLast ลบโหนดสุดท้ายในลิสต์ขนาด 1 | ตรวจสอบว่าหลังลบโหนดเดียวที่มีอยู่ head และ tail กลายเป็น null |
+| LinkedList Basic Operations | removeLast should traverse the list to find the second-to-last node | removeLast หาตำแหน่งก่อนท้ายเพื่ออัปเดต tail | ตรวจสอบการ traversal เพื่อหาตำแหน่งใหม่ของ tail หลังการลบโหนดสุดท้าย |
+| LinkedList Basic Operations | removeLast should do nothing if the LinkedList is empty | removeLast ไม่ทำงานเมื่อลิงก์ลิสต์ว่าง | ตรวจสอบว่าการลบในลิงก์ลิสต์ว่างไม่มีผลกระทบ |
 
 
 **Post Repository**
