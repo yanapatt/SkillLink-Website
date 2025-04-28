@@ -522,7 +522,11 @@ Screenshot
 
 ![image.png](/.attachments/image-ac994e18-16ce-4ac3-b020-179acad818b0.png)
 
-***หมายเหตุ:*** สำหรับ UI Test เมื่อรันบน Pipeline จะพบกับ Error เนื่องจากบน Azure ไม่เจอ
+***หมายเหตุ:*** สำหรับ UI Test เมื่อรันบน Pipeline จะพบกับ Error เนื่องจากบน Azure ถ้าใช้ Selenium และรันโดย Google Chrome จะไม่เจอ Session จึงเกิด Error ดังภาพ แต่ Test อื่น ๆ ยังสามารถทำงานได้ปกติ
+
+![image.png](/.attachments/image-0aba8852-370b-430e-b4ec-05e4c2c19328.png)
+
+![image.png](/.attachments/image-164ff488-1b64-4d6b-b656-370ac3722322.png)
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
