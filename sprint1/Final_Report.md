@@ -510,6 +510,12 @@ Screenshot
 
 เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure Devops
 
+ที่ main Branch ใน hanza repository เราจะทำการสร้างไฟล์ azure-pipelines.yml เอาไว้และกำหนดค่าต่าง ๆ ดังภาพด้านล่าง
+
+![image.png](/.attachments/image-bc9c871a-b86a-4151-b833-ca9c5e337bb2.png)
+
+
+
 ***หมายเหตุ*** เนื่องจากสมาชิกในกลุ่มทุกคน ไม่สามารถ Deploy โปรเจคขึ้นบน Server ได้ ดังนั้นเราจึงจะอธิบายเฉพาะการทำ Build โดยใช้ Free Tier Pararell Jobs เท่านั้น
 
 **Screenshort โค้ดสำหรับ User Interface Test**
