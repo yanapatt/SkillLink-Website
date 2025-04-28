@@ -336,6 +336,16 @@ Screenshot
 
 ![image.png](/.attachments/image-04bebe8d-d3db-44aa-ba01-bc8914b24abc.png)
 
+การใช้ console.time(' ') และ console.timeEnd(' ') เพื่อจับเวลา การทำงานของ Method ต่าง ๆ บน LinkedList class (บางส่วน)
+
+![image.png](/.attachments/image-0606ef8d-b6bb-422a-9985-b0fb4f878277.png)
+
+![image.png](/.attachments/image-04d84a5d-cf1e-479b-9686-6d5d6317c85c.png)
+
+ผลลัพธ์ (บางส่วน)
+
+![image.png](/.attachments/image-1319e761-f255-4253-8768-a2a4aa489c73.png)
+
 ## ****Website screenshot****
 - หน้า Login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของ Login และเมื่อไม่มีบัญชีให้กดปุ่ม Register
