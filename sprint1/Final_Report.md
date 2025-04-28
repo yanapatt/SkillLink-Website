@@ -447,6 +447,18 @@ Screenshot
 | LinkedList Basic Operations | removeLast should set head and tail to null when the last node is removed | removeLast ลบโหนดสุดท้ายในลิสต์ขนาด 1 | ตรวจสอบว่าหลังลบโหนดเดียวที่มีอยู่ head และ tail กลายเป็น null |
 | LinkedList Basic Operations | removeLast should traverse the list to find the second-to-last node | removeLast หาตำแหน่งก่อนท้ายเพื่ออัปเดต tail | ตรวจสอบการ traversal เพื่อหาตำแหน่งใหม่ของ tail หลังการลบโหนดสุดท้าย |
 | LinkedList Basic Operations | removeLast should do nothing if the LinkedList is empty | removeLast ไม่ทำงานเมื่อลิงก์ลิสต์ว่าง | ตรวจสอบว่าการลบในลิงก์ลิสต์ว่างไม่มีผลกระทบ |
+LinkedList Higher-Order Methods | toArray should convert LinkedList to an array | toArray แปลงลิงก์ลิสต์เป็นอาร์เรย์ | ตรวจสอบการแปลงค่าทั้งหมดในลิงก์ลิสต์เป็นอาร์เรย์
+LinkedList Higher-Order Methods | map should apply a callback to each node and return a new array | map ประมวลผลทุกโหนดด้วย callback | ทดสอบการใช้ฟังก์ชัน callback กับโหนดแต่ละตัวและคืนค่าเป็นอาร์เรย์ใหม่
+LinkedList Higher-Order Methods | find should return the first node that matches the condition | find หาค่าที่ตรงเงื่อนไขตัวแรก | ทดสอบการค้นหาค่าแรกที่ตรงตามเงื่อนไขที่กำหนด
+LinkedList Higher-Order Methods | filter should return a new LinkedList with nodes that match the condition | filter กรองโหนดที่ตรงเงื่อนไข | ทดสอบการสร้างลิงก์ลิสต์ใหม่เฉพาะโหนดที่ตรงเงื่อนไข
+LinkedList Higher-Order Methods | slice should return a new LinkedList with nodes in the specified range | slice ตัดช่วงโหนดในลิสต์ | ทดสอบการเลือกช่วงโหนดตาม index ที่กำหนด
+LinkedList Higher-Order Methods | forEachNode should skip nodes with null or undefined values | forEachNode ข้ามโหนดที่ไม่มีค่า | ทดสอบว่า forEachNode จะข้ามโหนดที่เป็น null หรือ undefined
+LinkedList Utility Methods | should not sort if the LinkedList has less than 2 nodes | sort ไม่ทำงานถ้ามีน้อยกว่า 2 โหนด | ทดสอบว่า sort จะไม่ทำงานเมื่อมีโหนดน้อยกว่าสองตัว
+LinkedList Utility Methods | should sort if the LinkedList has 2 or more nodes | sort จัดเรียงลิงก์ลิสต์ | ทดสอบการจัดเรียงลิงก์ลิสต์ตาม callback
+LinkedList Utility Methods | getNodeValue should return the value at the specified index | getNodeValue คืนค่าตาม index | ทดสอบการดึงค่าจากลิงก์ลิสต์ตาม index ที่กำหนด
+LinkedList Utility Methods | removeAllNodes should remove all nodes that match the condition | removeAllNodes ลบโหนดตามเงื่อนไข | ทดสอบการลบโหนดทั้งหมดที่ตรงกับเงื่อนไขที่กำหนด
+LinkedList Utility Methods | removeAllNodes should set tail to null when all nodes are removed | removeAllNodes ลบทุกโหนด | ทดสอบว่าหลังจากลบทุกโหนดแล้ว head และ tail จะกลายเป็น null
+
 
 
 **Post Repository**
