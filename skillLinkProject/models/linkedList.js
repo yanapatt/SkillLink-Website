@@ -21,6 +21,7 @@ class LinkedList {
     }
 
     forEachNode(callback) {
+        console.time('forEachNode');
         let current = this.head;
         while (current) {
             if (current.value !== null && current.value !== undefined) {
@@ -28,28 +29,35 @@ class LinkedList {
             }
             current = current.next;
         }
+        console.timeEnd('forEachNode');
     }
 
     toArray() {
+        console.time('toArray');
         const result = [];
         this.forEachNode((value) => result.push(value));
+        console.timeEnd('toArray');
         return result;
     }
 
     map(callback) {
+        console.time('map');
         const result = [];
         let current = this.head;
         while (current) {
             result.push(callback(current.value));
             current = current.next;
         }
+        console.timeEnd('map');
         return result;
     }
 
     find(callback) {
+        console.time('find');
         let current = this.head;
         while (current) {
             if (callback(current.value)) {
+                console.timeEnd('find');
                 return current.value;
             }
             current = current.next;
@@ -57,6 +65,7 @@ class LinkedList {
     }
 
     filter(callback) {
+        console.time('filter');
         const filteredList = new LinkedList();
         let current = this.head;
         while (current) {
@@ -65,10 +74,12 @@ class LinkedList {
             }
             current = current.next;
         }
+        console.timeEnd('filter');
         return filteredList;
     }
 
     slice(start, end) {
+        console.time('slice');
         const resultList = new LinkedList();
         let current = this.head;
         let index = 0;
@@ -81,11 +92,16 @@ class LinkedList {
             index++;
         }
 
+        console.timeEnd('slice');
         return resultList;
     }
 
     sort(compareFn) {
-        if (this.size < 2) return;
+        console.time('sort');
+        if (this.size < 2) {
+            console.timeEnd('sort');
+            return;
+        }
 
         const values = this.toArray();
         values.sort(compareFn);
@@ -97,25 +113,31 @@ class LinkedList {
         for (const value of values) {
             this.insertLast(value);
         }
+        console.timeEnd('sort');
     }
 
     getNodeValue(index) {
+        console.time('getNodeValue');
         if (index < 0 || index >= this.size) {
             console.log("Invalid index.");
+            console.timeEnd('getNodeValue');
             return null;
         }
         let current = this.head;
         let count = 0;
         while (current) {
             if (count === index) {
+                console.timeEnd('getNodeValue');
                 return current.value;
             }
             count++;
             current = current.next;
+            console.timeEnd('getNodeValue');
         }
     }
 
     insertFirst(value) {
+        console.time('insertFirst');
         const newNode = new Node(value);
         newNode.next = this.head;
         this.head = newNode;
@@ -123,18 +145,25 @@ class LinkedList {
             this.tail = newNode;
         }
         this.size++;
+        console.timeEnd('insertFirst');
     }
 
     removeFirst() {
-        if (!this.head) return;
+        console.time('removeFirst');
+        if (!this.head) {
+            console.timeEnd('removeFirst');
+            return;
+        }
         this.head = this.head.next;
         if (!this.head) {
             this.tail = null;
         }
         this.size--;
+        console.timeEnd('removeFirst');
     }
 
     insertLast(value) {
+        console.time('insertLast');
         const newNode = new Node(value);
         if (!this.head) {
             this.head = newNode;
@@ -144,14 +173,20 @@ class LinkedList {
             this.tail = newNode;
         }
         this.size++;
+        console.timeEnd('insertLast');
     }
 
     removeLast() {
-        if (!this.head) return;
+        console.time('removeLast');
+        if (!this.head) {
+            console.timeEnd('removeLast');
+            return;
+        }
         if (this.head === this.tail) {
             this.head = null;
             this.tail = null;
             this.size--;
+            console.timeEnd('removeLast');
             return;
         }
 
@@ -163,9 +198,11 @@ class LinkedList {
         current.next = null;
         this.tail = current;
         this.size--;
+        console.timeEnd('removeLast');
     }
 
     removeAllNodes(callback) {
+        console.time('removeAllNodes');
         let current = this.head;
         let prev = null;
 
@@ -191,6 +228,7 @@ class LinkedList {
         if (this.size === 0) {
             this.tail = null;
         }
+        console.timeEnd('removeAllNodes');
     }
 }
 
