@@ -518,7 +518,11 @@ Screenshot
 
 ![image.png](/.attachments/image-686eae3f-6976-446f-bddd-b154c84b128c.png)
 
+ทำการสร้าง Build Pipeline
+
 ![image.png](/.attachments/image-ac994e18-16ce-4ac3-b020-179acad818b0.png)
+
+***หมายเหตุ:*** สำหรับ UI Test เมื่อรันบน Pipeline จะพบกับ Error เนื่องจากบน Azure ไม่เจอ
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
