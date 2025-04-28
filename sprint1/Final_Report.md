@@ -508,7 +508,7 @@ Screenshot
 
 **กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLinked**
 
-
+เครื่องมือที่ใช้ในการสร้าง Pipeline เพื่อ Build คือ Azure 
 
 
 **Screenshort โค้ดสำหรับ User Interface Test**
