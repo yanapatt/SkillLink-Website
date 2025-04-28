@@ -526,9 +526,6 @@ Screenshot
 
 ![image.png](/.attachments/image-76490fa9-250c-4fdb-995a-4ad9f24267c1.png)
 
-
-
-
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
