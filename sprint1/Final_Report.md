@@ -518,6 +518,8 @@ Screenshot
 
 ![image.png](/.attachments/image-686eae3f-6976-446f-bddd-b154c84b128c.png)
 
+![image.png](/.attachments/image-ac994e18-16ce-4ac3-b020-179acad818b0.png)
+
 **Screenshort โค้ดสำหรับ User Interface Test**
 
 ![image.png](/.attachments/image-8a0b546c-4216-49e5-a7e3-952517c144f1.png)
