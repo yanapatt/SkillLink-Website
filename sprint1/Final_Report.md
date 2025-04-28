@@ -465,32 +465,32 @@ LinkedList Utility Methods | removeAllNodes should set tail to null when all nod
 
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
 | --- | --- | --- | --- |
-| PostRepository - Basic Operations | - | should create the directory if it does not exist | ทดสอบว่าเมื่อตรวจไม่พบโฟลเดอร์จะทำการสร้างโฟลเดอร์ใหม่ขึ้นมา |
-| PostRepository - Basic Operations | - | should save posts to a file | ทดสอบการบันทึกโพสต์ทั้งหมดลงไฟล์ (เขียนไฟล์สำรองแล้วเปลี่ยนชื่อเป็นไฟล์จริง) |
-| PostRepository - Basic Operations | - | should handle error when saving to file | ทดสอบการจัดการกรณีเกิดข้อผิดพลาดระหว่างบันทึกโพสต์ลงไฟล์ (แสดง error) |
-| PostRepository - Basic Operations | - | should load posts from a file | ทดสอบการโหลดข้อมูลโพสต์จากไฟล์เข้ามาใช้งาน |
-| PostRepository - Basic Operations | - | should handle error when loading from file | ทดสอบการจัดการกรณีเกิดข้อผิดพลาดระหว่างโหลดโพสต์จากไฟล์ (แสดง error) |
-| PostRepository - Post Retrieval | - | should retrieve all posts | ทดสอบการดึงข้อมูลโพสต์ทั้งหมด |
-| PostRepository - Post Retrieval | - | should retrieve posts by title | ทดสอบการค้นหาโพสต์จากชื่อเรื่อง (title) |
-| PostRepository - Post Retrieval | - | should retrieve posts by author | ทดสอบการค้นหาโพสต์จากชื่อผู้เขียน (author) |
-| PostRepository - Post Retrieval | - | should sort posts by rating descending | ทดสอบการเรียงโพสต์จากคะแนน (rating) มากไปน้อย |
-| PostRepository - Post Retrieval | - | should retrieve top-rated posts (limit = 1) | ทดสอบการดึงโพสต์ที่ได้คะแนนสูงสุดจำกัดจำนวน (1 โพสต์) |
-| PostRepository - Post Retrieval | - | should retrieve top 5 rated posts by default | ทดสอบการดึงโพสต์คะแนนสูงสุด 5 อันดับแรก |
-| PostRepository - Post Retrieval | - | should retrieve posts by exact rating | ทดสอบการค้นหาโพสต์ที่มีคะแนนตรงตามที่ระบุ |
-| PostRepository - Post Retrieval | - | should log an error when rating is not a number | ทดสอบการจัดการเมื่อค่า rating ที่ส่งมาไม่ใช่ตัวเลข (แสดง error) |
-| PostRepository - Post Retrieval | - | should retrieve posts by authorId (myPosts) | ทดสอบการค้นหาโพสต์เฉพาะของผู้ใช้ (ใช้ authorId) |
-| PostRepository - Post Retrieval | - | should log error when authorId (value) is missing in 'myPosts' | ทดสอบการจัดการกรณีไม่ได้ส่ง authorId เข้ามา (แสดง error) |
-| PostRepository - Post Retrieval | - | should log an error for invalid action | ทดสอบการจัดการกรณี action ที่ส่งมาไม่ถูกต้อง (แสดง error) |
-| PostRepository - Post Manipulation | checkPostTitleExistence | should return true if post title exists | ทดสอบว่าหากชื่อโพสต์มีอยู่จริง จะคืนค่า `true` |
-| PostRepository - Post Manipulation | checkPostTitleExistence | should return false if post title does not exist | ทดสอบว่าหากชื่อโพสต์ไม่มีอยู่ จะคืนค่า `false` |
-| PostRepository - Post Manipulation | updateData | should update post data successfully | ทดสอบการอัปเดตข้อมูลโพสต์สำเร็จ เช่น รายละเอียดใหม่ หรือรูปใหม่ |
-| PostRepository - Post Manipulation | updateData | should not update anything if postTitle is not found | ทดสอบการอัปเดตแต่หากไม่พบโพสต์ ก็จะไม่ทำการอัปเดต |
-| PostRepository - Post Manipulation | updateData | should allow falsy values like 0 or empty string | ทดสอบการอัปเดตเมื่อข้อมูลใหม่มีค่าเป็น null หรือค่า falsy |
-| PostRepository - Post Manipulation | insertFirstPost | should insert post at the beginning | ทดสอบการเพิ่มโพสต์ไว้ที่ตำแหน่งแรกของลิสต์ |
-| PostRepository - Post Manipulation | removeFirstPost | should remove the first post | ทดสอบการลบโพสต์ตัวแรกออกจากลิสต์ |
-| PostRepository - Post Manipulation | insertLastPost | should insert post at the end | ทดสอบการเพิ่มโพสต์ไว้ที่ตำแหน่งสุดท้ายของลิสต์ |
-| PostRepository - Post Manipulation | removeLastPost | should remove the last post | ทดสอบการลบโพสต์ตัวสุดท้ายออกจากลิสต์ |
-| PostRepository - Post Manipulation | removePostsByFilter | should remove posts based on the provided filter | ทดสอบการลบโพสต์ตามเงื่อนไขที่กำหนดเอง เช่น โพสต์ที่คะแนนต่ำกว่า 4 |
+| **PostRepository - Basic Operations** | Directory creation and file saving | `should create the directory if it does not exist` | ทดสอบว่าไดเรกทอรีจะถูกสร้างขึ้นหากยังไม่มีอยู่ |
+|  |  | `should save posts to a file` | ทดสอบการบันทึกโพสต์ลงในไฟล์ |
+|  |  | `should handle error when saving to file` | ทดสอบการจัดการข้อผิดพลาดเมื่อบันทึกไฟล์ |
+|  |  | `should load posts from a file` | ทดสอบการโหลดโพสต์จากไฟล์ |
+|  |  | `should handle error when loading from file` | ทดสอบการจัดการข้อผิดพลาดเมื่อโหลดไฟล์ |
+| **PostRepository - Post Retrieval** | Retrieving posts | `should retrieve all posts` | ทดสอบการดึงโพสต์ทั้งหมด |
+|  |  | `should retrieve posts by title` | ทดสอบการดึงโพสต์ตามชื่อ |
+|  |  | `should retrieve posts by author` | ทดสอบการดึงโพสต์ตามผู้เขียน |
+|  |  | `should sort posts by rating descending` | ทดสอบการเรียงลำดับโพสต์ตามคะแนนจากมากไปน้อย |
+|  |  | `should retrieve top-rated posts (limit = 1)` | ทดสอบการดึงโพสต์ที่ได้รับคะแนนสูงสุดจำนวน 1 โพสต์ |
+|  |  | `should retrieve top 5 rated posts by default` | ทดสอบการดึงโพสต์ที่มีคะแนนสูงสุด 5 โพสต์ตามค่าเริ่มต้น |
+|  |  | `should retrieve posts by exact rating` | ทดสอบการดึงโพสต์ตามคะแนนที่กำหนด |
+|  |  | `should log an error when rating is not a number` | ทดสอบการบันทึกข้อผิดพลาดเมื่อคะแนนไม่ใช่ตัวเลข |
+|  |  | `should retrieve posts by authorId (myPosts)` | ทดสอบการดึงโพสต์ตาม authorId |
+|  |  | `should log error when authorId (value) is missing in 'myPosts'` | ทดสอบการบันทึกข้อผิดพลาดเมื่อไม่มีค่า authorId ใน 'myPosts' |
+|  |  | `should log an error for invalid action` | ทดสอบการบันทึกข้อผิดพลาดเมื่อ action ไม่ถูกต้อง |
+| **PostRepository - Post Manipulation** | Post manipulation | `should return true if post title exists` | ทดสอบการตรวจสอบว่าโพสต์มีชื่อที่ตรงกับที่กำหนดหรือไม่ |
+|  |  | `should return false if post title does not exist` | ทดสอบการตรวจสอบว่าโพสต์ไม่มีชื่อที่ตรงกับที่กำหนดหรือไม่ |
+|  |  | `should update post data successfully` | ทดสอบการอัพเดตข้อมูลของโพสต์สำเร็จ |
+|  |  | `should not update anything if postTitle is not found` | ทดสอบการไม่อัพเดตข้อมูลหากไม่พบชื่อโพสต์ |
+|  |  | `should allow falsy values like 0 or empty string` | ทดสอบการอนุญาตให้ใช้ค่าที่เป็น falsy เช่น 0 หรือค่าว่าง |
+|  |  | `should insert post at the beginning` | ทดสอบการแทรกโพสต์ที่ตำแหน่งแรก |
+|  |  | `should remove the first post` | ทดสอบการลบโพสต์แรก |
+|  |  | `should insert post at the end` | ทดสอบการแทรกโพสต์ที่ตำแหน่งสุดท้าย |
+|  |  | `should remove the last post` | ทดสอบการลบโพสต์สุดท้าย |
+|  |  | `should remove posts based on the provided filter` | ทดสอบการลบโพสต์ตามเงื่อนไขที่กำหนด |
 
 **Post Service**
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
