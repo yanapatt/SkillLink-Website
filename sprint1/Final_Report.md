@@ -346,6 +346,36 @@ Screenshot
 ![image.png](/.attachments/image-1319e761-f255-4253-8768-a2a4aa489c73.png)
 
 
+ใน Phase ที่ 4 เราได้มีการเพิ่ม Method find, filter, slice, sort, getNodeValue และ removeAllNodes เข้ามาสำหรับ LinkedList Class และมีการ Refactor Code ใหม่อีกครั้ง ซึ่งได้ผลการทดสอบดังนี้     
+
+**Phase 3** 
+| Function         | Time (ms) |
+|------------------|-----------|
+| insertFirst      | 0         |
+| insertLast       | 1         |
+| removeFirst      | 0         |
+| removeLast       | 0         |
+| forEachNode      | 1         |
+| toArray          | 0         |
+| map              | 0         |
+
+**Phase 4**
+| Function         | Time (ms) |
+|------------------|-----------|
+| insertFirst      | 0         |
+| insertLast       | 0         |
+| removeFirst      | 0         |
+| removeLast       | 0         |
+| forEachNode      | 0         |
+| toArray          | 1         |
+| map              | 0         |
+| find             | 0         |
+| filter           | 4         |
+| slice            | 5         |
+| sort             | 0         |
+| getNodeValue     | 0         |
+| removeAllNodes   | 0         |                                 
+
 ## ****Website screenshot****
 - หน้า Login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของ Login และเมื่อไม่มีบัญชีให้กดปุ่ม Register
