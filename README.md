@@ -163,32 +163,32 @@ Screenshot
 
 **ข้อสรุปโดยภาพรวม**
 
-<img width="759" height="495" alt="image" src="https://github.com/user-attachments/assets/b9a3a796-859f-4634-94e3-c3e3fa796ec5" />
+<img width="1235" height="783" alt="image" src="https://github.com/user-attachments/assets/ce4e27a1-370e-42d0-b8cd-a5657c9fb288" />
 
 *   จำนวนบรรทัดโค้ดในโฟล์เดอร์ Models มีทั้งสิ้น 818 บรรทัด และมีจำนวนบรรทัดโดยเฉลี่ย 136 บรรทัด ซึ่งลดลงจาก Phase 3 ที่มี 906 บรรทัด/151 บรรทัด
 *   มีค่าการบำรุงรักษาโดยเฉลี่ย 70.13 ถือว่าอยู่ในระดับปานกลาง และลดลงจาก Phase 3 อยู่ 0.28
 
 **ค่าการบำรุงรักษา**
 
-<img width="748" height="243" alt="image" src="https://github.com/user-attachments/assets/b5b3c1d4-cf36-49a6-bc01-48aecaad7728" />
+<img width="1252" height="406" alt="image" src="https://github.com/user-attachments/assets/d31c563e-d2df-4ffd-ac34-98be12df77aa" />
 
 จะเห็นได้ว่า imageRepository มีค่าการบำรุงรักษาสูงที่สุดอยู่ 78.75 ลองลงมาคือ postRepository, linkedList, accountService, accountRepository และ postService โดยมีค่า 71.11, 68.22, 67.67, 67.63 และ 67.42 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3
 
 **จำนวนบรรทัดของโค้ด**
 
-<img width="730" height="236" alt="image" src="https://github.com/user-attachments/assets/1fc25493-5469-4042-9c65-c51dabfd7584" />
+<img width="1209" height="391" alt="image" src="https://github.com/user-attachments/assets/903f36a4-7d9e-448d-83d3-694643f1fada" />
 
 จะเห็นได้ว่า linkedList มีจำนวนบรรทัดสูงที่สุดอยู่ที่ 197 บรรทัด ลองลงมาคือ postService, postRepository, accountRepository, accountService และ imageRepository โดยมีค่า 194, 185, 114, 67 และ 61 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3 จากเดิมที่เน้นไปทาง postService 
 
 **การประเมิณข้อผิดพลาดโดยประมาณจากการใช้งาน**
 
-<img width="747" height="206" alt="image" src="https://github.com/user-attachments/assets/c3a22b3c-68b4-4638-8c9d-f763c29ea304" />
+<img width="1239" height="415" alt="image" src="https://github.com/user-attachments/assets/c4a42d62-2251-424c-81de-d39c8c768dfa" />
 
 จะเห็นได้ว่า postRepository มีข้อผิดพลาดโดยประมาณจากการใช้งานสูงที่สุดอยู่ที่ 1.62 ลองลงมาคือ postService, linkedList, accountRepository, imageRepository และ accountService โดยมีค่า 1.56, 1.19, 0.92, 0.44 และ 0.42 ตามลำดับ โดยภาพรวมถือว่าดีขึ้นจาก Phase 3
 
 **การประเมิณโอกาสเกิดข้อผิดพลาด**
 
-<img width="709" height="247" alt="image" src="https://github.com/user-attachments/assets/40ecc70f-66e8-4c6e-a405-3b8680b87476" />
+<img width="1228" height="378" alt="image" src="https://github.com/user-attachments/assets/7c300f74-9ab9-431d-a757-d4487116c13a" />
 
 จะเห็นได้ว่า postService มีโอกาสเกิดข้อผิดพลาดสูงที่สุดอยู่ที่ 51 ลองลงมาคือ postRepository, linkedList, accountRepository, imageRepository และ accountService โดยมีค่า 29, 23, 18, 13 และ 11 ตามลำดับ โดยภาพรวมถือว่าแย่ลงจาก Phase 3
 
@@ -220,7 +220,7 @@ Screenshot
 
 **Dynamic profiling**
 
-<img width="757" height="387" alt="image" src="https://github.com/user-attachments/assets/cdc1098a-7104-4fff-aa65-f91d83748e29" />
+<img width="1642" height="828" alt="image" src="https://github.com/user-attachments/assets/3adf2a60-b891-42a9-905f-1a44931686f9" />
 
 แสดงให้เห็นว่าต้องใช้เวลาประมาณเท่าใดสำหรับแสดงผลหน้า Website ในแต่ละหน้า โดยเราได้มีการบันทึกผลดังนี้
 *   Loading 38 ms
@@ -230,17 +230,17 @@ Screenshot
 *   System 471 ms
 *   Total 2,707 ms
 
-<img width="752" height="600" alt="image" src="https://github.com/user-attachments/assets/2ac44b32-e79a-4eb7-87f2-fcb21d3573c0" />
+<img width="1025" height="820" alt="image" src="https://github.com/user-attachments/assets/b636393b-64b6-4adb-af34-39ac1ed59dc1" />
 
 การใช้ console.time(' ') และ console.timeEnd(' ') เพื่อจับเวลา การทำงานของ Method ต่าง ๆ บน LinkedList class (บางส่วน)
 
-<img width="533" height="479" alt="image" src="https://github.com/user-attachments/assets/b970b8f2-8c4d-4558-a44c-f3cea36b8d08" />
+<img width="871" height="778" alt="image" src="https://github.com/user-attachments/assets/6a849d2c-d827-4b30-9778-1b023f6157b5" />
 
-<img width="486" height="723" alt="image" src="https://github.com/user-attachments/assets/4611ac2b-2a70-4fab-b3bf-a66bb8246a5c" />
+<img width="526" height="786" alt="image" src="https://github.com/user-attachments/assets/e47f8c55-8886-44d8-bf7f-9d20311c1627" />
 
 ผลลัพธ์ (บางส่วน)
 
-<img width="554" height="176" alt="image" src="https://github.com/user-attachments/assets/88b26591-760c-4cf3-aa4d-781dd7ec2026" />
+<img width="899" height="284" alt="image" src="https://github.com/user-attachments/assets/91b6799f-249b-4eec-a812-7ef482ebc900" />
 
 ใน Phase ที่ 4 เราได้มีการเพิ่ม Method find, filter, slice, sort, getNodeValue และ removeAllNodes เข้ามาสำหรับ LinkedList Class และมีการ Refactor Code ใหม่อีกครั้ง ซึ่งได้ผลการทดสอบดังนี้     
 
@@ -275,29 +275,29 @@ Screenshot
 ## ****Website screenshot****
 - หน้า Login
 เมื่อเข้าใช้ในเว็บครั้งแรกจะมาอยู่ที่หน้าของ Login และเมื่อไม่มีบัญชีให้กดปุ่ม Register
-<img width="735" height="337" alt="image" src="https://github.com/user-attachments/assets/cf09309a-2fcd-4827-81f7-a2dd6e9c2aef" />
+<img width="1567" height="700" alt="image" src="https://github.com/user-attachments/assets/43fb859a-9e83-4fdd-9762-4c85c1409c35" />
 
 - หน้า Register
 เป็นการสมัครบัญชีเริ่มแรกเมื่อเข้าใช้ โดยเมื่อลงทะเบียนเสร็จจะกลับไปยังหน้า Login
-<img width="762" height="331" alt="image" src="https://github.com/user-attachments/assets/d3266050-a001-475a-97a6-c205419ac80f" />
+<img width="1563" height="718" alt="image" src="https://github.com/user-attachments/assets/33096b69-689d-4f2e-b51c-5954863b8411" />
 
 - หน้า Edit Post เป็นการ edit post เฉพาะเจ้าของ ของpost นั้น ๆ และเมื่อเสร็จจะกลับไปยังหน้าหลัก
 
-<img width="751" height="364" alt="image" src="https://github.com/user-attachments/assets/cd2e0136-9cf2-4385-bcd4-9ed7a5203f97" />
+<img width="1622" height="787" alt="image" src="https://github.com/user-attachments/assets/03d0a069-f0b3-4056-980d-551536caca48" />
 
 - หน้า Post Details เป็นหน้าที่บอกรายละเอียดของPostนั้นๆ และยังสามารถให้ Rating ของ Post นั้นได้ด้วยและเมื่อเสร็จถ้าเป็นเจ้าของ Post จะสามารถแก้ไขได้หรือจะกลับไปยังหน้า Home
 
-<img width="752" height="364" alt="image" src="https://github.com/user-attachments/assets/b6ac84c1-e17b-47d9-9d3b-5c259e37f50d" />
+<img width="1624" height="779" alt="image" src="https://github.com/user-attachments/assets/fb35a0de-cd96-48fd-a081-58e9d16ec364" />
 
 **หน้า Home โดยหน้านี้จะแบ่งออกเป็น 2 หน้า โดยจะมีของ Admin และ User**
 
  - หน้า Home สำหรับ Admin จะสามารถลบ Post หรือ ลบRating ของ Post นั้นได้และยังลบ NewPost กับ OldPost ได้อีกด้วย!
 
-<img width="751" height="357" alt="image" src="https://github.com/user-attachments/assets/ef159ba3-34fc-4cb0-bf27-b2de8da2a21c" />
+<img width="1625" height="766" alt="image" src="https://github.com/user-attachments/assets/0b55c0e1-7d60-4da6-b60e-b8ab9b1bceab" />
 
 - หน้า Home สำหรับ User จะสามารถค้นหาหรือดูPost ที่ Rating สูงสุด 5 อันดับได้ตามลำดับ และยัง Post ได้ด้วย
 
-<img width="753" height="372" alt="image" src="https://github.com/user-attachments/assets/76a48423-8bcf-44bf-b4c2-f11ddb277254" />
+<img width="1622" height="793" alt="image" src="https://github.com/user-attachments/assets/803afeac-107c-49b7-8aa3-65bf06fdfb51" />
 
 **Unit Test**
 ----------------------------------------------------------------------------------------------------------------
@@ -305,7 +305,7 @@ Screenshot
 
 ผลการทดสอบ
 
-<img width="615" height="425" alt="image" src="https://github.com/user-attachments/assets/1fb57de9-3909-4b82-8ff9-e8d220975274" />
+<img width="1014" height="696" alt="image" src="https://github.com/user-attachments/assets/82cdf948-1ed8-4423-a5b7-a8f61de1cdad" />
 
 **Account Repository**
 | **Test Suite** | **Describe** | **Test Unit** | **Description** |
@@ -484,35 +484,35 @@ LinkedList Utility Methods | removeAllNodes should set tail to null when all nod
 
 **Screenshort โค้ดสำหรับ AccountRepository Test**
 
-<img width="733" height="705" alt="image" src="https://github.com/user-attachments/assets/f01927b0-0c40-4811-af8b-f2d54c00944e" />
+<img width="802" height="773" alt="image" src="https://github.com/user-attachments/assets/30daa62b-8af4-487f-bd6c-5bcfa62e0146" />
 
 **Screenshort โค้ดสำหรับ AccountService Test**
 
-<img width="676" height="682" alt="image" src="https://github.com/user-attachments/assets/14bf59b4-8a14-4f5b-ac20-89b31afeda6c" />
+<img width="932" height="937" alt="image" src="https://github.com/user-attachments/assets/ebf1abd1-bac2-4e21-aa4a-17905d2d977d" />
 
 **Screenshort โค้ดสำหรับ ImageRepository Test**
 
-<img width="660" height="682" alt="image" src="https://github.com/user-attachments/assets/11de2fce-1d0e-423d-8be2-1efbd983d733" />
+<img width="905" height="920" alt="image" src="https://github.com/user-attachments/assets/45527a36-8eb3-4417-871e-2f80056d4a5d" />
 
 **Screenshort โค้ดสำหรับ LinkedList Test**
 
-<img width="498" height="729" alt="image" src="https://github.com/user-attachments/assets/e4442313-1a93-4ddf-89c3-66fdd7de32d0" />
+<img width="507" height="742" alt="image" src="https://github.com/user-attachments/assets/53b9a830-4b4c-4cc3-a78e-47c22e370531" />
 
 **Screenshort โค้ดสำหรับ PostRepository Test**
 
-<img width="743" height="601" alt="image" src="https://github.com/user-attachments/assets/c1406a40-e102-4af5-b97a-b400d4b38e21" />
+<img width="1021" height="819" alt="image" src="https://github.com/user-attachments/assets/3b4bf5f1-d817-4b53-8799-8e733fc816c6" />
 
 **Screenshort โค้ดสำหรับ PostService Test**
 
-<img width="737" height="757" alt="image" src="https://github.com/user-attachments/assets/d3ae3ac6-ec3e-4da7-aed8-b6347d35ba48" />
+<img width="809" height="833" alt="image" src="https://github.com/user-attachments/assets/7b4db3d6-5a9e-457e-a2ee-b403d1e2ba00" />
 
 **Screenshort โค้ดสำหรับ User Interface Test**
 
-<img width="751" height="444" alt="image" src="https://github.com/user-attachments/assets/6e006a3c-4919-4e64-b993-c8e4e9d2e778" />
+<img width="1234" height="727" alt="image" src="https://github.com/user-attachments/assets/1e4e6166-bfa1-494d-983a-cb5bb9655784" />
 
-<img width="752" height="397" alt="image" src="https://github.com/user-attachments/assets/476f0283-0cc4-4a8a-9b91-87dda2ffd424" />
+<img width="1231" height="654" alt="image" src="https://github.com/user-attachments/assets/1515cac3-ed19-41b4-86db-01b6514a06bb" />
 
-<img width="751" height="335" alt="image" src="https://github.com/user-attachments/assets/49f517ca-a5b2-43af-8ad1-12bf4b8d6e14" />
+<img width="1235" height="546" alt="image" src="https://github.com/user-attachments/assets/7c04e982-9401-40e5-91c6-1492bbd94796" />
 
 **กระบวนการทำ CI/CD ที่ใช้ในการทำ Website SkillLink**
 
@@ -520,55 +520,55 @@ LinkedList Utility Methods | removeAllNodes should set tail to null when all nod
 
 ที่ main Branch ใน hanza repository เราจะทำการสร้างไฟล์ azure-pipelines.yml เอาไว้และกำหนดค่าต่าง ๆ ดังภาพด้านล่าง
 
-<img width="755" height="308" alt="image" src="https://github.com/user-attachments/assets/f4ca5f54-cda1-4895-aad3-1a3c2f0842cb" />
+<img width="1621" height="664" alt="image" src="https://github.com/user-attachments/assets/b7953cbb-8a9b-432e-ad2f-433909b8091a" />
 
 ในขั้นตอนนี้เราจะปิด Trigger เอาไว้เพื่อไม่ให้ Run Build ใหม่เมื่อเกิดการเปลี่ยนแปลงที่ main branch เนื่องจากใน main branch มีส่วนของ wiki report ที่จะมีการอัพเดทบ่อย ซึ่งไม่เกี่ยวกับโค๊ดดังนั้นเราจึงปิด Trigger เพื่อป้องกันการรัน Build ใหม่โดยไม่จำเป็น
 
-<img width="764" height="202" alt="image" src="https://github.com/user-attachments/assets/aa45410d-cab4-4a49-9acc-1b14852ddd94" />
+<img width="1635" height="425" alt="image" src="https://github.com/user-attachments/assets/0f51f73e-f6b8-4361-a051-c97491c45fce" />
 
 ทำการสร้าง Build Pipeline
 
-<img width="754" height="237" alt="image" src="https://github.com/user-attachments/assets/aaa6cba4-51d0-460d-9055-402bf75d4b14" />
+<img width="1625" height="488" alt="image" src="https://github.com/user-attachments/assets/0b7629d2-cc4f-493a-82c0-0870cc0fb652" />
 
 ***หมายเหตุ:*** สำหรับ UI Test เมื่อรันบน Pipeline จะพบกับ Error เนื่องจากบน Azure ถ้าใช้ Selenium และรันโดย Google Chrome จะไม่เจอ Session จึงเกิด Error ดังภาพ แต่ Test อื่น ๆ ยังสามารถทำงานได้ปกติ
 
-<img width="756" height="437" alt="image" src="https://github.com/user-attachments/assets/00355211-95c1-407f-a6ed-f14b57be90b8" />
+<img width="1623" height="938" alt="image" src="https://github.com/user-attachments/assets/4babd023-1d5c-437b-8e60-ae9ea413c8ea" />
 
 **ผลลัพธ์**
 
-<img width="756" height="532" alt="image" src="https://github.com/user-attachments/assets/f67fe95a-0e85-4de6-bb49-cae1ed55ba5f" />
+<img width="1237" height="876" alt="image" src="https://github.com/user-attachments/assets/391d2c49-bda2-4ee5-a322-cc3f237df875" />
 
-<img width="759" height="458" alt="image" src="https://github.com/user-attachments/assets/2c946918-94e6-428d-aac1-6d4b993ef4a2" />
+<img width="1236" height="744" alt="image" src="https://github.com/user-attachments/assets/2fe43b86-55b4-4187-9414-ef5ea2a435fe" />
 
 **การ Zip ไฟล์**
 
-<img width="740" height="464" alt="image" src="https://github.com/user-attachments/assets/267317dc-f25f-4044-b1b0-ea2d3ca836ce" />
+<img width="1233" height="758" alt="image" src="https://github.com/user-attachments/assets/397554a3-5529-4983-80e3-cb1e7e67b4cd" />
 
 เราได้กำหนดค่า Script โดยให้ Change Directory เข้าไปที่ SkillLink Repository และสั่ง Remove ไฟล์ต่าง ๆ ที่มีขนาดใหญ่ และสามารถสร้างใหม่ได้ทุกครั้ง ก่อนที่จะ Zip เป็นไฟล์ และส่งออกไปที่ Artifact drop ใน Azure ซึ่งสามารถดาวน์โหลด Zip ไฟล์ได้ผ่าน Azure
 
-<img width="755" height="715" alt="image" src="https://github.com/user-attachments/assets/2188322f-fd26-4cb8-ab9b-5a297864c31f" />
+<img width="823" height="778" alt="image" src="https://github.com/user-attachments/assets/454422c4-79af-4d9b-9e60-503bc0baf7f2" />
 
-<img width="755" height="234" alt="image" src="https://github.com/user-attachments/assets/5efa804d-1316-4d80-941a-0e4d3c6d2d03" />
+<img width="1234" height="391" alt="image" src="https://github.com/user-attachments/assets/42b81b91-0659-4126-a346-1a91a4dc5c23" />
 
-<img width="756" height="164" alt="image" src="https://github.com/user-attachments/assets/fcb5682e-7760-40f0-9649-da16be22ab7d" />
+<img width="1238" height="271" alt="image" src="https://github.com/user-attachments/assets/627c9a8e-160f-4efb-99de-11ea0db06878" />
 
 **Show screenshot and explanation of the following page ไว้ใน report**
 
 Product backlog: Work items ที่มีการใช้ Epic (optional) and Issue (User story)
 
-<img width="752" height="425" alt="image" src="https://github.com/user-attachments/assets/24bca871-40dc-4604-a2e7-2a9d21c14213" />
+<img width="1237" height="695" alt="image" src="https://github.com/user-attachments/assets/7e6636c7-3f3b-4df3-b415-eb16bdd77aa2" />
 
 Sprint backlog: มีการกำหนดเวลาและวางแผน work item สำหรับ Sprint (Sprint  อาจเป็นแค่งานการเขียน report และการกำหนด requirement)
 
-<img width="754" height="422" alt="image" src="https://github.com/user-attachments/assets/6aa7f613-85fb-4e21-8e7c-e76fa682d80e" />
+<img width="1236" height="694" alt="image" src="https://github.com/user-attachments/assets/8e362ab5-cc62-45c7-9fbf-ee68ed5637f5" />
 
 ต้วอย่าง detail ของ work item ชนิด user story
 
-<img width="756" height="423" alt="image" src="https://github.com/user-attachments/assets/464e0499-00bf-421f-9119-5612877060b6" />
+<img width="1236" height="701" alt="image" src="https://github.com/user-attachments/assets/47be87bf-93f5-4594-8106-08d65da5a139" />
 
 ต้วอย่าง detail ของ work item ชนิด Epic (optional)
 
-<img width="752" height="424" alt="image" src="https://github.com/user-attachments/assets/bff0bf9f-f658-452e-88a3-ccb0370cdcdd" />
+<img width="1235" height="698" alt="image" src="https://github.com/user-attachments/assets/54830595-c999-4764-a35d-9aa1a3539ee4" />
 
 **เขียนสรุปการประชุม Retrospective ใน Sprint ที่ 4**
 
@@ -613,3 +613,4 @@ https://youtu.be/CS2e9BSsPUc?si=3V7aIMoyox3_aVbY
 **Presentation Video Clip**
 
 https://youtu.be/_eWmhi2Knc8?si=O2HooIqcYF41o5LW
+
